@@ -1,19 +1,34 @@
 {
-	"version": "5.0.1",
-	"project": {
-		"defaultPort": 4200,
-		"framework": "angular",
-		"projectType": "igx-ts",
-		"projectTemplate": "empty-project",
-		"theme": "Custom",
-		"themePath": "Custom",
-		"isBundle": false,
-		"bundleFilePath": "",
-		"igniteuiSource": "",
-		"components": [],
-		"sourceFiles": [],
-		"isShowcase": false,
-		"version": ""
-	},
-	"build": {}
+    "igPackageRegistry": "https://packages.infragistics.com/npm/js-licensed/",
+    "customTemplates": [],
+    "skipGit": false,
+    "skipAnalytic": false,
+    "stepByStep": {
+        "frameworks": [
+            "angular"
+        ],
+        "angular": {
+            "projTypes": [
+                "igx-ts"
+            ]
+        }
+    },
+    "version": "5.0.1",
+    "project": {
+        "defaultPort": 4200,
+        "framework": "angular",
+        "projectType": "igx-ts",
+        "projectTemplate": "empty-project",
+        "theme": "Custom",
+        "themePath": "Custom",
+        "isBundle": false,
+        "bundleFilePath": "",
+        "igniteuiSource": "",
+        "components": [],
+        "sourceFiles": [],
+        "isShowcase": false,
+        "version": ""
+    },
+    "build": {},
+    "packagesInstalled": true
 }

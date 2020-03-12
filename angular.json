@@ -31,7 +31,8 @@
               "src/styles.scss"
             ],
             "scripts": ["./node_modules/hammerjs/hammer.min.js"],
-            "es5BrowserSupport": true
+            "es5BrowserSupport": true,
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "es5": {
