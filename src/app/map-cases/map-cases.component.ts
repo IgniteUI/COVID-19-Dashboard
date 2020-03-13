@@ -11,10 +11,11 @@ import { RemoteDataService } from '../services/data.service';
     templateUrl: './map-cases.component.html',
     styleUrls: ['./map-cases.component.scss']
 })
-export class MapCasesComponent implements AfterViewInit, OnDestroy {
+export class MapCasesComponent implements AfterViewInit {
 
     @ViewChild('map', {static: true}) public map: IgxGeographicMapComponent;
     @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
+
     public tileImagery: IgxTileGeneratorMapImagery;
     public confirmedSeries = new IgxGeographicTileSeriesComponent();
     public recoveredSeries = new IgxGeographicTileSeriesComponent();
@@ -41,8 +42,7 @@ export class MapCasesComponent implements AfterViewInit, OnDestroy {
             'rgba(255, 0, 0, .6)',
             'rgba(255, 0, 0, .7843)']
     ];
-
-    private dataRequest$: any;
+    public data: string;
 
     constructor(private dataService: RemoteDataService) {
         this.dataSetButtons = [
@@ -70,10 +70,10 @@ export class MapCasesComponent implements AfterViewInit, OnDestroy {
      */
     public onDataSetSelected(event: any) {
         // this.loadDataSet(event.index);
-        this.dataRequest$ = this.dataService.getDataSet(event.index);
-        this.dataRequest$.subscribe(data => {
-            this.addMapSeries(data, event.index);
-        });
+        // this.dataRequest$ = this.dataService.getDataSet(event.index);
+        // this.dataRequest$.subscribe(data => {
+        //     this.addMapSeries(data, event.index);
+        // });
     }
 
     /**
@@ -128,12 +128,6 @@ export class MapCasesComponent implements AfterViewInit, OnDestroy {
             width: Math.abs(-130 + 65)
         };
         // this.map.zoomToGeographic(geoBounds);
-    }
-
-    public ngOnDestroy() {
-        if (this.dataRequest$) {
-            this.dataRequest$.unsubscribe();
-        }
     }
 }
 
