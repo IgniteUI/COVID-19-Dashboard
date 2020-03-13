@@ -21,7 +21,6 @@ main {
     padding: 0;
     display: flex;
     flex-direction: column;
-	overflow: auto;
 }
 
 .desktop-h-d {
@@ -29,6 +28,28 @@ main {
     flex-direction: column;
     flex: 1;
 }
+
+.card-l-t-t-c {
+
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    flex-shrink: 0;
+    background-color: rgb(255, 255, 255);
+    }
+    
+
+.cards-text-card1 {
+    width: 260px;
+    min-width: 260px;
+    height: 625px;
+    min-height: 625px;
+    
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    flex-shrink: 0;
+    }
 
 .coronavirus-c-o-v-i-d19 {
 color: rgb(255, 255, 255);

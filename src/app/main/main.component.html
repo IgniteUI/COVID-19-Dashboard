@@ -7,15 +7,19 @@
 
             </div>
         </div>
-        <div>
-            <app-list-cases #confirmed></app-list-cases>
+
+        <div class="cards-text-card1">
+            <div class="card-l-t-t-c">
+                <app-list-cases #confirmedList class="header-style" ></app-list-cases>
+            </div>
         </div>
+
         <div class="i-g-map-row">
             <div class="i-g-map">
                 <div class="elevation-row">
                     <div class="elevation">
                     </div>
-                    <app-map-cases></app-map-cases>
+                    <app-map-cases #map></app-map-cases>
                 </div>
                 <div class="tabs-short-bar">
                     <igx-tabs tabsType="fixed">
@@ -28,8 +32,6 @@
 
             </div>
             <div class="line-chart-container">
-                <app-list-cases #deaths></app-list-cases>
-                <app-list-cases #recovered></app-list-cases>
                 <div class="background-row">
                     <div class="background">
                     </div>
@@ -62,6 +64,13 @@
                     </igx-tabs>
                 </div>
 
+            </div>
+
+            <div class="cards-text-card1">
+                <div class="card-l-t-t-c">
+                    <app-list-cases #deathsList></app-list-cases>
+                    <app-list-cases #recoveredList></app-list-cases>
+                </div>
             </div>
         </div>
         <div class="footer"><span class="igx-typography__caption lastupdatedat-m-d">Last updated at (M/D/YYYY)</span>
