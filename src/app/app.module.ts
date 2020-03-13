@@ -29,6 +29,7 @@ import { IgxGeographicMapCoreModule, IgxGeographicMapModule } from 'igniteui-ang
     IgxGeographicMapCoreModule,
     IgxButtonGroupModule,
     IgxGeographicMapModule,
+    IgxRippleModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     IgxButtonModule,
