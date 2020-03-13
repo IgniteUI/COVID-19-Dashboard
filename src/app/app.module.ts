@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './main/main.component';
 import { IgxButtonModule, IgxCardModule, IgxExpansionPanelModule, IgxIconModule,
-  IgxBottomNavModule, IgxAvatarModule, IgxRippleModule } from 'igniteui-angular';
+  IgxBottomNavModule, IgxAvatarModule, IgxRippleModule, IgxButtonGroupModule } from 'igniteui-angular';
 import { MapSelectorComponent } from './map-selector/map-selector.component';
 import { CommonModule } from '@angular/common';
 import { ActiveCasesMapComponent } from './active-cases-map/active-cases-map.component';
@@ -27,6 +27,7 @@ import { IgxGeographicMapCoreModule, IgxGeographicMapModule } from 'igniteui-ang
     BrowserModule,
     HammerModule,
     IgxGeographicMapCoreModule,
+    IgxButtonGroupModule,
     IgxGeographicMapModule,
     AppRoutingModule,
     BrowserAnimationsModule,
