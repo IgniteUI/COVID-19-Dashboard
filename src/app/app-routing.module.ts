@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from './main/main.component';
 import { MapCasesComponent } from './map-cases/map-cases.component';
+import { ListCasesComponent } from './list-cases/list-cases.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/main', pathMatch: 'full' },
   { path: 'main', component: MainComponent, data: { text: 'main' } },
-  { path: 'map-cases', component: MapCasesComponent, data: { text: 'active-cases-map' } }
+  { path: 'map-cases', component: MapCasesComponent, data: { text: 'active-cases-map' } },
+  { path: 'list-cases', component: ListCasesComponent, data: { text: 'list-cases' } }
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
