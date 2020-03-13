@@ -1,15 +1,17 @@
-import { AfterViewInit, Component, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
 import { IgxGeographicTileSeriesComponent, IgxTileGeneratorMapImagery
 } from 'igniteui-angular-maps';
 import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
 import { IgxHeatTileGenerator } from 'igniteui-angular-core';
+import { RemoteDataService } from '../services/data.service';
 
 @Component({
-  selector: 'app-map-cases',
-  templateUrl: './map-cases.component.html',
-  styleUrls: ['./map-cases.component.scss']
+    providers: [RemoteDataService],
+    selector: 'app-map-cases',
+    templateUrl: './map-cases.component.html',
+    styleUrls: ['./map-cases.component.scss']
 })
-export class MapCasesComponent implements AfterViewInit {
+export class MapCasesComponent implements AfterViewInit, OnDestroy {
 
     @ViewChild('map', {static: true}) public map: IgxGeographicMapComponent;
     @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
@@ -19,7 +21,6 @@ export class MapCasesComponent implements AfterViewInit {
     public deathSeries = new IgxGeographicTileSeriesComponent();
     public series: Array<IgxGeographicTileSeriesComponent> = [this.confirmedSeries, this.recoveredSeries, this.deathSeries];
     public dataSetButtons: any[];
-    public dataSets = ['Confirmed', 'Recovered', 'Deaths'];
     public scaleColors = [
         [
             'rgba(255, 0, 0, .1)',
@@ -41,7 +42,9 @@ export class MapCasesComponent implements AfterViewInit {
             'rgba(255, 0, 0, .7843)']
     ];
 
-    constructor() {
+    private dataRequest$: any;
+
+    constructor(private dataService: RemoteDataService) {
         this.dataSetButtons = [
             {
                 name: 'Total Cases',
@@ -59,26 +62,24 @@ export class MapCasesComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        this.loadDataSet(0);
+        // this.loadDataSet(0);
     }
 
     /**
      * fetching JSON data with geographic locations from public folder
-     * fetch('../../assets/Data/time_series_19-covid-Confirmed.csv')
      */
     public onDataSetSelected(event: any) {
-        this.loadDataSet(event.index);
+        // this.loadDataSet(event.index);
+        this.dataRequest$ = this.dataService.getDataSet(event.index);
+        this.dataRequest$.subscribe(data => {
+            this.addMapSeries(data, event.index);
+        });
     }
 
-    public loadDataSet(index: number) {
-        const baseDataPath = '../../assets/Data/time_series_19-covid-';
-        const dataSet = this.dataSets[index];
-        fetch(`${baseDataPath}${dataSet}.csv`)
-        .then((response) => response.text())
-        .then((data) => this.onDataLoaded(data, index));
-    }
-
-    public onDataLoaded(csvData: string, index: number) {
+    /**
+     * Fill the map series corresponding to the passd index with tile imagery and add to map.
+     */
+    public addMapSeries(csvData: string, index: number) {
         const csvLines = csvData.split('\n');
         const lat: number[] = [];
         const lon: number[] = [];
@@ -127,7 +128,12 @@ export class MapCasesComponent implements AfterViewInit {
             width: Math.abs(-130 + 65)
         };
         // this.map.zoomToGeographic(geoBounds);
+    }
 
+    public ngOnDestroy() {
+        if (this.dataRequest$) {
+            this.dataRequest$.unsubscribe();
+        }
     }
 }
 
