@@ -1,2 +1,75 @@
-  <app-map-cases></app-map-cases>
+  <!-- <app-map-cases></app-map-cases> -->
+   
+<main class="igx-typography">
+    <div class="desktop-h-d">
+        <div class="header">
+            <h3 class="igx-typography__h3 coronavirus-c-o-v-i-d19">Coronavirus COVID-19 Global Cases</h3>
+            <div class="ignite-u-ilogo">
+
+            </div>
+        </div>
+        <div>
+            <app-list-cases #confirmed></app-list-cases>
+        </div>
+        <div class="i-g-map-row">
+            <div class="i-g-map">
+                <div class="elevation-row">
+                    <div class="elevation">
+                    </div>
+                    <app-map-cases></app-map-cases>
+                </div>
+                <div class="tabs-short-bar">
+                    <igx-tabs tabsType="fixed">
+                        <igx-tabs-group label="Confirmed Cases">
+                        </igx-tabs-group>
+                        <igx-tabs-group label="Active Cases">
+                        </igx-tabs-group>
+                    </igx-tabs>
+                </div>
+
+            </div>
+            <div class="line-chart-container">
+                <app-list-cases #deaths></app-list-cases>
+                <app-list-cases #recovered></app-list-cases>
+                <div class="background-row">
+                    <div class="background">
+                    </div>
+                    <div class="line-chart"><span class="igx-typography__subtitle-2 a100k">100k</span>
+                        <span class="igx-typography__subtitle-2 a50k">50k</span>
+                        <span class="igx-typography__subtitle-2 a0">0</span>
+
+                        <span class="igx-typography__subtitle-2 m02">M02</span>
+                    </div>
+                    <div class="legend">
+                        <div class="oval">
+                        </div>
+                        <span class="igx-typography__caption china">China</span>
+                        <div class="oval-copy">
+                        </div>
+                        <span class="igx-typography__caption other-locations">Other Locations</span>
+                        <div class="oval-copy2">
+                        </div>
+                        <span class="igx-typography__caption total-recovered">Total Recovered</span>
+                    </div>
+                </div>
+                <div class="tabs-short-bar-1">
+                    <igx-tabs tabsType="fixed">
+                        <igx-tabs-group label="actual">
+                        </igx-tabs-group>
+                        <igx-tabs-group label="logarithmic">
+                        </igx-tabs-group>
+                        <igx-tabs-group label="daily">
+                        </igx-tabs-group>
+                    </igx-tabs>
+                </div>
+
+            </div>
+        </div>
+        <div class="footer"><span class="igx-typography__caption lastupdatedat-m-d">Last updated at (M/D/YYYY)</span>
+            <span class="igx-typography__subtitle-1 a03122020125303">03/12/2020 12:53:03 PM</span>
+            <span class="igx-typography__caption datasource-w-h-o-na">Data source: WHO, National Health Commission of the People’s</span>
+            <span class="igx-typography__subtitle-1 builtwith-ignite-u-i">built with Ignite UI for Angular</span>
+        </div>
+    </div>
+</main>
   

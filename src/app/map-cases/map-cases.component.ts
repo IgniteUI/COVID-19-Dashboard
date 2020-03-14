@@ -136,4 +136,3 @@ export class MapCasesComponent implements AfterViewInit, OnDestroy {
         }
     }
 }
-
