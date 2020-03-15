@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Component({
   selector: 'app-list-cases',
   templateUrl: './list-cases.component.html',
   styleUrls: ['./list-cases.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  host: {class: 'app__list'}
 })
 export class ListCasesComponent implements OnInit {
   public data$ = new BehaviorSubject([]);

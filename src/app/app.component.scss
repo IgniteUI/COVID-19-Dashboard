@@ -1,5 +1,8 @@
-.outer-wrapper {
-  display: flex;
-  justify-content: center;
-  height: 100%;
+::ng-deep {
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
 }
