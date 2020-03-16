@@ -10,7 +10,6 @@ const routes: Routes = [
   { path: 'map-cases', component: MapCasesComponent, data: { text: 'active-cases-map' } },
   { path: 'list-cases', component: ListCasesComponent, data: { text: 'list-cases' } }
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

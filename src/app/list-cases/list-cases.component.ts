@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IgxFilterOptions, IgxListItemComponent } from 'igniteui-angular';
+import { IgxFilterOptions } from 'igniteui-angular';
 
 @Component({
   selector: 'app-list-cases',
@@ -47,10 +47,10 @@ export class ListCasesComponent implements OnInit {
 
   ngOnInit() { }
 
-  get filterContacts() {
-    const fo = new IgxFilterOptions();
-    fo.key = 'name';
-    fo.inputValue = this.searchContact;
-    return fo;
+  filterContacts() {
+    // const fo = new IgxFilterOptions();
+    // fo.key = 'name';
+    // fo.inputValue = this.searchContact;
+    // return fo;
   }
 }
