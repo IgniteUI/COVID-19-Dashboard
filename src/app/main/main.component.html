@@ -54,14 +54,32 @@
                 <div class="tabs-short-bar-1">
                     <igx-tabs tabsType="fixed">
                         <igx-tabs-group label="actual">
+                            <igx-legend #legend orientation="Horizontal"></igx-legend>
+                            <div style="height: 600px; width: 800px;">
+                                <igx-data-chart  #chart [legend]="legend"
+                                    [dataSource]="chartData" 
+                                    isHorizontalZoomEnabled="true" 
+                                    width="100%" 
+                                    height="50%">
+                                    <igx-numeric-y-axis #yAxis title="Total Cases">
+                                    </igx-numeric-y-axis>
+                                    <igx-time-x-axis #xAxis dateTimeMemberPath="date"></igx-time-x-axis>
+                        
+                                    <igx-column-series valueMemberPath="activeCases" labelMemberPath="date" title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis">
+                                    </igx-column-series>
+                                    <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date" title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis">
+                                    </igx-column-series>
+                                </igx-data-chart>
+                            </div>
                         </igx-tabs-group>
                         <igx-tabs-group label="logarithmic">
+                            
                         </igx-tabs-group>
                         <igx-tabs-group label="daily">
+                            
                         </igx-tabs-group>
                     </igx-tabs>
                 </div>
-
             </div>
         </div>
         <div class="footer"><span class="igx-typography__caption lastupdatedat-m-d">Last updated at (M/D/YYYY)</span>

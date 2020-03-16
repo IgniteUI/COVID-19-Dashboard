@@ -24,7 +24,6 @@ export class RemoteDataService {
         const baseDataPath = '../../assets/Data/time_series_19-covid-';
         const dataSet = this.dataSets[index];
         const data$ = Observable.create(observer => {
-
             fetch(`${baseDataPath}${dataSet}.csv`)
               .then(response => response.text()) // or text() or blob() etc.
               .then(data => {

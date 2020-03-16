@@ -331,13 +331,12 @@ $indicator-color: igx-color($default-palette, primary)
 
 
 :host ::ng-deep {
-.tabs-short-bar {
-@include igx-tabs($tabs-short-bar-theme);
-}
+    .tabs-short-bar {
+        @include igx-tabs($tabs-short-bar-theme);
+    }
 
-.tabs-short-bar-1 {
-@include igx-tabs($tabs-short-bar-1-theme);
-}
-
+    .tabs-short-bar-1 {
+        @include igx-tabs($tabs-short-bar-1-theme);
+    }
 }
 

@@ -4,12 +4,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './main/main.component';
-import { IgxButtonModule, IgxCardModule, IgxExpansionPanelModule, IgxIconModule, IgxBottomNavModule, IgxAvatarModule, IgxRippleModule, IgxButtonGroupModule, IgxTabsModule, IgxListModule, IgxInputGroupModule, IgxFilterModule } from 'igniteui-angular';
+import { IgxButtonModule, IgxCardModule, IgxExpansionPanelModule,
+  IgxIconModule, IgxBottomNavModule, IgxAvatarModule, IgxRippleModule,
+  IgxButtonGroupModule, IgxTabsModule, IgxListModule, IgxInputGroupModule,
+  IgxFilterModule, } from 'igniteui-angular';
 import { CommonModule } from '@angular/common';
 import { IgxGeographicMapCoreModule, IgxGeographicMapModule } from 'igniteui-angular-maps';
 import { MapCasesComponent } from './map-cases/map-cases.component';
 import { ListCasesComponent } from './list-cases/list-cases.component';
 import { FormsModule } from '@angular/forms';
+import { IgxDataChartCoreModule, IgxDataChartCategoryModule,
+  IgxDataChartAnnotationModule, IgxCalloutLayerModule, IgxCrosshairLayerModule,
+  IgxFinalValueLayerModule, IgxDataChartInteractivityModule, IgxLegendModule, IgxTimeXAxisModule,
+  IgxNumericXAxisModule, IgxCategoryXAxisModule, IgxFinancialChartModule } from 'igniteui-angular-charts';
 
 @NgModule({
   declarations: [
@@ -40,7 +47,19 @@ import { FormsModule } from '@angular/forms';
     IgxListModule,
     IgxInputGroupModule,
     IgxFilterModule,
-    FormsModule
+    FormsModule,
+    IgxDataChartCoreModule,
+    IgxDataChartCategoryModule,
+    IgxDataChartAnnotationModule,
+    IgxCalloutLayerModule,
+    IgxCrosshairLayerModule,
+    IgxFinalValueLayerModule,
+    IgxDataChartInteractivityModule,
+    IgxLegendModule,
+    IgxTimeXAxisModule,
+    IgxNumericXAxisModule,
+    IgxCategoryXAxisModule,
+    IgxFinancialChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]
