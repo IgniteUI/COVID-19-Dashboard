@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, TemplateRef, ViewChild } from '@angular/core';
 import { IgxGeographicTileSeriesComponent, IgxTileGeneratorMapImagery
 } from 'igniteui-angular-maps';
 import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
@@ -141,54 +141,54 @@ export class MapCasesComponent implements AfterViewInit {
     /**
      * Fill the map series corresponding to the passd index with tile imagery and add to map.
      */
-    public addMapSeries(csvData: string, index: number) {
-        const csvLines = csvData.split('\n');
-        const lat: number[] = [];
-        const lon: number[] = [];
-        const val: number[] = [];
-        this.tileImagery = new IgxTileGeneratorMapImagery();
+    // public addMapSeries(csvData: string, index: number) {
+    //     const csvLines = csvData.split('\n');
+    //     const lat: number[] = [];
+    //     const lon: number[] = [];
+    //     const val: number[] = [];
+    //     this.tileImagery = new IgxTileGeneratorMapImagery();
 
-        for (let i = 1; i < csvLines.length; i++) {
-            const columns = csvLines[i].split(',');
-            lat.push(parseInt(columns[2], 10));
-            lon.push(parseInt(columns[3], 10));
-            const value = parseInt(columns[columns.length - 1], 10);
-            val.push(value);
-        }
+    //     for (let i = 1; i < csvLines.length; i++) {
+    //         const columns = csvLines[i].split(',');
+    //         lat.push(parseInt(columns[2], 10));
+    //         lon.push(parseInt(columns[3], 10));
+    //         const value = parseInt(columns[columns.length - 1], 10);
+    //         val.push(value);
+    //     }
 
-        // generating heat map imagery tiles
-        const gen = new IgxHeatTileGenerator();
-        gen.xValues = lon;
-        gen.yValues = lat;
-        gen.values = val;
-        gen.blurRadius = 6;
-        gen.maxBlurRadius = 20;
-        gen.useBlurRadiusAdjustedForZoom = true;
-        gen.minimumColor = 'rgba(100, 255, 0, 0.5)';
-        gen.maximumColor = 'rgba(255, 255, 0, 0.5)';
-        gen.useGlobalMinMax = true;
-        gen.useGlobalMinMaxAdjustedForZoom = true;
-        gen.useLogarithmicScale = true;
-        gen.useWebWorkers = true;
-        // gen.webWorkerInstance = new Worker();
-        gen.webWorkerInstance = new Worker('../heatmap.worker.ts', { type: 'module' });
+    //     // generating heat map imagery tiles
+    //     const gen = new IgxHeatTileGenerator();
+    //     gen.xValues = lon;
+    //     gen.yValues = lat;
+    //     gen.values = val;
+    //     gen.blurRadius = 6;
+    //     gen.maxBlurRadius = 20;
+    //     gen.useBlurRadiusAdjustedForZoom = true;
+    //     gen.minimumColor = 'rgba(100, 255, 0, 0.5)';
+    //     gen.maximumColor = 'rgba(255, 255, 0, 0.5)';
+    //     gen.useGlobalMinMax = true;
+    //     gen.useGlobalMinMaxAdjustedForZoom = true;
+    //     gen.useLogarithmicScale = true;
+    //     gen.useWebWorkers = true;
+    //     // gen.webWorkerInstance = new Worker();
+    //     gen.webWorkerInstance = new Worker('../heatmap.worker.ts', { type: 'module' });
 
-        gen.scaleColors = this.scaleColors[index];
-        this.tileImagery.tileGenerator = gen;
+    //     gen.scaleColors = this.scaleColors[index];
+    //     this.tileImagery.tileGenerator = gen;
 
-        // generating heat map series
-        this.series[index].name = 'heatMapSeries';
-        this.series[index].tileImagery = this.tileImagery;
+    //     // generating heat map series
+    //     this.series[index].name = 'heatMapSeries';
+    //     this.series[index].tileImagery = this.tileImagery;
 
-        // add heat map series to the map
-        this.map.series.clear();
-        this.map.series.add(this.series[index]);
-        const geoBounds = {
-            height: Math.abs(50 - 15),
-            left: 85,
-            top: 15,
-            width: Math.abs(-130 + 65)
-        };
-        // this.map.zoomToGeographic(geoBounds);
-    }
+    //     // add heat map series to the map
+    //     this.map.series.clear();
+    //     this.map.series.add(this.series[index]);
+    //     const geoBounds = {
+    //         height: Math.abs(50 - 15),
+    //         left: 85,
+    //         top: 15,
+    //         width: Math.abs(-130 + 65)
+    //     };
+    //     // this.map.zoomToGeographic(geoBounds);
+    // }
 }

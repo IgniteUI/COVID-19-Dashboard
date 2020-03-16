@@ -34,7 +34,7 @@ export class MainComponent implements AfterViewInit, OnInit, OnDestroy {
     constructor(private dataService: RemoteDataService) { }
 
     public ngOnInit() {
-      this.dataRequest$ = this.dataService.getDataSet(0);
+      // this.dataRequest$ = this.dataService.getDataSet(0);
     }
 
     public ngAfterViewInit() {
