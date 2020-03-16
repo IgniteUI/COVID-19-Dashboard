@@ -87,6 +87,8 @@ export class MapCasesComponent implements AfterViewInit {
     }
 
     public onDataLoaded(csvData: string, index: number) {
+        csvData = csvData.replace(/, /g, ' - ');
+        csvData = csvData.replace(/"/g, '');
         const csvLines = csvData.split('\n');
         const lat: number[] = [];
         const lon: number[] = [];
