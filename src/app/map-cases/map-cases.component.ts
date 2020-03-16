@@ -9,7 +9,8 @@ import { RemoteDataService } from '../services/data.service';
     providers: [RemoteDataService],
     selector: 'app-map-cases',
     templateUrl: './map-cases.component.html',
-    styleUrls: ['./map-cases.component.scss']
+    styleUrls: ['./map-cases.component.scss'],
+    host: {class: 'app__map-wrapper'}
 })
 export class MapCasesComponent implements AfterViewInit, OnDestroy {
 

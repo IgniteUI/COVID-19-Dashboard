@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IgxFilterOptions, IgxListItemComponent } from 'igniteui-angular';
 
 @Component({
   selector: 'app-list-cases',
   templateUrl: './list-cases.component.html',
   styleUrls: ['./list-cases.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  host: {class: 'app__list'}
 })
 export class ListCasesComponent implements OnInit {
   title = 'list-cases';
   public searchContact: string;
-  public contacts = [
+  public data = [
     {
       isFavorite: false,
       name: 'Terrance Orta',
@@ -46,11 +46,6 @@ export class ListCasesComponent implements OnInit {
   constructor() { }
 
   ngOnInit() { }
-
-  public toggleFavorite(item: IgxListItemComponent) {
-    const contact = this.contacts[item.index - 1];
-    contact.isFavorite = !contact.isFavorite;
-  }
 
   get filterContacts() {
     const fo = new IgxFilterOptions();

@@ -1,34 +1,48 @@
-igx-icon {
-    cursor: pointer;
-    user-select: none;
+@import "../vars";
+::ng-deep {
+  .app__list {
+    height: 100%;
+    min-width: 300px;
+    padding: $app-gap;
+
+    &--deaths {
+      .igx-card-header__title{
+        color: $deaths-color;
+      }
+    }
+
+    &--recovered {
+      .igx-card-header__title{
+        color: $recovered-color;
+      }
+    }
+
+    &--confirmed {
+      .igx-card-header__title{
+        color: $confirmed-color;
+      }
+    }
+
+    + .app__list {
+      padding-left: 0;
+    }
+
+    .app__list-holder {
+      height: 100%;
+    }
+
+    .app__card-header {
+      min-height: $card-header-height;
+    }
+
+    .app__card-content {
+      height: calc(100% - #{$card-header-height});
+      overflow: auto;
+      padding: 0;
+    }
+
+    .app__list-inner {
+      overflow: auto;
+    }
   }
-  
-  .search {
-    margin-bottom: 8px;
-  }
-  
-  .item-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .contact {
-    display: flex;
-    flex: 1 0 240px;
-    align-items: center;
-  }
-  
-  .contact__info {
-    display: flex;
-    flex-flow: column nowrap;
-    margin-left: 24px;
-  }
-  
-  .name {
-    font-weight: 600;
-  }
-  
-  .phone {
-    font-size: 0.875em;
-  }
+}

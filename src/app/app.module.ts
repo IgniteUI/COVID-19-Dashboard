@@ -7,20 +7,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './main/main.component';
 import { IgxButtonModule, IgxCardModule, IgxExpansionPanelModule,
   IgxIconModule, IgxBottomNavModule, IgxAvatarModule, IgxRippleModule, IgxButtonGroupModule, IgxTabsModule,
-  IgxListModule } from 'igniteui-angular';
-import { CommonModule } from '@angular/common';
+  IgxListModule,
+  IgxNavbarModule,
+  IgxDividerModule} from 'igniteui-angular';
 import { IgxCategoryChartModule } from 'igniteui-angular-charts';
 import { IgxGeographicMapCoreModule, IgxGeographicMapModule } from 'igniteui-angular-maps';
 import { MapCasesComponent } from './map-cases/map-cases.component';
 import { ListCasesComponent } from './list-cases/list-cases.component';
-import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     MapCasesComponent,
-    ListCasesComponent
+    ListCasesComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -40,9 +44,11 @@ import { FormsModule } from '@angular/forms';
     IgxBottomNavModule,
     IgxAvatarModule,
     IgxRippleModule,
-    CommonModule,
     IgxCategoryChartModule,
-    FormsModule
+    IgxTabsModule,
+    IgxNavbarModule,
+    IgxCardModule,
+    IgxDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

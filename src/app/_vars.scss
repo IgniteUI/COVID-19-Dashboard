@@ -1,0 +1,9 @@
+@import "~igniteui-angular/lib/core/styles/base/index";
+@import "palettes";
+
+$card-header-height: 80px;
+$app-gap: 16px;
+
+$confirmed-color: igx-color($app-palette, 'secondary');
+$deaths-color: igx-color($app-palette, 'error');
+$recovered-color: igx-color($app-palette, 'success');
