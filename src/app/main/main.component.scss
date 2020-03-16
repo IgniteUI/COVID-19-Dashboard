@@ -6,7 +6,6 @@
     height: 100%;
     overflow: hidden;
   }
-}
 
 .app__main-inner {
   display: flex;
@@ -36,4 +35,5 @@
   &--chart {
     padding: $app-gap;
   }
+ }
 }

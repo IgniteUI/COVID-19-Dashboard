@@ -4,28 +4,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './main/main.component';
-import {
-  IgxButtonModule,
-  IgxCardModule,
-  IgxExpansionPanelModule,
-  IgxIconModule,
-  IgxBottomNavModule,
-  IgxAvatarModule,
-  IgxRippleModule,
-  IgxButtonGroupModule,
-  IgxTabsModule,
+import { IgxButtonModule, IgxCardModule, IgxExpansionPanelModule,
+  IgxIconModule, IgxBottomNavModule, IgxAvatarModule, IgxRippleModule, IgxButtonGroupModule, IgxTabsModule,
   IgxListModule,
-  IgxInputGroupModule,
-  IgxFilterModule,
-  IgxNavbarModule, IgxDividerModule
-} from 'igniteui-angular';
-import { CommonModule } from '@angular/common';
+  IgxNavbarModule,
+  IgxDividerModule} from 'igniteui-angular';
+import { IgxCategoryChartModule } from 'igniteui-angular-charts';
 import { IgxGeographicMapCoreModule, IgxGeographicMapModule } from 'igniteui-angular-maps';
 import { MapCasesComponent } from './map-cases/map-cases.component';
 import { ListCasesComponent } from './list-cases/list-cases.component';
-import { FormsModule } from '@angular/forms';
-import {FooterComponent} from './footer/footer.component';
-import {HeaderComponent} from './header/header.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +22,8 @@ import {HeaderComponent} from './header/header.component';
     MainComponent,
     MapCasesComponent,
     ListCasesComponent,
-    FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +34,8 @@ import {HeaderComponent} from './header/header.component';
     IgxTabsModule,
     IgxGeographicMapModule,
     IgxRippleModule,
+    IgxListModule,
+    IgxTabsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     IgxButtonModule,
@@ -54,12 +45,10 @@ import {HeaderComponent} from './header/header.component';
     IgxBottomNavModule,
     IgxAvatarModule,
     IgxRippleModule,
-    CommonModule,
-    IgxListModule,
-    IgxInputGroupModule,
-    IgxFilterModule,
-    FormsModule,
+    IgxCategoryChartModule,
+    IgxTabsModule,
     IgxNavbarModule,
+    IgxCardModule,
     IgxDividerModule
   ],
   providers: [],

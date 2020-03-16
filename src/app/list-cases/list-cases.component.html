@@ -1,15 +1,15 @@
 <igx-card class="app__list-holder">
-    <igx-card-header class="app__card-header app__card-header--info">
-        <h3 igxCardHeaderTitle>126, 4545</h3>
-        <h5 igxCardHeaderSubtitle>Total Confirmed</h5>
-    </igx-card-header>
-    <igx-divider></igx-divider>
-    <igx-card-content class="app__card-content">
-        <igx-list class="app__list-inner">
-          <igx-list-item #item *ngFor="let item of data | async;">
-            <span igxListLineTitle>{{ item.country }}</span>
-            <span igxListAction>{{ item.value }}</span>
-          </igx-list-item>
-        </igx-list>
-    </igx-card-content>
+  <igx-card-header class="app__card-header app__card-header--info">
+      <h3 igxCardHeaderTitle>126, 4545</h3>
+      <h5 igxCardHeaderSubtitle>Total Confirmed</h5>
+  </igx-card-header>
+  <igx-divider></igx-divider>
+  <igx-card-content class="app__card-content">
+      <igx-list class="app__list-inner">
+        <igx-list-item #item *ngFor="let item of data;">
+          <span igxListLineTitle>{{ item.name }}</span>
+          <span igxListAction>{{ item.phone }}</span>
+        </igx-list-item>
+      </igx-list>
+  </igx-card-content>
 </igx-card>
