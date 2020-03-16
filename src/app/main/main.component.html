@@ -1,4 +1,3 @@
- 
 <main class="igx-typography">
     <div class="desktop-h-d">
         <div class="header">
@@ -54,29 +53,31 @@
                 <div class="tabs-short-bar-1">
                     <igx-tabs tabsType="fixed">
                         <igx-tabs-group label="actual">
+
+                        </igx-tabs-group>
+                        <igx-tabs-group label="logarithmic">
+
+                        </igx-tabs-group>
+                        <igx-tabs-group label="daily">
                             <igx-legend #legend orientation="Horizontal"></igx-legend>
-                            <div style="height: 600px; width: 800px;">
-                                <igx-data-chart  #chart [legend]="legend"
-                                    [dataSource]="chartData" 
-                                    isHorizontalZoomEnabled="true" 
-                                    width="100%" 
-                                    height="50%">
-                                    <igx-numeric-y-axis #yAxis title="Total Cases">
+                            <div style="height: 600px; width: 1400px;">
+                                <igx-data-chart #chart [legend]="legend" [dataSource]="chartData"
+                                    isHorizontalZoomEnabled="true" width="100%" height="50%">
+                                    <igx-numeric-y-axis #yAxis title="New and recovered cases">
                                     </igx-numeric-y-axis>
-                                    <igx-time-x-axis #xAxis dateTimeMemberPath="date"></igx-time-x-axis>
-                        
-                                    <igx-column-series valueMemberPath="activeCases" labelMemberPath="date" title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis">
+                                    <igx-category-x-axis label="date" title="Date" #xAxis>
+                                    </igx-category-x-axis>
+
+                                    <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
+                                        title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis"
+                                        showDefaultTooltip="true">
                                     </igx-column-series>
-                                    <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date" title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis">
+                                    <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
+                                        title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis"
+                                        showDefaultTooltip="true">
                                     </igx-column-series>
                                 </igx-data-chart>
                             </div>
-                        </igx-tabs-group>
-                        <igx-tabs-group label="logarithmic">
-                            
-                        </igx-tabs-group>
-                        <igx-tabs-group label="daily">
-                            
                         </igx-tabs-group>
                     </igx-tabs>
                 </div>
@@ -84,7 +85,8 @@
         </div>
         <div class="footer"><span class="igx-typography__caption lastupdatedat-m-d">Last updated at (M/D/YYYY)</span>
             <span class="igx-typography__subtitle-1 a03122020125303">03/12/2020 12:53:03 PM</span>
-            <span class="igx-typography__caption datasource-w-h-o-na">Data source: WHO, National Health Commission of the People’s</span>
+            <span class="igx-typography__caption datasource-w-h-o-na">Data source: WHO, National Health Commission of
+                the People’s</span>
             <span class="igx-typography__subtitle-1 builtwith-ignite-u-i">built with Ignite UI for Angular</span>
         </div>
     </div>

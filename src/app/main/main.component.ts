@@ -79,8 +79,27 @@ export class MainComponent implements OnInit {
         } else {
           const compound = cases.get(new Date(csvData[0].split(',')[columnIdx]).toUTCString()) +
             parseInt(columns[columnIdx], 10);
+
           cases.set(new Date(csvData[0].split(',')[columnIdx]).toUTCString(), compound);
         }
+      }
+    }
+
+    // Calculate daily difference.
+    for (let index = 0; index < cases.size; index++) {
+      let newCasesCount = 0;
+      const currentElementKey = Array.from(cases.keys())[index];
+      const currentElementValue =  cases.get(currentElementKey);
+
+      const nextElementKey = Array.from(cases.keys())[index + 1];
+      const nextElementValue =  cases.get(nextElementKey);
+
+      if (currentElementValue < nextElementValue) {
+        newCasesCount = nextElementValue - currentElementValue;
+
+        cases.set(currentElementKey, newCasesCount);
+      } else {
+        cases.set(currentElementKey, 0);
       }
     }
 
