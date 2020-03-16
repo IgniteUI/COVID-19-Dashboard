@@ -17,3 +17,15 @@ html, body {
   height: 100%;
   overflow: hidden;
 }
+
+$app-button-group-theme: igx-button-group-theme(
+  $item-selected-background: igx-color($app-palette, 'primary'),
+  $item-selected-border-color: igx-color($app-palette, 'primary'),
+  $item-selected-hover-background: igx-color($app-palette, 'primary'),
+  $item-hover-background: igx-color($app-palette, 'primary'),
+  $item-border-color: igx-color($app-palette, 'primary'),
+  $shadow: none,
+  $border-radius: 0
+);
+
+@include igx-button-group($app-button-group-theme);

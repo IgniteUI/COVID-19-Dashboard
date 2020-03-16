@@ -1,21 +1,28 @@
 @import "../vars";
-.app__map-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-  padding: 0 $app-gap;
+::ng-deep {
+  .app__map-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    flex: 1;
+  }
+  .app__map-button-group {
+    margin-bottom: 8px;
+  }
 }
 
 .app__map {
-  min-height: calc(100% - 36px);
+  min-height: calc(100% - 44px);
   min-width: 100%;
-  width: 100%;
-  height: calc(100% - 36px);
-  flex: 1;
+  height: calc(100% - 44px);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .app__map-inner {
   display: flex;
+  height: 100%;
+  padding: 0 5px;
   flex-direction: column;
 }

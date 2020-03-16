@@ -1,22 +1,17 @@
 <main class="app__main-inner">
     <app-list-cases class="app__list--confirmed" #confirmedList></app-list-cases>
-  
+
     <section class="app__col app__col--map">
       <app-map-cases #map></app-map-cases>
-  
-      <igx-tabs tabsType="fixed">
-        <igx-tabs-group label="Confirmed Cases"></igx-tabs-group>
-        <igx-tabs-group label="Active Cases"></igx-tabs-group>
-      </igx-tabs>
     </section>
-  
+
     <div class="app__col app__col--stats">
-  
+
       <div class="app__row app__list-stack">
         <app-list-cases class="app__list--deaths" #deathsList></app-list-cases>
         <app-list-cases class="app__list--recovered" #recoveredList></app-list-cases>
       </div>
-  
+
       <div class="app__col app__col--chart">
         <div class="background-row">
           <div class="line-chart">

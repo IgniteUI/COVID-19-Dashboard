@@ -4,6 +4,7 @@
 $card-header-height: 80px;
 $app-gap: 16px;
 
-$confirmed-color: igx-color($app-palette, 'secondary');
+$confirmed-color: igx-color($app-palette, 'info');
 $deaths-color: igx-color($app-palette, 'error');
 $recovered-color: igx-color($app-palette, 'success');
+$footer-background: igx-color($app-palette, 'grays', 300);
