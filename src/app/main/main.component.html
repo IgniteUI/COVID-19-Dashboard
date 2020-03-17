@@ -14,13 +14,11 @@
 
         <div class="app__charts">
             <igx-tabs  class="app__charts-tabs" tabsType="fixed">
-                <igx-tabs-group label="actual"></igx-tabs-group>
-                <igx-tabs-group label="logarithmic"></igx-tabs-group>
                 <igx-tabs-group label="daily">
                     <div class="app__chart-wrapper">
                       <igx-legend class="app__charts-legend" #legend orientation="Horizontal"></igx-legend>
                       <div class="app__chart-component">
-                        <igx-data-chart  class="app__charts-chart" #chart [legend]="legend" [dataSource]="chartData" isHorizontalZoomEnabled="true">
+                        <igx-data-chart class="app__charts-chart" #chart [legend]="legend" [dataSource]="chartData" isHorizontalZoomEnabled="true">
                           <igx-numeric-y-axis #yAxis title="New and recovered cases">
                           </igx-numeric-y-axis>
                           <igx-category-x-axis label="date" title="Date" #xAxis>
@@ -35,6 +33,12 @@
                         </igx-data-chart>
                       </div>
                     </div>
+                </igx-tabs-group>
+                <igx-tabs-group label="actual">
+                    In progress..
+                </igx-tabs-group>
+                <igx-tabs-group label="logarithmic">
+                    In progress..
                 </igx-tabs-group>
             </igx-tabs>
         </div>
