@@ -4,20 +4,43 @@
     height: 100%;
     padding: $app-gap;
 
+    .igx-list__item-actions {
+      font-weight: bold;
+    }
+
     &--deaths {
-      .igx-card-header__title{
+      .app__card-header {
+        background: $deaths-bg !important;
+      }
+      .igx-card-header__title {
+        font-weight: bold;
+      }
+      .igx-card-header__subtitle{
         color: $deaths-color;
       }
     }
 
     &--recovered {
-      .igx-card-header__title{
+      .app__card-header {
+        background: $recovered-bg !important;
+      }
+
+      .igx-card-header__title {
+        font-weight: bold;
+      }
+      .igx-card-header__subtitle{
         color: $recovered-color;
       }
     }
 
     &--confirmed {
-      .igx-card-header__title{
+      .app__card-header {
+        background: $confirmed-bg !important;
+      }
+      .igx-card-header__title {
+        font-weight: bold;
+      }
+      .igx-card-header__subtitle{
         color: $confirmed-color;
       }
     }

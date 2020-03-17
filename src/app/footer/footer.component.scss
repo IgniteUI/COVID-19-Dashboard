@@ -17,5 +17,8 @@
   text-align: left;
   &--info {
     text-align: right;
+    a {
+      color: $link-color;
+    }
   }
 }
