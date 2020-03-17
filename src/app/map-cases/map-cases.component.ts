@@ -179,10 +179,10 @@ export class MapCasesComponent implements OnInit {
         // this.map.series.add(this.series[index]);
 
         const geoBounds = {
-            height: 140,
-            left: -10,
-            top: -20,
-            width: 280
+            height: 0,
+            left: -0,
+            top: -0,
+            width: 300
         };
         this.map.zoomToGeographic(geoBounds);
     }
