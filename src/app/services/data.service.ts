@@ -27,7 +27,7 @@ export class RemoteDataService {
      * Retrieves data from specific file, based on the index passed.
      */
     public getDataSet(index: number): Observable<any> {
-        const baseDataPath = '../assets/Data/';
+        const baseDataPath = '../assets/';
         const dataSet = this.dataSets[index];
         const options: RequestInit = {
           method: 'GET', // *GET, POST, PUT, DELETE, etc.
