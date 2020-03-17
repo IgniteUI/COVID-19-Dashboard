@@ -6,5 +6,11 @@ $app-gap: 16px;
 
 $confirmed-color: igx-color($app-palette, 'info');
 $deaths-color: igx-color($app-palette, 'error');
+$deaths-bg: rgba(igx-color($app-palette, 'error'), .03);
+
 $recovered-color: igx-color($app-palette, 'success');
-$footer-background: igx-color($app-palette, 'grays', 300);
+$recovered-bg: rgba(igx-color($app-palette, 'success'), .03);
+
+$footer-background: igx-color($app-palette, 'grays', 100);
+
+$link-color: igx-color($app-palette, 'secondary');
