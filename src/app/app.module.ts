@@ -9,7 +9,10 @@ import { IgxButtonModule, IgxCardModule, IgxExpansionPanelModule,
   IgxListModule,
   IgxNavbarModule,
   IgxDividerModule} from 'igniteui-angular';
-import { IgxCategoryChartModule } from 'igniteui-angular-charts';
+import { IgxDataChartCoreModule, IgxDataChartCategoryModule,
+    IgxDataChartAnnotationModule, IgxCalloutLayerModule, IgxCrosshairLayerModule,
+    IgxFinalValueLayerModule, IgxDataChartInteractivityModule, IgxLegendModule, IgxTimeXAxisModule,
+    IgxNumericXAxisModule, IgxCategoryXAxisModule, IgxFinancialChartModule } from 'igniteui-angular-charts';
 import { IgxGeographicMapCoreModule, IgxGeographicMapModule } from 'igniteui-angular-maps';
 import { MapCasesComponent } from './map-cases/map-cases.component';
 import { ListCasesComponent } from './list-cases/list-cases.component';
@@ -35,7 +38,6 @@ import { FooterComponent } from './footer/footer.component';
     IgxGeographicMapModule,
     IgxRippleModule,
     IgxListModule,
-    IgxTabsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     IgxButtonModule,
@@ -45,8 +47,18 @@ import { FooterComponent } from './footer/footer.component';
     IgxBottomNavModule,
     IgxAvatarModule,
     IgxRippleModule,
-    IgxCategoryChartModule,
-    IgxTabsModule,
+    IgxDataChartCoreModule,
+    IgxDataChartCategoryModule,
+    IgxDataChartAnnotationModule,
+    IgxCalloutLayerModule,
+    IgxCrosshairLayerModule,
+    IgxFinalValueLayerModule,
+    IgxDataChartInteractivityModule,
+    IgxLegendModule,
+    IgxTimeXAxisModule,
+    IgxNumericXAxisModule,
+    IgxCategoryXAxisModule,
+    IgxFinancialChartModule,
     IgxNavbarModule,
     IgxCardModule,
     IgxDividerModule
