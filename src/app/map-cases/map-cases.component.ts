@@ -29,18 +29,18 @@ export class MapCasesComponent implements OnInit {
     public brushes = [
         [
             'rgba(0,153,255, .3)',
-            'rgba(0,153,255, .55)',
-            'rgba(0,153,255, .8)',
-            'rgba(0,153,255, .99)',
+            'rgba(0,153,255, .5)',
+            'rgba(0,153,255, .7)',
+            'rgba(0,153,255, .95)',
         ],
         [
             'rgba(50,205,50, .3)',
             'rgba(50,205,50, .7)',
-            'rgba(50,205,50, .99)'],
+            'rgba(50,205,50, .95)'],
         [
-            'rgba(255, 0, 0, .5)',
-            'rgba(255, 0, 0, .8)',
-            'rgba(255, 0, 0, .99)']
+            'rgba(255, 0, 0, .3)',
+            'rgba(255, 0, 0, .7)',
+            'rgba(255, 0, 0, .95)']
     ];
     public data: string;
     public tooltipTitle = 'Infected';
