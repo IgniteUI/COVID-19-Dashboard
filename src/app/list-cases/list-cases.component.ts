@@ -51,9 +51,11 @@ export class ListCasesComponent implements OnInit {
         const region = columns[0];
         const country = columns[1];
         const value = parseInt(columns[columns.length - 1], 10);
-        const listItem: IListItem = { region, country, value};
-        totalNumber += value;
-        listData.push(listItem);
+        if (value) {
+          const listItem: IListItem = { region, country, value};
+          totalNumber += value;
+          listData.push(listItem);
+        }
       }
 
       // aggregate list based on country
