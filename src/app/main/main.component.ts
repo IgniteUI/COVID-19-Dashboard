@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { IgxExpansionPanelComponent } from 'igniteui-angular';
 import { IgxDataChartComponent, IgxNumericYAxisComponent, IgxCategoryXAxisComponent } from 'igniteui-angular-charts';
 import { RemoteDataService } from '../services/data.service';
@@ -34,6 +34,7 @@ export class MainComponent implements OnInit, OnDestroy {
   public dailyData: any[] = [];
   public dailyConfirmedCases: Map<string, number> = new Map();
   public dailyRecoveredCases: Map<string, number> = new Map();
+  public showMap = false;
 
   @ViewChild('chart', { static: true })
   public chart: IgxDataChartComponent;
