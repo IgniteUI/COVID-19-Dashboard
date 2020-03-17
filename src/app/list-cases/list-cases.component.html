@@ -7,7 +7,8 @@
   <igx-card-content class="app__card-content">
       <igx-list class="app__list-inner">
         <igx-list-item #item *ngFor="let item of data">
-          <span igxListLineTitle>{{ item.country }}</span>
+          <span igxListLineTitle *ngIf="item.region">{{ item.region }}, {{ item.country }}</span>
+          <span igxListLineTitle *ngIf="!item.region">{{ item.country }}</span>
           <span igxListAction>{{ item.value | number }}</span>
         </igx-list-item>
       </igx-list>
