@@ -1,5 +1,5 @@
 <main class="app__main-inner">
-    <app-list-cases class="app__list--confirmed" #confirmedList></app-list-cases>
+    <app-list-cases class="app__list--confirmed" #confirmedList type="Confirmed"></app-list-cases>
 
     <section class="app__col app__col--map">
         <app-map-cases #map></app-map-cases>
@@ -8,8 +8,8 @@
     <div class="app__col app__col--stats">
 
         <div class="app__row app__list-stack">
-            <app-list-cases class="app__list--deaths" #deathsList></app-list-cases>
-            <app-list-cases class="app__list--recovered" #recoveredList></app-list-cases>
+            <app-list-cases class="app__list--deaths" #deathsList type="Deaths"></app-list-cases>
+            <app-list-cases class="app__list--recovered" #recoveredList type="Recovered"></app-list-cases>
         </div>
 
         <div class="app__charts">
@@ -26,12 +26,12 @@
                           <igx-category-x-axis label="date" title="Date" #xAxis>
                           </igx-category-x-axis>
 
-                          <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
-                                             title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                          </igx-column-series>
-                          <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
-                                             title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                          </igx-column-series>
+                            <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
+                                title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
+                            </igx-column-series>
+                            <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
+                                title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
+                            </igx-column-series>
                         </igx-data-chart>
                       </div>
                     </div>
@@ -40,4 +40,3 @@
         </div>
     </div>
 </main>
-<!-- <app-map-cases #map></app-map-cases> -->
