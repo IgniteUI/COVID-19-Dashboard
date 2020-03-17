@@ -31,9 +31,9 @@
                 <igx-tabs-group label="logarithmic"></igx-tabs-group>
                 <igx-tabs-group label="daily">
                     <igx-legend #legend orientation="Horizontal"></igx-legend>
-                    <div style="height: 600px; width: 1400px;">
+                    <div style="height: 300px; width: 1000px;">
                         <igx-data-chart #chart [legend]="legend" [dataSource]="chartData" isHorizontalZoomEnabled="true"
-                            width="100%" height="50%">
+                            height="calc(100% - 60px)" width="calc(100% - 60px)">
                             <igx-numeric-y-axis #yAxis title="New and recovered cases">
                             </igx-numeric-y-axis>
                             <igx-category-x-axis label="date" title="Date" #xAxis>
