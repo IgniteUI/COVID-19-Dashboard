@@ -122,13 +122,13 @@ export class MapCasesComponent implements OnInit {
 
         gen.scaleColors = this.scaleColors[index];
         this.tileImagery.tileGenerator = gen;
-
+        this.map.clearTileCache();
         // generating heat map series
         this.series[index].name = 'heatMapSeries';
         this.series[index].tileImagery = this.tileImagery;
 
         // this.showMap = true;
-        this.map.clearTileCache();
+
         // add heat map series to the map
         this.map.series.clear();
         this.map.series.add(this.series[index]);
@@ -138,7 +138,6 @@ export class MapCasesComponent implements OnInit {
             top: 0,
             width: 260
         };
-        this.map.zoomToGeographic(geoBounds);
         this.map.zoomToGeographic(geoBounds);
     }
 
