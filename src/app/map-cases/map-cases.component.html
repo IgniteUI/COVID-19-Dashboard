@@ -1,6 +1,10 @@
 <div class="app__map-inner">
     <igx-buttongroup class="app__map-button-group" [multiSelection]="false" (onSelect)="onDataSetSelected($event)">
-      <button igxButton *ngFor="let button of dataSetButtons" [selected]="button.selected">{{ button.name }}</button>
+      <button igxButton *ngFor="let button of dataSetButtons" [selected]="button.selected">
+        <span class="ellipsis">
+          {{ button.name }}
+        </span>
+      </button>
     </igx-buttongroup>
     <igx-geographic-map class="app__map" #map zoomable="true"></igx-geographic-map>
   </div>
