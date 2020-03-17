@@ -26,12 +26,12 @@
                           <igx-category-x-axis label="date" title="Date" #xAxis>
                           </igx-category-x-axis>
 
-                          <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
-                                             title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                          </igx-column-series>
-                          <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
-                                             title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                          </igx-column-series>
+                            <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
+                                title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
+                            </igx-column-series>
+                            <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
+                                title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
+                            </igx-column-series>
                         </igx-data-chart>
                       </div>
                     </div>
