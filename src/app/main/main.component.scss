@@ -1,342 +1,39 @@
-@import url("https://unpkg.com/@fortawesome/fontawesome-free-webfonts@^1.0.9/css/fontawesome.css");
-@import url("https://unpkg.com/@fortawesome/fontawesome-free-webfonts@^1.0.9/css/fa-regular.css");
-@import url("https://unpkg.com/@fortawesome/fontawesome-free-webfonts@^1.0.9/css/fa-solid.css");
+@import "../vars";
+::ng-deep {
+  .app__main {
+    display: flex;
+    flex: 1 0 0%;
+    height: 100%;
+    overflow: hidden;
+  }
 
-@import '~igniteui-angular/lib/core/styles/themes/utilities';
-@import '~igniteui-angular/lib/core/styles/components/tabs/tabs-component';
-@import '~igniteui-angular/lib/core/styles/components/tabs/tabs-theme';
-@import '~igniteui-angular/lib/core/styles/components/ripple/ripple-component';
-@import '~igniteui-angular/lib/core/styles/components/ripple/ripple-theme';
-
-@import '../../themes/default/index';
-
-.sample-wrapper {
-    width: 24rem;
-    margin-top: 20px;
+.app__main-inner {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
-
-main {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-	overflow: auto;
+.app__list-stack {
+  flex:1;
 }
 
-.desktop-h-d {
-    display: flex;
-    flex-direction: column;
+.app__row {
+  display: flex;
+}
+
+.app__col {
+  display: flex;
+  flex-direction: column;
+
+  &--map {
+    padding: $app-gap 0;
+    height: 100%;
     flex: 1;
+  }
+
+  &--chart {
+    padding: $app-gap;
+  }
+ }
 }
-
-.coronavirus-c-o-v-i-d19 {
-color: rgb(255, 255, 255);
-margin: auto 0 auto 20px !important;
-
-height: 57px;
-min-height: 57px;
-
-}
-.ignite-u-ilogo {
-margin-top: 25px;
-margin-left: 620px;
-
-position: relative;
-padding: 0;
-}
-
-.header {
-    display: flex;
-    flex-direction: row;
-    flex-shrink: 0;
-    padding: 0;
-    border: 1px solid rgba(151, 151, 151, 1.0);
-    background-color: rgba(25, 173, 135, 1.0);
-}
-
-.elevation {
-    position: absolute;
-    z-index: 0;
-    width: 740px;
-    min-width: 740px;
-    height: 576px;
-    min-height: 576px;
-    background-color: rgba(255, 255, 255, 1.0);
-}
-
-.map {
-position: absolute;
-z-index: 1;
-opacity: 1.000;
-}
-
-.elevation-row {
-    position: relative;
-    padding: 0;
-}
-
-.i-g-map {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    flex-shrink: 0;
-}
-
-.background {
-    position: absolute;
-    z-index: 0;
-    width: 420px;
-    min-width: 420px;
-    height: 210px;
-    min-height: 210px;
-    background-color: rgba(255, 255, 255, 1.0);
-}
-
-.a100k {
-display: block;
-color: igx-color($default-palette, grays, 900);
-margin-top: 0px !important;
-height: 24px;
-min-height: 24px;
-font-weight: 600;
-}
-
-.a50k {
-display: block;
-color: igx-color($default-palette, grays, 900);
-margin-top: 57px !important;
-margin-left: -23px !important;
-height: 24px;
-min-height: 24px;
-font-weight: 600;
-}
-
-.a0 {
-display: block;
-color: igx-color($default-palette, grays, 900);
-margin-top: 114px !important;
-margin-left: -8px !important;
-height: 24px;
-min-height: 24px;
-font-weight: 600;
-}
-
-.m02 {
-    display: block;
-    color: igx-color($default-palette, grays, 900);
-    margin-top: 133px !important;
-    margin-left: 168px !important;
-    height: 24px;
-    min-height: 24px;
-    font-weight: 600;
-}
-
-.line-chart {
-    position: absolute;
-    top: 14px;
-    left: 12px;
-    z-index: 2;
-    position: relative;
-    padding: 0;
-}
-
-.oval {
-    margin-top: 1px;
-    width: 15px;
-    min-width: 15px;
-    height: 15px;
-    min-height: 15px;
-    border-radius: 50%;
-    border: 1px solid rgba(151, 151, 151, 1.0);
-    background-color: rgba(253, 140, 0, 1.0);
-}
-
-.china {
-    display: block;
-    color: igx-color($default-palette, grays, 900);
-    margin-left: 5px !important;
-    margin-top: 0px !important;
-    height: 16px;
-    min-height: 16px;
-}
-
-.oval-copy {
-    margin-top: 1px;
-    margin-left: 22px;
-    width: 15px;
-    min-width: 15px;
-    height: 15px;
-    min-height: 15px;
-    border-radius: 50%;
-    border: 1px solid rgba(151, 151, 151, 1.0);
-    background-color: rgba(46, 247, 13, 1.0);
-}
-
-.other-locations {
-    display: block;
-    color: igx-color($default-palette, grays, 900);
-    margin-left: 5px !important;
-    margin-top: 0px !important;
-    height: 16px;
-    min-height: 16px;
-
-}
-.oval-copy2 {
-    margin-top: 1px;
-    margin-left: 22px;
-    width: 15px;
-    min-width: 15px;
-    height: 15px;
-    min-height: 15px;
-    border-radius: 50%;
-    border: 1px solid rgba(151, 151, 151, 1.0);
-    background-color: rgba(253, 243, 94, 1.0);
-}
-
-.total-recovered {
-    display: block;
-    color: igx-color($default-palette, grays, 900);
-    margin-left: 5px !important;
-    margin-top: 0px !important;
-    height: 16px;
-    min-height: 16px;
-}
-
-.legend {
-    position: absolute;
-    top: 180px;
-    left: 53px;
-    z-index: 1;
-    display: flex;
-    flex-direction: row;
-    flex-shrink: 0;
-    padding: 0;
-}
-
-.background-row {
-
-position: relative;
-padding: 0;
-}
-
-.line-chart-container {
-margin: 366px 0 0 auto;
-
-display: flex;
-flex-direction: column;
-padding: 0;
-flex-shrink: 0;
-}
-
-.i-g-map-row {
-margin-top: 21px;
-margin-right: 20px;
-margin-left: 300px;
-
-display: flex;
-flex-direction: row;
-flex-shrink: 0;
-padding: 0;
-}
-
-.lastupdatedat-m-d {
-display: block;
-color: igx-color($default-palette, grays, 900);
-position: absolute;
-top: 11px;
-left: 20px;
-z-index: 0;
-
-margin-top: 0px !important;
-height: 16px;
-min-height: 16px;
-
-}
-.a03122020125303 {
-display: block;
-color: igx-color($default-palette, grays, 900);
-position: absolute;
-top: 26px;
-left: 20px;
-z-index: 1;
-
-margin-top: 0px !important;
-height: 24px;
-min-height: 24px;
-
-}
-.datasource-w-h-o-na {
-display: block;
-color: igx-color($default-palette, grays, 900);
-margin-top: 10px !important;
-margin-left: 1137px !important;
-
-height: 16px;
-min-height: 16px;
-
-}
-.builtwith-ignite-u-i {
-display: block;
-color: igx-color($default-palette, grays, 900);
-margin-top: 26px !important;
-margin-left: -206px !important;
-
-height: 24px;
-min-height: 24px;
-
-}
-.footer {
-margin: auto 0 0 0;
-
-position: relative;
-padding: 0;
-border: 1px solid rgba(151, 151, 151, 1.0);
-
-background-color: rgba(245, 245, 245, 1.0);
-}
-
-@function get-palette($palette, $variant: 'light') {
-	$p: igx-color($palette, 'primary');
-	$s: igx-color($palette, 'secondary');
-	@return igx-palette($primary: $p,
-		$secondary: $s,
-		$grays: if($variant == 'light', #fff, #000)
-	);
-}
-@function get-schema($variant: 'light') {
-	@return map-get((
-		dark: $dark-schema,
-		light: $light-schema
-	), $variant);
-}
-
-$tabs-short-bar-theme: igx-tabs-theme(
-$item-text-color: igx-color($default-palette, grays, 700),
-$item-background: rgb(255, 255, 255),
-$item-active-color: igx-color($default-palette, primary),
-$item-active-icon-color: transparent,
-$item-active-background: igx-color($default-palette, grays, 200),
-$indicator-color: igx-color($default-palette, primary)
-);
-
-$tabs-short-bar-1-theme: igx-tabs-theme(
-$item-text-color: igx-color($default-palette, grays, 700),
-$item-background: rgb(255, 255, 255),
-$item-active-color: igx-color($default-palette, primary),
-$item-active-icon-color: transparent,
-$item-active-background: igx-color($default-palette, grays, 200),
-$indicator-color: igx-color($default-palette, primary)
-);
-
-
-:host ::ng-deep {
-    .tabs-short-bar {
-        @include igx-tabs($tabs-short-bar-theme);
-    }
-
-    .tabs-short-bar-1 {
-        @include igx-tabs($tabs-short-bar-1-theme);
-    }
-}
-

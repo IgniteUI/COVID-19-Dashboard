@@ -5,20 +5,27 @@
 /* See: https://www.infragistics.com/products/ignite-ui-angular/angular/components/themes.html */
 @import "~igniteui-angular/lib/core/styles/themes/index";
 
-$primary: #731963 !default;
-$secondary: #ce5712 !default;
-
-$app-palette: igx-palette($primary, $secondary);
+@import "app/palettes";
+@import "app/vars";
 
 /* autoprefixer grid: on */
 
 @include igx-core();
 @include igx-theme($app-palette);
 
-
 html, body {
   height: 100%;
+  overflow: hidden;
 }
-.content p {
-  margin: 15px;
-}
+
+$app-button-group-theme: igx-button-group-theme(
+  $item-selected-background: igx-color($app-palette, 'primary'),
+  $item-selected-border-color: igx-color($app-palette, 'primary'),
+  $item-selected-hover-background: igx-color($app-palette, 'primary'),
+  $item-hover-background: igx-color($app-palette, 'primary'),
+  $item-border-color: igx-color($app-palette, 'primary'),
+  $shadow: none,
+  $border-radius: 0
+);
+
+@include igx-button-group($app-button-group-theme);

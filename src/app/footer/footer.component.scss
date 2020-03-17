@@ -1,0 +1,21 @@
+@import "../vars";
+
+.app__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $app-gap;
+  background: $footer-background;
+}
+
+.app__footer-item {
+  line-height: normal;
+  font-size: 12px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  &--info {
+    text-align: right;
+  }
+}

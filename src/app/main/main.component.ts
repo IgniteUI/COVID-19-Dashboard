@@ -1,23 +1,37 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output, ViewChild, AfterViewInit } from '@angular/core';
 import { IgxExpansionPanelComponent } from 'igniteui-angular';
-import { data as weatherData } from './weather-data';
-import { RemoteDataService } from '../services/data.service';
 import { IgxDataChartComponent, IgxNumericYAxisComponent, IgxCategoryXAxisComponent } from 'igniteui-angular-charts';
+import { RemoteDataService } from '../services/data.service';
+import { MapCasesComponent } from '../map-cases/map-cases.component';
+import { ListCasesComponent } from '../list-cases/list-cases.component';
+
+interface IListItem {
+  country: string;
+  value: number;
+}
 
 @Component({
   providers: [RemoteDataService],
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
+  host: {class: 'app__main'}
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
   @ViewChild(IgxExpansionPanelComponent, { static: true })
   public panel: IgxExpansionPanelComponent;
-  public data = weatherData;
+  @ViewChild('map', {static: true}) public map: MapCasesComponent;
+  @ViewChild('confirmedList', { static: true }) public confirmedList: ListCasesComponent;
+  @ViewChild('recoveredList', { static: true }) public recoveredList: ListCasesComponent;
+  @ViewChild('deathsList', { static: true }) public deathsList: ListCasesComponent;
+
+  private dataRequest$: any;
+  public confirmed: string;
+  public recovered: string;
+  public deaths: string;
   public chartData: any[] = [];
   public dailyData: any[] = [];
-  private dataRequest$: any;
   public dailyConfirmedCases: Map<string, number> = new Map();
   public dailyRecoveredCases: Map<string, number> = new Map();
 
@@ -104,10 +118,6 @@ export class MainComponent implements OnInit {
     }
 
     return cases;
-  }
-
-  public toggleDetails() {
-    this.panel.toggle();
   }
 
   public ngOnDestroy() {

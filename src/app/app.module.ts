@@ -5,25 +5,28 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './main/main.component';
 import { IgxButtonModule, IgxCardModule, IgxExpansionPanelModule,
-  IgxIconModule, IgxBottomNavModule, IgxAvatarModule, IgxRippleModule,
-  IgxButtonGroupModule, IgxTabsModule, IgxListModule, IgxInputGroupModule,
-  IgxFilterModule, } from 'igniteui-angular';
-import { CommonModule } from '@angular/common';
+  IgxIconModule, IgxBottomNavModule, IgxAvatarModule, IgxRippleModule, IgxButtonGroupModule, IgxTabsModule,
+  IgxListModule,
+  IgxNavbarModule,
+  IgxDividerModule} from 'igniteui-angular';
+import { IgxDataChartCoreModule, IgxDataChartCategoryModule,
+    IgxDataChartAnnotationModule, IgxCalloutLayerModule, IgxCrosshairLayerModule,
+    IgxFinalValueLayerModule, IgxDataChartInteractivityModule, IgxLegendModule, IgxTimeXAxisModule,
+    IgxNumericXAxisModule, IgxCategoryXAxisModule, IgxFinancialChartModule } from 'igniteui-angular-charts';
 import { IgxGeographicMapCoreModule, IgxGeographicMapModule } from 'igniteui-angular-maps';
 import { MapCasesComponent } from './map-cases/map-cases.component';
 import { ListCasesComponent } from './list-cases/list-cases.component';
-import { FormsModule } from '@angular/forms';
-import { IgxDataChartCoreModule, IgxDataChartCategoryModule,
-  IgxDataChartAnnotationModule, IgxCalloutLayerModule, IgxCrosshairLayerModule,
-  IgxFinalValueLayerModule, IgxDataChartInteractivityModule, IgxLegendModule, IgxTimeXAxisModule,
-  IgxNumericXAxisModule, IgxCategoryXAxisModule, IgxFinancialChartModule } from 'igniteui-angular-charts';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     MapCasesComponent,
-    ListCasesComponent
+    ListCasesComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +37,7 @@ import { IgxDataChartCoreModule, IgxDataChartCategoryModule,
     IgxTabsModule,
     IgxGeographicMapModule,
     IgxRippleModule,
+    IgxListModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     IgxButtonModule,
@@ -43,11 +47,6 @@ import { IgxDataChartCoreModule, IgxDataChartCategoryModule,
     IgxBottomNavModule,
     IgxAvatarModule,
     IgxRippleModule,
-    CommonModule,
-    IgxListModule,
-    IgxInputGroupModule,
-    IgxFilterModule,
-    FormsModule,
     IgxDataChartCoreModule,
     IgxDataChartCategoryModule,
     IgxDataChartAnnotationModule,
@@ -59,7 +58,10 @@ import { IgxDataChartCoreModule, IgxDataChartCategoryModule,
     IgxTimeXAxisModule,
     IgxNumericXAxisModule,
     IgxCategoryXAxisModule,
-    IgxFinancialChartModule
+    IgxFinancialChartModule,
+    IgxNavbarModule,
+    IgxCardModule,
+    IgxDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

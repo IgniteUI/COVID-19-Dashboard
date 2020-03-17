@@ -1,41 +1,28 @@
-:host {
-  width: 100%;
+@import "../vars";
+::ng-deep {
+  .app__map-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    flex: 1;
+  }
+  .app__map-button-group {
+    margin-bottom: 8px;
+  }
 }
-.my-legend  .legend-title {
-  display: inline-block;
-  margin-left: 15%;
-  margin-bottom: 8px;
-  font-weight: bold;
-  font-size: 90%;
-  }
-.my-legend .legend-scale ul {
-  margin-left: 10%;    
-  float: left;
-  list-style: none;
-  }
-.my-legend .legend-scale ul li {
-  display: block;
-  float: left;
-  width: 50px;
-  margin-bottom: 6px;
-  margin-right: 100px;
-  text-align: center;
-  font-size: 85%;
-  list-style: none;
-  }
-.my-legend ul.legend-labels li span {
-  display: block;
-  float: left;
-  height: 15px;
-  width: 50px;
-  padding: 20px;
-  font-weight: bold;
-  }
-.my-legend .legend-source {
-  font-size: 70%;
-  color: #999;
-  clear: both;
-  }
-.my-legend a {
-  color: #777;
-  }
+
+.app__map {
+  min-height: calc(100% - 44px);
+  min-width: 100%;
+  height: calc(100% - 44px);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.app__map-inner {
+  display: flex;
+  height: 100%;
+  padding: 0 5px;
+  flex-direction: column;
+}
