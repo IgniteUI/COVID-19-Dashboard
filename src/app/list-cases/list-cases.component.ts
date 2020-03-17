@@ -1,56 +1,63 @@
-import { Component, OnInit } from '@angular/core';
-import { IgxFilterOptions } from 'igniteui-angular';
+import { Component, OnInit, Input } from '@angular/core';
+import { RemoteDataService } from '../services/data.service';
+
+interface IListItem {
+  country: string;
+  value: number;
+}
 
 @Component({
-  selector: 'app-list-cases',
-  templateUrl: './list-cases.component.html',
-  styleUrls: ['./list-cases.component.scss'],
-  host: {class: 'app__list'}
+    selector: 'app-list-cases',
+    templateUrl: './list-cases.component.html',
+    styleUrls: ['./list-cases.component.scss'],
+    host: {class: 'app__list'}
 })
 export class ListCasesComponent implements OnInit {
-  title = 'list-cases';
-  public searchContact: string;
-  public data = [
-    {
-      isFavorite: false,
-      name: 'Terrance Orta',
-      phone: '770-504-2217',
-      photo: 'https://randomuser.me/api/portraits/men/27.jpg'
-    },
-    {
-      isFavorite: true,
-      name: 'Richard Mahoney',
-      phone: '423-676-2869',
-      photo: 'https://randomuser.me/api/portraits/men/1.jpg'
-    },
-    {
-      isFavorite: false,
-      name: 'Donna Price',
-      phone: '859-496-2817',
-      photo: 'https://randomuser.me/api/portraits/women/50.jpg'
-    },
-    {
-      isFavorite: false,
-      name: 'Lisa Landers',
-      phone: '901-747-3428',
-      photo: 'https://randomuser.me/api/portraits/women/3.jpg'
-    },
-    {
-      isFavorite: true,
-      name: 'Dorothy H. Spencer',
-      phone: '573-394-9254',
-      photo: 'https://randomuser.me/api/portraits/women/67.jpg'
+
+    @Input() public type: string;
+    public dataSets = ['Confirmed', 'Recovered', 'Deaths'];
+    public data: IListItem[];
+    public totalNumber: number;
+    private dataRequest$: any;
+    constructor(private dataService: RemoteDataService) { }
+
+    public ngOnInit() {
+      if (this.type === 'Confirmed') {
+        this.loadDataSet(0);
+      }
+      if (this.type === 'Recovered') {
+        this.loadDataSet(1);
+      }
+      if (this.type === 'Deaths') {
+        this.loadDataSet(2);
+      }
     }
-  ];
 
-  constructor() { }
+    public loadDataSet(index: number) {
+        this.dataRequest$ = this.dataService.getDataSet(index);
+        this.dataRequest$.subscribe(csvData => {
+            this.transformData(csvData);
+        });
+    }
 
-  ngOnInit() { }
+    private transformData(data: string): any {
+      const csvLines = data.split('\n');
+      const listData: any[] = [];
+      let totalNumber = 0;
 
-  filterContacts() {
-    // const fo = new IgxFilterOptions();
-    // fo.key = 'name';
-    // fo.inputValue = this.searchContact;
-    // return fo;
-  }
+      for (let i = 1; i < csvLines.length; i++) {
+        const columns = csvLines[i].split(',');
+        const country2 = columns[1];
+        const value2 = parseInt(columns[columns.length - 1], 10);
+        const listItem: IListItem = { country: country2, value: value2};
+        totalNumber += value2;
+        listData.push(listItem);
+      }
+
+      this.totalNumber = totalNumber;
+      this.data = listData.sort((a, b) => {
+        return b.value - a.value;
+      });
+    }
+
 }

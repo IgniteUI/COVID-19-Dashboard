@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { IgxGeographicTileSeriesComponent, IgxTileGeneratorMapImagery
 } from 'igniteui-angular-maps';
 import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
@@ -12,7 +12,7 @@ import { RemoteDataService } from '../services/data.service';
     styleUrls: ['./map-cases.component.scss'],
     host: {class: 'app__map-wrapper'}
 })
-export class MapCasesComponent implements AfterViewInit {
+export class MapCasesComponent implements OnInit {
 
     @ViewChild('map', {static: true}) public map: IgxGeographicMapComponent;
     @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
@@ -45,6 +45,7 @@ export class MapCasesComponent implements AfterViewInit {
             'rgba(255, 0, 0, .7843)']
     ];
     public data: string;
+    private dataRequest$: any;
 
     constructor(private dataService: RemoteDataService) {
         this.dataSetButtons = [
@@ -63,16 +64,15 @@ export class MapCasesComponent implements AfterViewInit {
     ];
     }
 
-    public ngAfterViewInit(): void {
+    public ngOnInit(): void {
         this.loadDataSet(0);
     }
 
     public loadDataSet(index: number) {
-        const baseDataPath = '../../assets/Data/time_series_19-covid-';
-        const dataSet = this.dataSets[index];
-        fetch(`${baseDataPath}${dataSet}.csv`)
-        .then((response) => response.text())
-        .then((data) => this.onDataLoaded(data, index));
+        this.dataRequest$ = this.dataService.getDataSet(index);
+        this.dataRequest$.subscribe(csvData => {
+            this.onDataLoaded(csvData, index);
+        });
     }
 
     /**
@@ -80,12 +80,11 @@ export class MapCasesComponent implements AfterViewInit {
      */
     public onDataSetSelected(event: any) {
         this.loadDataSet(event.index);
-        // this.dataRequest$ = this.dataService.getDataSet(event.index);
-        // this.dataRequest$.subscribe(data => {
-        //     this.addMapSeries(data, event.index);
-        // });
     }
 
+    /**
+     * Fill the map series corresponding to the passd index with tile imagery and add to map.
+     */
     public onDataLoaded(csvData: string, index: number) {
         csvData = csvData.replace(/, /g, ' - ');
         csvData = csvData.replace(/"/g, '');
@@ -131,12 +130,12 @@ export class MapCasesComponent implements AfterViewInit {
         this.map.series.clear();
         this.map.series.add(this.series[index]);
         const geoBounds = {
-            height: Math.abs(50 - 15),
-            left: 85,
-            top: 15,
-            width: Math.abs(-130 + 65)
+            height: 140,
+            left: -80,
+            top: 0,
+            width: 260
         };
-        // this.map.zoomToGeographic(geoBounds);
+        this.map.zoomToGeographic(geoBounds);
 
     }
 
