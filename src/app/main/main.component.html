@@ -13,32 +13,74 @@
         </div>
 
         <div class="app__charts">
-            <igx-tabs  class="app__charts-tabs" tabsType="fixed">
+            <igx-tabs class="app__charts-tabs" tabsType="fixed">
                 <igx-tabs-group label="daily">
                     <div class="app__chart-wrapper">
-                      <igx-legend class="app__charts-legend" #legend orientation="Horizontal"></igx-legend>
-                      <div class="app__chart-component">
-                        <igx-data-chart class="app__charts-chart" #chart [legend]="legend" [dataSource]="chartData" isHorizontalZoomEnabled="true">
-                          <igx-numeric-y-axis #yAxis title="New and recovered cases">
-                          </igx-numeric-y-axis>
-                          <igx-category-x-axis label="date" title="Date" #xAxis>
-                          </igx-category-x-axis>
+                        <igx-legend class="app__charts-legend" #legend orientation="Horizontal"></igx-legend>
+                        <div class="app__chart-component">
+                            <igx-data-chart class="app__charts-chart" #chart [legend]="legend" [dataSource]="chartData"
+                                isHorizontalZoomEnabled="true">
+                                <igx-numeric-y-axis #yAxis title="New and recovered cases">
+                                </igx-numeric-y-axis>
+                                <igx-category-x-axis label="date" title="Date" #xAxis>
+                                </igx-category-x-axis>
 
-                            <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
-                                title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                            </igx-column-series>
-                            <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
-                                title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                            </igx-column-series>
-                        </igx-data-chart>
-                      </div>
+                                <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
+                                    title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis"
+                                    showDefaultTooltip="true">
+                                </igx-column-series>
+                                <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
+                                    title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
+                                </igx-column-series>
+                            </igx-data-chart>
+                        </div>
                     </div>
                 </igx-tabs-group>
                 <igx-tabs-group label="actual">
-                    In progress..
+                    <div class="app__chart-wrapper">
+                        <igx-legend class="app__charts-legend" #legendActual orientation="Horizontal"></igx-legend>
+                        <div class="app__chart-component">
+                            <igx-data-chart class="app__charts-chart" #chartActual [legend]="legendActual" 
+                                [dataSource]="chartData" isHorizontalZoomEnabled="true">
+                                <igx-category-x-axis label="date" title="Date" #xAxis2>
+                                </igx-category-x-axis>
+                                <igx-numeric-y-axis name="yAxis2" #yAxis2 title="Cases count"></igx-numeric-y-axis>
+
+                                <igx-line-series name="seriesTotalDailyOtherLocations" title="Total Daily Other Locations" [xAxis]="xAxis2" [yAxis]="yAxis2"
+                                    valueMemberPath="totalDailyOtherLocations" [markerType]="3" showDefaultTooltip="true">
+                                </igx-line-series>
+                                <igx-line-series name="seriesTotalDailyChina" title="Total Daily China" [xAxis]="xAxis2" [yAxis]="yAxis2"
+                                    valueMemberPath="totalDailyChina" [markerType]="3" showDefaultTooltip="true">
+                                </igx-line-series>
+                                <igx-line-series name="seriesTotalDailyRecoveredCases" title="Total Daily Recovered" [xAxis]="xAxis2" [yAxis]="yAxis2"
+                                    valueMemberPath="totalDailyRecoveredCases" [markerType]="3" showDefaultTooltip="true">
+                                </igx-line-series>
+                            </igx-data-chart>
+                        </div>
+                    </div>
                 </igx-tabs-group>
                 <igx-tabs-group label="logarithmic">
-                    In progress..
+                    <div class="app__chart-wrapper">
+                        <igx-legend class="app__charts-legend" #legendLogarithmic orientation="Horizontal"></igx-legend>
+                        <div class="app__chart-component">
+                            <igx-data-chart class="app__charts-chart" #chartActual [legend]="legendLogarithmic" 
+                                [dataSource]="chartData" isHorizontalZoomEnabled="true" >
+                                <igx-category-x-axis label="date" title="Date" #xAxis3>
+                                </igx-category-x-axis>
+                                <igx-numeric-y-axis name="yAxis3" #yAxis3 title="Cases count" isLogarithmic="true" ></igx-numeric-y-axis>
+
+                                <igx-line-series name="seriesTotalDailyOtherLocations" title="Total Daily Other Locations" [xAxis]="xAxis3" [yAxis]="yAxis3"
+                                    valueMemberPath="totalDailyOtherLocations" [markerType]="3" showDefaultTooltip="true">
+                                </igx-line-series>
+                                <igx-line-series name="seriesTotalDailyChina" title="Total Daily China" [xAxis]="xAxis3" [yAxis]="yAxis3"
+                                    valueMemberPath="totalDailyChina" [markerType]="3" showDefaultTooltip="true">
+                                </igx-line-series>
+                                <igx-line-series name="seriesTotalDailyRecoveredCases" title="Total Daily Recovered" [xAxis]="xAxis3" [yAxis]="yAxis3"
+                                    valueMemberPath="totalDailyRecoveredCases" [markerType]="3" showDefaultTooltip="true">
+                                </igx-line-series>
+                            </igx-data-chart>
+                        </div>
+                    </div>
                 </igx-tabs-group>
             </igx-tabs>
         </div>

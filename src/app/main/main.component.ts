@@ -32,8 +32,13 @@ export class MainComponent implements OnInit, OnDestroy {
   public deaths: string;
   public chartData: any[] = [];
   public dailyData: any[] = [];
-  public dailyConfirmedCases: Map<string, number> = new Map();
+  public dailyDataOtherLocations: any[] = [];
+  public dailyDataChina: any[] = [];
   public dailyRecoveredCases: Map<string, number> = new Map();
+  public dailyConfirmedCases: Map<string, number> = new Map();
+  public totalDailyOtherLocations: Map<string, number> = new Map();
+  public totalDailyChina: Map<string, number> = new Map();
+  public totalDailyRecoveredCases: Map<string, number> = new Map();
   public showMap = false;
 
   @ViewChild('chart', { static: true })
@@ -49,31 +54,53 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    // Fetch Confirmed cases
     this.dataRequest$ = this.dataService.getDataSet(0);
     this.dataRequest$.subscribe(csvData => {
       const csvLines = csvData.split('\n');
-      this.dailyConfirmedCases = this.fillData(csvLines);
+      const allCases = this.fillData(csvLines);
+
+      this.dailyConfirmedCases = allCases[0];
+      this.totalDailyOtherLocations = allCases[1];
+      this.totalDailyChina = allCases[2];
+      this.totalDailyRecoveredCases = allCases[3];
 
       // Transfor the data for Active cases Chart
       for (const item of this.dailyConfirmedCases) {
         this.dailyData.push({ date: new Date(item[0]), activeCases: item[1] });
       }
+
+      let i = 0;
+      for (const item of this.totalDailyOtherLocations) {
+        this.dailyData[i].totalDailyOtherLocations = item[1];
+        i++;
+      }
+      i = 0;
+      for (const item of this.totalDailyChina) {
+        this.dailyData[i].totalDailyChina = item[1];
+        i++;
+      }
+      i = 0;
+      for (const item of this.totalDailyRecoveredCases) {
+        this.dailyData[i].totalDailyRecoveredCases = item[1];
+        i++;
+      }
     });
 
-
+    // Fetch Recovered cases
     this.dataRequest$ = this.dataService.getDataSet(1);
     this.dataRequest$.subscribe(csvData => {
       const csvLines = csvData.split('\n');
-      this.dailyRecoveredCases = this.fillData(csvLines);
+      this.dailyRecoveredCases = this.fillData(csvLines)[0];
 
-      // Transfor the data for Active cases Chart
+      // Transfor the data for Recovered Cases Chart
       let i = 0;
       for (const item of this.dailyRecoveredCases) {
         this.dailyData[i].recoveredCases = item[1];
         i++;
       }
 
-      // Push/Assign the data to Active cases Chart
+      // Push/Assign the data to Recovered cases Chart
       this.chartData = this.dailyData;
     });
   }
@@ -82,6 +109,9 @@ export class MainComponent implements OnInit, OnDestroy {
     let columns = [];
     let day: string = null;
     const cases: Map<string, number> = new Map();
+    let totalRecoveredCases: Map<string, number> = new Map();
+    const casesOtherLocations: Map<string, number> = new Map();
+    const casesChina: Map<string, number> = new Map();
 
     // tslint:disable-next-line: prefer-for-of
     for (let rowIdx = 0; rowIdx < csvData.length; rowIdx++) {
@@ -91,17 +121,33 @@ export class MainComponent implements OnInit, OnDestroy {
         if (rowIdx === 0) {
           day = new Date(columns[columnIdx]).toUTCString();
           cases.set(day, 0);
+          casesChina.set(day, 0);
+          casesOtherLocations.set(day, 0);
         } else {
           const compound = cases.get(new Date(csvData[0].split(',')[columnIdx]).toUTCString()) +
             parseInt(columns[columnIdx], 10);
-
           cases.set(new Date(csvData[0].split(',')[columnIdx]).toUTCString(), compound);
+
+          if (columns[1] === 'China') {
+            const compoundChina = casesChina.get(new Date(csvData[0].split(',')[columnIdx]).toUTCString()) +
+              parseInt(columns[columnIdx], 10);
+            casesChina.set(new Date(csvData[0].split(',')[columnIdx]).toUTCString(), compoundChina);
+          } else {
+            const compoundOther = casesOtherLocations.get(new Date(csvData[0].split(',')[columnIdx]).toUTCString()) +
+              parseInt(columns[columnIdx], 10);
+            casesOtherLocations.set(new Date(csvData[0].split(',')[columnIdx]).toUTCString(), compoundOther);
+          }
         }
       }
     }
 
-    // Calculate daily difference.
+    // Persist the total recovered cases before transforming the 'cases' map
+    totalRecoveredCases = new Map(cases);
+
+    // Calculate daily difference and transform map
     for (let index = 0; index < cases.size; index++) {
+
+      // Calculate only daily difference.
       let newCasesCount = 0;
       const currentElementKey = Array.from(cases.keys())[index];
       const currentElementValue =  cases.get(currentElementKey);
@@ -114,16 +160,20 @@ export class MainComponent implements OnInit, OnDestroy {
 
         cases.set(currentElementKey, newCasesCount);
       } else {
-        cases.set(currentElementKey, 0);
+        cases.set(currentElementKey, nextElementValue);
       }
     }
 
-    return cases;
+    // [0] Daily difference, [1] Other locations, [2] China, [3] Total recovered cases
+    return [cases, casesOtherLocations, casesChina, totalRecoveredCases];
   }
 
   public ngOnDestroy() {
     if (this.dataRequest$) {
       this.dataRequest$.unsubscribe();
     }
+  }
+  public xAxis_FormatLabel(item: any) {
+    debugger;
   }
 }
