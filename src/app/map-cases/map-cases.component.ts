@@ -126,6 +126,7 @@ export class MapCasesComponent implements OnInit {
         this.series[index].name = 'heatMapSeries';
         this.series[index].tileImagery = this.tileImagery;
 
+        this.map.clearTileCache();
         // add heat map series to the map
         this.map.series.clear();
         this.map.series.add(this.series[index]);
@@ -136,7 +137,7 @@ export class MapCasesComponent implements OnInit {
             width: 260
         };
         this.map.zoomToGeographic(geoBounds);
-
+        this.map.zoomToGeographic(geoBounds);
     }
 
     /**
