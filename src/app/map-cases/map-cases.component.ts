@@ -1,9 +1,13 @@
-import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
-import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesComponent
+import { Component, TemplateRef, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesComponent, ArcGISOnlineMapImagery, GeographicMapImagery
 } from 'igniteui-angular-maps';
 import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
 import { RemoteDataService } from '../services/data.service';
 import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
+
+export enum EsriStyle {
+    WorldLightGrayMap = 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer'
+}
 
 @Component({
     providers: [RemoteDataService],
@@ -12,7 +16,7 @@ import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from '
     styleUrls: ['./map-cases.component.scss'],
     host: {class: 'app__map-wrapper'}
 })
-export class MapCasesComponent implements OnInit {
+export class MapCasesComponent implements OnInit, AfterViewInit {
 
     @ViewChild('map', {static: true}) public map: IgxGeographicMapComponent;
     @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
@@ -66,6 +70,13 @@ export class MapCasesComponent implements OnInit {
 
     public ngOnInit(): void {
         this.loadDataSet(0);
+    }
+
+    public ngAfterViewInit() {
+        const tileSource = new ArcGISOnlineMapImagery();
+        (tileSource as any).i = tileSource;
+        tileSource.mapServerUri = this.getUri(EsriStyle.WorldLightGrayMap);
+        (this.map as any).backgroundContent = tileSource;
     }
 
     public loadDataSet(index: number) {
@@ -185,5 +196,17 @@ export class MapCasesComponent implements OnInit {
             width: 300
         };
         this.map.zoomToGeographic(geoBounds);
+    }
+
+    private getUri(style: string): string {
+
+        const isHttpSecured = window.location.toString().startsWith('https:');
+
+        // resolving Esri Server uri based on hosting website
+        let uri: string = style;
+        if (!isHttpSecured) {
+            uri = uri.replace('https:', 'http:');
+        }
+        return uri;
     }
 }
