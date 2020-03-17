@@ -49,15 +49,15 @@ export class MapCasesComponent implements AfterViewInit {
     constructor(private dataService: RemoteDataService) {
         this.dataSetButtons = [
             {
-                name: 'Total Cases',
+                name: 'Total',
                 selected: true
             },
             {
-                name: 'Recovered Cases',
+                name: 'Recovered',
                 selected: false
             },
             {
-                name: 'Death Cases',
+                name: 'Deaths',
                 selected: false
             }
     ];

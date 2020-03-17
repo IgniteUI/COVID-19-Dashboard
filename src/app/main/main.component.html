@@ -12,40 +12,28 @@
             <app-list-cases class="app__list--recovered" #recoveredList></app-list-cases>
         </div>
 
-        <div class="app__col app__col--chart">
-            <div class="background-row">
-                <div class="line-chart">
-                    <span class="igx-typography__subtitle-2 a100k">100k</span>
-                    <span class="igx-typography__subtitle-2 a50k">50k</span>
-                    <span class="igx-typography__subtitle-2 a0">0</span>
-                    <span class="igx-typography__subtitle-2 m02">M02</span>
-                </div>
-                <div class="legend">
-                    <span class="igx-typography__caption china">China</span>
-                    <span class="igx-typography__caption other-locations">Other Locations</span>
-                    <span class="igx-typography__caption total-recovered">Total Recovered</span>
-                </div>
-            </div>
-            <igx-tabs tabsType="fixed">
+        <div class="app__charts">
+            <igx-tabs  class="app__charts-tabs" tabsType="fixed">
                 <igx-tabs-group label="actual"></igx-tabs-group>
                 <igx-tabs-group label="logarithmic"></igx-tabs-group>
                 <igx-tabs-group label="daily">
-                    <igx-legend #legend orientation="Horizontal"></igx-legend>
-                    <div style="height: 300px; width: 1000px;">
-                        <igx-data-chart #chart [legend]="legend" [dataSource]="chartData" isHorizontalZoomEnabled="true"
-                            height="calc(100% - 60px)" width="calc(100% - 60px)">
-                            <igx-numeric-y-axis #yAxis title="New and recovered cases">
-                            </igx-numeric-y-axis>
-                            <igx-category-x-axis label="date" title="Date" #xAxis>
-                            </igx-category-x-axis>
+                    <div class="app__chart-wrapper">
+                      <igx-legend class="app__charts-legend" #legend orientation="Horizontal"></igx-legend>
+                      <div class="app__chart-component">
+                        <igx-data-chart  class="app__charts-chart" #chart [legend]="legend" [dataSource]="chartData" isHorizontalZoomEnabled="true">
+                          <igx-numeric-y-axis #yAxis title="New and recovered cases">
+                          </igx-numeric-y-axis>
+                          <igx-category-x-axis label="date" title="Date" #xAxis>
+                          </igx-category-x-axis>
 
-                            <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
-                                title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                            </igx-column-series>
-                            <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
-                                title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                            </igx-column-series>
+                          <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
+                                             title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
+                          </igx-column-series>
+                          <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
+                                             title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
+                          </igx-column-series>
                         </igx-data-chart>
+                      </div>
                     </div>
                 </igx-tabs-group>
             </igx-tabs>

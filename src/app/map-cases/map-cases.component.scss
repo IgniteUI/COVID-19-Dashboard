@@ -10,6 +10,10 @@
   .app__map-button-group {
     margin-bottom: 8px;
   }
+
+  .igx-button-group {
+    min-width: 0
+  }
 }
 
 .app__map {
@@ -25,4 +29,10 @@
   height: 100%;
   padding: 0 5px;
   flex-direction: column;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
