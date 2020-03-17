@@ -45,6 +45,7 @@ export class MapCasesComponent implements OnInit {
             'rgba(255, 0, 0, .7843)']
     ];
     public data: string;
+    public showMap = true;
     private dataRequest$: any;
 
     constructor(private dataService: RemoteDataService) {
@@ -126,6 +127,7 @@ export class MapCasesComponent implements OnInit {
         this.series[index].name = 'heatMapSeries';
         this.series[index].tileImagery = this.tileImagery;
 
+        // this.showMap = true;
         this.map.clearTileCache();
         // add heat map series to the map
         this.map.series.clear();

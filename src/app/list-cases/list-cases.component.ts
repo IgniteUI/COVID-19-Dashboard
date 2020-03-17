@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { RemoteDataService } from '../services/data.service';
 
 interface IListItem {
+  region: string;
   country: string;
   value: number;
 }
@@ -47,12 +48,26 @@ export class ListCasesComponent implements OnInit {
 
       for (let i = 1; i < csvLines.length; i++) {
         const columns = csvLines[i].split(',');
-        const country2 = columns[1];
-        const value2 = parseInt(columns[columns.length - 1], 10);
-        const listItem: IListItem = { country: country2, value: value2};
-        totalNumber += value2;
+        const region = columns[0];
+        const country = columns[1];
+        const value = parseInt(columns[columns.length - 1], 10);
+        const listItem: IListItem = { region, country, value};
+        totalNumber += value;
         listData.push(listItem);
       }
+
+      // aggregate list based on country
+      // const result = listData.reduce((prev, item) => {
+      //     const newItem = prev.find((i) => {
+      //         return i.country === item.country;
+      //     });
+      //     if (newItem) {
+      //         newItem.value += item.value;
+      //     } else {
+      //         prev.push(item);
+      //     }
+      //     return prev;
+      // }, []);
 
       this.totalNumber = totalNumber;
       this.data = listData.sort((a, b) => {
