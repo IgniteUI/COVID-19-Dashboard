@@ -1,9 +1,9 @@
 import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
-import { IgxGeographicTileSeriesComponent, IgxTileGeneratorMapImagery
+import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesComponent
 } from 'igniteui-angular-maps';
 import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
-import { IgxHeatTileGenerator } from 'igniteui-angular-core';
 import { RemoteDataService } from '../services/data.service';
+import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
 
 @Component({
     providers: [RemoteDataService],
@@ -18,33 +18,32 @@ export class MapCasesComponent implements OnInit {
     @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
 
     public tileImagery: IgxTileGeneratorMapImagery;
-    public confirmedSeries = new IgxGeographicTileSeriesComponent();
-    public recoveredSeries = new IgxGeographicTileSeriesComponent();
-    public deathSeries = new IgxGeographicTileSeriesComponent();
-    public series: Array<IgxGeographicTileSeriesComponent> = [this.confirmedSeries, this.recoveredSeries, this.deathSeries];
+
+    public confirmedSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+    public recoveredSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+    public deathSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+    public series: Array<IgxGeographicProportionalSymbolSeriesComponent> = [this.confirmedSeries, this.recoveredSeries, this.deathSeries];
+
     public dataSetButtons: any[];
-    public dataSets = ['Confirmed', 'Recovered', 'Deaths'];
-    public scaleColors = [
+    public dataSets = ['Infected', 'Recovered', 'Deaths'];
+    public brushes = [
         [
-            'rgba(255, 0, 0, .1)',
-            'rgba(255, 0, 0, .3)',
-            'rgba(255, 0, 0, .5)',
-            'rgba(255, 0, 0, .6)',
-            'rgba(255, 0, 0, .7843)'],
+            'rgba(252, 32, 32, 0.3)',
+            'rgba(252, 32, 32, 0.55)',
+            'rgba(252, 32, 32, 0.8)',
+            'rgba(252, 32, 32, 0.99)',
+        ],
         [
-            'rgba(50,205,50, 0.1)',
             'rgba(50,205,50, 0.3)',
-            'rgba(50,205,50, 0.5)',
             'rgba(50,205,50, 0.7)',
-            'rgba(50,205,50, 0.9)'],
+            'rgba(50,205,50, 0.99)'],
         [
-            'rgba(255, 0, 0, .1)',
-            'rgba(255, 0, 0, .3)',
             'rgba(255, 0, 0, .5)',
-            'rgba(255, 0, 0, .6)',
-            'rgba(255, 0, 0, .7843)']
+            'rgba(255, 0, 0, .8)',
+            'rgba(255, 0, 0, .99)']
     ];
     public data: string;
+    public tooltipTitle = 'Infected';
     public showMap = true;
     private dataRequest$: any;
 
@@ -72,7 +71,7 @@ export class MapCasesComponent implements OnInit {
     public loadDataSet(index: number) {
         this.dataRequest$ = this.dataService.getDataSet(index);
         this.dataRequest$.subscribe(csvData => {
-            this.onDataLoaded(csvData, index);
+            this.addMapSeries(csvData, index);
         });
     }
 
@@ -86,113 +85,105 @@ export class MapCasesComponent implements OnInit {
     /**
      * Fill the map series corresponding to the passd index with tile imagery and add to map.
      */
-    public onDataLoaded(csvData: string, index: number) {
+    public addMapSeries(csvData: string, index: number) {
+
+        this.tooltipTitle = this.dataSets[index];
+
+        // prepare data
         csvData = csvData.replace(/, /g, ' - ');
         csvData = csvData.replace(/"/g, '');
         const csvLines = csvData.split('\n');
-        const lat: number[] = [];
-        const lon: number[] = [];
-        const val: number[] = [];
-        this.tileImagery = new IgxTileGeneratorMapImagery();
+        const locations = [];
+        let maxValue = 1;
 
         for (let i = 1; i < csvLines.length; i++) {
             const columns = csvLines[i].split(',');
-            lat.push(parseInt(columns[2], 10));
-            lon.push(parseInt(columns[3], 10));
+            let dataItem = {};
+
             const value = parseInt(columns[columns.length - 1], 10);
-            val.push(value);
+
+            if (value) {
+                const region = columns[0];
+                const country = columns[1];
+                const lat = parseInt(columns[2], 10);
+                const lon = parseInt(columns[3], 10);
+                dataItem = { region, country, lat, lon, value };
+                locations.push(dataItem);
+                if (value > maxValue) {
+                    maxValue = value;
+                }
+            }
         }
 
-        // generating heat map imagery tiles
-        const gen = new IgxHeatTileGenerator();
-        gen.xValues = lon;
-        gen.yValues = lat;
-        gen.values = val;
-        gen.blurRadius = 6;
-        gen.maxBlurRadius = 20;
-        gen.useBlurRadiusAdjustedForZoom = true;
-        gen.minimumColor = 'rgba(100, 255, 0, 0.5)';
-        gen.maximumColor = 'rgba(255, 255, 0, 0.5)';
-        gen.useGlobalMinMax = true;
-        gen.useGlobalMinMaxAdjustedForZoom = true;
-        gen.useLogarithmicScale = true;
-        gen.useWebWorkers = true;
-        // gen.webWorkerInstance = new Worker();
-        gen.webWorkerInstance = new Worker('../heatmap.worker.ts', { type: 'module' });
+        // Geopraphic proportional symbol series
+        const sizeScale = new IgxSizeScaleComponent();
+        sizeScale.minimumValue = 1;
+        sizeScale.maximumValue = (maxValue / 1200);
+        if (index === 1) {
+            sizeScale.maximumValue = maxValue / 1000;
+        }
+        if (index === 2) {
+            sizeScale.maximumValue = maxValue / 60;
+        }
+        sizeScale.isLogarithmic = true;
 
-        gen.scaleColors = this.scaleColors[index];
-        this.tileImagery.tileGenerator = gen;
+        const brushScale = new IgxValueBrushScaleComponent();
+        brushScale.brushes = this.brushes[index];
+        brushScale.minimumValue = 1;
+        brushScale.maximumValue = maxValue;
 
-        // generating heat map series
-        this.series[index].name = 'heatMapSeries';
-        this.series[index].tileImagery = this.tileImagery;
+        const symbolSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+        symbolSeries.dataSource = locations;
+        symbolSeries.markerType = MarkerType.Circle;
+        symbolSeries.radiusScale = sizeScale;
+        symbolSeries.fillScale = brushScale;
+        symbolSeries.fillMemberPath = 'value';
+        symbolSeries.radiusMemberPath = 'value';
+        symbolSeries.latitudeMemberPath = 'lat';
+        symbolSeries.longitudeMemberPath = 'lon';
+        symbolSeries.markerOutline = 'rgba(0,0,0,0.3)';
+        symbolSeries.tooltipTemplate = this.tooltip;
 
-        // this.showMap = true;
-        this.map.clearTileCache();
-        // add heat map series to the map
         this.map.series.clear();
-        this.map.series.add(this.series[index]);
+        this.map.series.add(symbolSeries);
+
+        // // generating heat map imagery tiles
+        // this.tileImagery = new IgxTileGeneratorMapImagery();
+        // const gen = new IgxHeatTileGenerator();
+        // gen.xValues = lon;
+        // gen.yValues = lat;
+        // gen.values = val;
+        // gen.blurRadius = 6;
+        // gen.maxBlurRadius = 20;
+        // gen.useBlurRadiusAdjustedForZoom = true;
+        // gen.minimumColor = 'rgba(100, 255, 0, 0.5)';
+        // gen.maximumColor = 'rgba(255, 255, 0, 0.5)';
+        // gen.useGlobalMinMax = true;
+        // gen.useGlobalMinMaxAdjustedForZoom = true;
+        // gen.useLogarithmicScale = true;
+        // gen.useWebWorkers = true;
+        // // gen.webWorkerInstance = new Worker();
+        // gen.webWorkerInstance = new Worker('../heatmap.worker.ts', { type: 'module' });
+
+        // gen.scaleColors = this.scaleColors[index];
+        // this.tileImagery.tileGenerator = gen;
+        // this.map.clearTileCache();
+        // // generating heat map series
+        // this.series[index].name = 'heatMapSeries';
+        // this.series[index].tileImagery = this.tileImagery;
+
+        // // this.showMap = true;
+
+        // // add heat map series to the map
+        // this.map.series.clear();
+        // this.map.series.add(this.series[index]);
+
         const geoBounds = {
-            height: 140,
-            left: -80,
-            top: 0,
-            width: 260
+            height: 0,
+            left: -0,
+            top: -0,
+            width: 300
         };
         this.map.zoomToGeographic(geoBounds);
-        this.map.zoomToGeographic(geoBounds);
     }
-
-    /**
-     * Fill the map series corresponding to the passd index with tile imagery and add to map.
-     */
-    // public addMapSeries(csvData: string, index: number) {
-    //     const csvLines = csvData.split('\n');
-    //     const lat: number[] = [];
-    //     const lon: number[] = [];
-    //     const val: number[] = [];
-    //     this.tileImagery = new IgxTileGeneratorMapImagery();
-
-    //     for (let i = 1; i < csvLines.length; i++) {
-    //         const columns = csvLines[i].split(',');
-    //         lat.push(parseInt(columns[2], 10));
-    //         lon.push(parseInt(columns[3], 10));
-    //         const value = parseInt(columns[columns.length - 1], 10);
-    //         val.push(value);
-    //     }
-
-    //     // generating heat map imagery tiles
-    //     const gen = new IgxHeatTileGenerator();
-    //     gen.xValues = lon;
-    //     gen.yValues = lat;
-    //     gen.values = val;
-    //     gen.blurRadius = 6;
-    //     gen.maxBlurRadius = 20;
-    //     gen.useBlurRadiusAdjustedForZoom = true;
-    //     gen.minimumColor = 'rgba(100, 255, 0, 0.5)';
-    //     gen.maximumColor = 'rgba(255, 255, 0, 0.5)';
-    //     gen.useGlobalMinMax = true;
-    //     gen.useGlobalMinMaxAdjustedForZoom = true;
-    //     gen.useLogarithmicScale = true;
-    //     gen.useWebWorkers = true;
-    //     // gen.webWorkerInstance = new Worker();
-    //     gen.webWorkerInstance = new Worker('../heatmap.worker.ts', { type: 'module' });
-
-    //     gen.scaleColors = this.scaleColors[index];
-    //     this.tileImagery.tileGenerator = gen;
-
-    //     // generating heat map series
-    //     this.series[index].name = 'heatMapSeries';
-    //     this.series[index].tileImagery = this.tileImagery;
-
-    //     // add heat map series to the map
-    //     this.map.series.clear();
-    //     this.map.series.add(this.series[index]);
-    //     const geoBounds = {
-    //         height: Math.abs(50 - 15),
-    //         left: 85,
-    //         top: 15,
-    //         width: Math.abs(-130 + 65)
-    //     };
-    //     // this.map.zoomToGeographic(geoBounds);
-    // }
 }
