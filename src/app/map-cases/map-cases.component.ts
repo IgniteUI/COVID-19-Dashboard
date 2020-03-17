@@ -26,23 +26,23 @@ export class MapCasesComponent implements OnInit {
     public dataSets = ['Confirmed', 'Recovered', 'Deaths'];
     public scaleColors = [
         [
-            'rgba(255, 0, 0, .1)',
-            'rgba(255, 0, 0, .3)',
+            'rgba(0,153,255, .2)',
+            'rgba(0,153,255, .35)',
+            'rgba(0,153,255, .5)',
+            'rgba(0,153,255, .6)',
+            'rgba(0,153,255, .94)'],
+        [
+            'rgba(50,205,50, .2)',
+            'rgba(50,205,50, .35)',
+            'rgba(50,205,50, .5)',
+            'rgba(50,205,50, .7)',
+            'rgba(50,205,50, .94)'],
+        [
+            'rgba(255, 0, 0, .2)',
+            'rgba(255, 0, 0, .35)',
             'rgba(255, 0, 0, .5)',
             'rgba(255, 0, 0, .6)',
-            'rgba(255, 0, 0, .7843)'],
-        [
-            'rgba(50,205,50, 0.1)',
-            'rgba(50,205,50, 0.3)',
-            'rgba(50,205,50, 0.5)',
-            'rgba(50,205,50, 0.7)',
-            'rgba(50,205,50, 0.9)'],
-        [
-            'rgba(255, 0, 0, .1)',
-            'rgba(255, 0, 0, .3)',
-            'rgba(255, 0, 0, .5)',
-            'rgba(255, 0, 0, .6)',
-            'rgba(255, 0, 0, .7843)']
+            'rgba(255, 0, 0, .94)']
     ];
     public data: string;
     public showMap = true;

@@ -1,4 +1,4 @@
-@import "../vars";
+@import "../themes/vars";
 ::ng-deep {
   .app__main {
     display: flex;
@@ -50,6 +50,7 @@
       padding: $app-gap 0;
       height: 100%;
       flex: 1;
+      min-width: 40vw;
     }
    }
 

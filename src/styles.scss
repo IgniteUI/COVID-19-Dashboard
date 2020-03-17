@@ -5,42 +5,26 @@
 /* See: https://www.infragistics.com/products/ignite-ui-angular/angular/components/themes.html */
 @import "~igniteui-angular/lib/core/styles/themes/index";
 
-@import "app/palettes";
-@import "app/vars";
+@import "app/themes/palettes";
+@import "app/themes/vars";
 
 /* autoprefixer grid: on */
 
 @include igx-core();
-@include igx-theme($app-palette);
 
 html, body {
   height: 100%;
   overflow: hidden;
 }
 
-$app-tabs-theme: igx-tabs-theme(
-  $border-radius: 8px,
-  $disable-shadow: false,
-  $item-text-color: igx-color($app-palette, 'primary', 700),
-  $item-hover-background: igx-color($app-palette, 'primary', 100),
-  $item-hover-color: igx-color($app-palette, 'primary', 900),
-  $item-active-color: igx-color($app-palette, 'primary', 900),
-  $item-active-icon-color: igx-color($app-palette, 'primary', 900),
-  $item-active-background: igx-color($app-palette, 'primary', 100),
-  $indicator-color: null,
-);
+.app-light-theme {
+  @include igx-theme($palette: $app-palette, $legacy-support: false);
+  @import "app/themes/components/light";
+}
 
-$app-button-group-theme: igx-button-group-theme(
-  $item-selected-background: igx-color($app-palette, 'primary', 100),
-  $item-hover-background: igx-color($app-palette, 'primary', 100),
-  $item-selected-hover-background: igx-color($app-palette, 'primary', 100),
-  $item-selected-border-color: igx-color($app-palette, 'primary'),
-  $item-text-color: igx-color($app-palette, 'primary', 700),
-  $item-selected-text-color: igx-color($app-palette, 'primary', 900),
-  $item-hover-text-color: igx-color($app-palette, 'primary', 900),
-  $item-border-color: igx-color($app-palette, 'primary'),
-  $shadow: none,
-);
-
-@include igx-button-group($app-button-group-theme);
-@include igx-tabs($app-tabs-theme);
+.app-dark-theme {
+  @include igx-theme($palette: $app-dark-palette, $schema: $dark-schema, $legacy-support:false);
+  @import "app/themes/components/dark";
+  background: linear-gradient(#24304b, #0f1420);
+  color: #ddd;
+}

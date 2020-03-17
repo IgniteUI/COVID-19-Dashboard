@@ -1,24 +1,49 @@
-@import "../vars";
+@import "../themes/vars";
 
-.app__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $app-gap;
-  background: $footer-background;
-}
+::ng-deep {
+  .app__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $app-gap;
+  }
 
-.app__footer-item {
-  line-height: normal;
-  font-size: 12px;
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: left;
-  &--info {
-    text-align: right;
-    a {
-      color: $link-color;
+  .app__footer-item {
+    line-height: normal;
+    font-size: 12px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    &--info {
+      text-align: right;
     }
   }
+
+  .app-light-theme {
+    .app__footer {
+      background: map-get($light-vars, footer-background);
+    }
+    .app__footer-item {
+      &--info {
+        a {
+          color: map-get($light-vars, link-color);
+        }
+      }
+    }
+  }
+
+  .app-dark-theme {
+    .app__footer {
+      background: map-get($dark-vars, footer-background);
+    }
+    .app__footer-item {
+      &--info {
+        a {
+          color: map-get($dark-vars, link-color);
+        }
+      }
+    }
+  }
+
 }

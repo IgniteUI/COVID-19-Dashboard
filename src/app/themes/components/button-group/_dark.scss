@@ -1,0 +1,11 @@
+$app-button-group-theme-dark: igx-button-group-theme(
+  $schema: $dark-schema,
+  $item-background: igx-color($app-dark-palette, 'primary'),
+  $item-selected-background: igx-color($app-dark-palette, 'surface'),
+  $item-hover-background: igx-color($app-dark-palette, 'surface'),
+  $item-selected-hover-background: igx-color($app-dark-palette, 'surface'),
+  $item-selected-border-color: igx-color($app-dark-palette, 'surface'),
+  $item-border-color: igx-color($app-dark-palette, 'surface'),
+  $shadow: none,
+);
+@include igx-css-vars($app-button-group-theme-dark);
