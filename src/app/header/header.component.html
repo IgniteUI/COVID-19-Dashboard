@@ -1,3 +1,10 @@
 <header class="app__header">
-  <igx-navbar title="Coronavirus COVID-19 Global Cases"></igx-navbar>
+  <igx-navbar  [isActionButtonVisible]="true" title="Coronavirus COVID-19 Global Cases">
+    <button #target="tooltipTarget" [igxTooltipTarget]="tooltipRef" igxButton="icon">
+      <igx-icon>palette</igx-icon>
+    </button>
+  </igx-navbar>
 </header>
+<div #tooltipRef="tooltip" igxTooltip>
+  Change theme
+</div>

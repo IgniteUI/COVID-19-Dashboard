@@ -27,4 +27,16 @@ html, body {
   @import "app/themes/components/dark";
   background: linear-gradient(#24304b, #0f1420);
   color: #ddd;
+
+  ::-webkit-scrollbar {
+    width: 8px
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: igx-color($app-dark-palette, 'surface');
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #0f1420;
+  }
 }
