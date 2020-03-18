@@ -2,9 +2,9 @@ $app-tabs-theme-dark: igx-tabs-theme(
   $schema: $dark-schema,
   $border-radius: 8px,
   $disable-shadow: false,
-  $item-hover-background: igx-color($app-dark-palette, 'primary', 900),
-  $item-active-background: igx-color($app-dark-palette, 'primary', 900),
-  $item-background: igx-color($app-dark-palette, 'surface'),
+  $item-hover-background: igx-color($app-dark-palette, 'surface'),
+  $item-active-background: igx-color($app-dark-palette, 'surface'),
+  $item-background: igx-color($app-dark-palette, 'primary'),
   $indicator-color: igx-color($app-dark-palette, 'secondary')
 );
 @include igx-tabs($app-tabs-theme-dark);
