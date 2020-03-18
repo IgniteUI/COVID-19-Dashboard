@@ -5,7 +5,7 @@
   </igx-card-header>
   <igx-divider></igx-divider>
   <igx-card-content class="app__card-content">
-      <igx-list class="app__list-inner">
+      <igx-list [displayDensity]="'compact'" class="app__list-inner">
         <igx-list-item #item *ngFor="let item of data">
           <span igxListLineTitle *ngIf="item.region">{{ item.region }}, {{ item.country }}</span>
           <span igxListLineTitle *ngIf="!item.region">{{ item.country }}</span>

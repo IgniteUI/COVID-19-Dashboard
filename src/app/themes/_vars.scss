@@ -11,7 +11,8 @@ $light-vars:(
   recovered-color: igx-color($app-palette, 'success'),
   recovered-bg: rgba(igx-color($app-palette, 'success'), .03),
   footer-background: igx-color($app-palette, 'grays', 100),
-  link-color: igx-color($app-palette, 'secondary')
+  link-color: igx-color($app-palette, 'secondary'),
+  tooltip-bg: igx-color($app-palette, 'surface')
 );
 
 $dark-vars:(
@@ -22,7 +23,8 @@ $dark-vars:(
   recovered-color: igx-color($app-dark-palette, 'success'),
   recovered-bg: rgba(igx-color($app-dark-palette, 'success'), .03),
   footer-background: igx-color($app-dark-palette, 'grays', 100),
-  link-color: igx-color($app-dark-palette, 'secondary')
+  link-color: igx-color($app-dark-palette, 'secondary'),
+  tooltip-bg: igx-color($app-dark-palette, 'surface')
 );
 
 

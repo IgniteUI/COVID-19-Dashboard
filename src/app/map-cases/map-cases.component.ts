@@ -92,7 +92,7 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Fill the map series corresponding to the passd index with tile imagery and add to map.
+     * Fill the map series corresponding to the passed index with tile imagery and add to map.
      */
     public addMapSeries(csvData: string, index: number) {
 

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { RemoteDataService } from '../services/data.service';
+import {DisplayDensityToken} from 'igniteui-angular';
 
 interface IListItem {
   region: string;
@@ -8,6 +9,7 @@ interface IListItem {
 }
 
 @Component({
+    providers: [{ provide: DisplayDensityToken, useValue: { displayDensity: "comfortable" } }],
     selector: 'app-list-cases',
     templateUrl: './list-cases.component.html',
     styleUrls: ['./list-cases.component.scss'],

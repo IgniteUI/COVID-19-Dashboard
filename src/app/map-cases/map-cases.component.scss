@@ -7,12 +7,59 @@
     overflow: hidden;
     flex: 1;
   }
+
   .app__map-button-group {
     margin-bottom: 8px;
   }
 
   .igx-button-group {
     min-width: 0
+  }
+
+  .app__map-tooltip {
+    top: -2px;
+    left: -2px;
+    position: absolute;
+    border-radius:8px;
+    padding: 8px;
+    box-shadow: 0 3px 5px -1px igx-color($app-palette, 'grays', 400),
+    0 6px 10px 0 igx-color($app-palette, 'grays', 300),
+    0 1px 18px 0 igx-color($app-palette, 'grays', 200);
+
+    h1 {
+      font-weight:bold;
+      letter-spacing: 1px;
+      font-size: 18px;
+      line-height: normal;
+      margin: 0
+    }
+  }
+
+  .app__map-tooltip-list {
+    padding: 0;
+
+    li {
+      font-size: 14px;
+    }
+  }
+
+  .infected {
+    span {
+      font-weight: bold;
+      color: igx-color($app-palette, 'error')
+    }
+  }
+
+  .app-light-theme {
+    .app__map-tooltip {
+      background: map-get($light-vars, tooltip-bg);
+    }
+  }
+
+  .app-dark-theme {
+    .app__map-tooltip {
+      background: map-get($dark-vars, tooltip-bg);
+    }
   }
 }
 

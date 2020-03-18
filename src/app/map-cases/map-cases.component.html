@@ -10,10 +10,12 @@
 </div>
 
 <ng-template let-series="series" let-item="item" #template>
-    <div>
-        <span *ngIf="item.region">Country:{{item.region}}, {{item.country}}</span>
-        <span *ngIf="!item.region">Country:{{item.country}}</span><br>
-        <span>{{ tooltipTitle }}: {{item.value}}</span>
+    <div class="app__map-tooltip">
+        <h1 *ngIf="item.region">{{item.region}}, {{item.country}}</h1>
+        <h1 *ngIf="!item.region">{{item.country}}</h1>
+        <ul class="app__map-tooltip-list">
+          <li [class]="tooltipTitle.toLowerCase()">{{ tooltipTitle }}:  <span>{{ item.value }}</span></li>
+        </ul>
     </div>
 </ng-template>
 
