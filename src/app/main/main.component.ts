@@ -63,26 +63,23 @@ export class MainComponent implements OnInit, OnDestroy {
       this.dailyConfirmedCases = allCases[0];
       this.totalDailyOtherLocations = allCases[1];
       this.totalDailyChina = allCases[2];
-      this.totalDailyRecoveredCases = allCases[3];
 
-      // Transfor the data for Active cases Chart
+      // Transform the data for Active cases Chart
       for (const item of this.dailyConfirmedCases) {
         this.dailyData.push({ date: new Date(item[0]), activeCases: item[1] });
       }
 
+      // Transform the data for Total Daily Cases from all other locations except China
       let i = 0;
       for (const item of this.totalDailyOtherLocations) {
         this.dailyData[i].totalDailyOtherLocations = item[1];
         i++;
       }
+
+      // Transform the data for Total Daily Cases only for China
       i = 0;
       for (const item of this.totalDailyChina) {
         this.dailyData[i].totalDailyChina = item[1];
-        i++;
-      }
-      i = 0;
-      for (const item of this.totalDailyRecoveredCases) {
-        this.dailyData[i].totalDailyRecoveredCases = item[1];
         i++;
       }
     });
@@ -91,7 +88,10 @@ export class MainComponent implements OnInit, OnDestroy {
     this.dataRequest$ = this.dataService.getDataSet(1);
     this.dataRequest$.subscribe(csvData => {
       const csvLines = csvData.split('\n');
-      this.dailyRecoveredCases = this.fillData(csvLines)[0];
+      const allCases = this.fillData(csvLines);
+
+      this.dailyRecoveredCases = allCases[0];
+      this.totalDailyRecoveredCases = allCases[3];
 
       // Transfor the data for Recovered Cases Chart
       let i = 0;
@@ -100,11 +100,19 @@ export class MainComponent implements OnInit, OnDestroy {
         i++;
       }
 
+      // Transform the data for Total Recovered Cases
+      i = 0;
+      for (const item of this.totalDailyRecoveredCases) {
+        this.dailyData[i].totalDailyRecoveredCases = item[1];
+        i++;
+      }
+
       // Push/Assign the data to Recovered cases Chart
       this.chartData = this.dailyData;
     });
   }
 
+  // Used to fill the data for both Confirmed and Recovered data sources
   public fillData(csvData) {
     let columns = [];
     let day: string = null;
@@ -142,6 +150,8 @@ export class MainComponent implements OnInit, OnDestroy {
     }
 
     // Persist the total recovered cases before transforming the 'cases' map
+    // This number will be different for both Confirmed and Recovered data sources
+    // This is why we are going to use it only from the second request
     totalRecoveredCases = new Map(cases);
 
     // Calculate daily difference and transform map
