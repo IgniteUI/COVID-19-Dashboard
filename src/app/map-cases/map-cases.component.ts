@@ -15,6 +15,23 @@ import { EsriStyle, EsriUtility } from './EsriMapsUtility';
 })
 export class MapCasesComponent implements OnInit, AfterViewInit {
 
+    constructor(private dataService: RemoteDataService) {
+        this.dataSetButtons = [
+            {
+                name: 'Total',
+                selected: true
+            },
+            {
+                name: 'Recovered',
+                selected: false
+            },
+            {
+                name: 'Deaths',
+                selected: false
+            }
+    ];
+    }
+
     @ViewChild('map', {static: true}) public map: IgxGeographicMapComponent;
     @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
 
@@ -47,24 +64,6 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
     public tooltipTitle = 'Infected';
     public showMap = true;
     private dataRequest$: any;
-
-    constructor(private dataService: RemoteDataService) {
-        this.dataSetButtons = [
-            {
-                name: 'Total',
-                selected: true
-            },
-            {
-                name: 'Recovered',
-                selected: false
-            },
-            {
-                name: 'Deaths',
-                selected: false
-            }
-    ];
-    }
-
     public ngOnInit(): void {
         this.loadDataSet(0);
     }
@@ -72,12 +71,16 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
     public changeMap(mapStyle) {
       const tileSource = new ArcGISOnlineMapImagery();
       (tileSource as any).i = tileSource;
-      tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldShadedReliefMap);
+      if (mapStyle) {
+        tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldLightGrayMap);
+      } else {
+        tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldShadedReliefMap);
+      }
       (this.map as any).backgroundContent = tileSource;
     }
 
     public ngAfterViewInit() {
-        this.changeMap();
+      this.changeMap(true);
     }
 
     public loadDataSet(index: number) {

@@ -1,3 +1,5 @@
+@import "themes/vars";
+
 ::ng-deep {
   .app {
     height: 100%;
@@ -13,6 +15,18 @@
 
   .app__logo {
     height: 30px;
+    width:100px;
+  }
+
+  .app-light-theme {
+    .app__logo-text {
+      fill: map-get($light-vars, logo-color);
+    }
+  }
+  .app-dark-theme {
+    .app__logo-text {
+      fill: map-get($dark-vars, logo-color);
+    }
   }
 }
 

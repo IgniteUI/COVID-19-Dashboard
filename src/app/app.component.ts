@@ -13,8 +13,8 @@ export class AppComponent {
   @ViewChild('main', {static: true}) public main: MainComponent;
   constructor() {}
 
-  toggleTheme() {
+  public toggleTheme() {
     this.darkTheme = !this.darkTheme;
-    changeMap();
+    this.main.map.changeMap(this.darkTheme);
   }
 }
