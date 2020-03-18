@@ -1,5 +1,8 @@
 <header class="app__header">
   <igx-navbar  [isActionButtonVisible]="true" title="Coronavirus COVID-19 Global Cases">
+    <igx-action-icon>
+      <img  class="app__logo" src="../../assets/igniteui-angular_logo.svg" alt="Ignite UI Angular">
+    </igx-action-icon>
     <button #target="tooltipTarget" (click)="toggleTheme()" [igxTooltipTarget]="tooltipRef" igxButton="icon">
       <igx-icon>palette</igx-icon>
     </button>

@@ -15,6 +15,6 @@ export class AppComponent {
 
   toggleTheme() {
     this.darkTheme = !this.darkTheme;
-    this.main.map.changeMap(this.darkTheme);
+    changeMap();
   }
 }
