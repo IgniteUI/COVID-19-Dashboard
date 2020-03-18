@@ -8,7 +8,8 @@ import { IgxButtonModule, IgxCardModule, IgxExpansionPanelModule,
   IgxIconModule, IgxBottomNavModule, IgxAvatarModule, IgxRippleModule, IgxButtonGroupModule, IgxTabsModule,
   IgxListModule,
   IgxNavbarModule,
-  IgxDividerModule} from 'igniteui-angular';
+  IgxDividerModule,
+  IgxTooltipModule} from 'igniteui-angular';
 import { IgxDataChartCoreModule, IgxDataChartCategoryModule,
     IgxDataChartAnnotationModule, IgxCalloutLayerModule, IgxCrosshairLayerModule,
     IgxFinalValueLayerModule, IgxDataChartInteractivityModule, IgxLegendModule, IgxTimeXAxisModule,
@@ -64,7 +65,8 @@ import { FooterComponent } from './footer/footer.component';
     IgxCardModule,
     IgxDividerModule,
     IgxScatterLineSeriesModule,
-    IgxLineSeriesModule
+    IgxLineSeriesModule,
+    IgxTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
