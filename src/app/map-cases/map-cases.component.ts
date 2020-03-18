@@ -6,7 +6,6 @@ import { RemoteDataService } from '../services/data.service';
 import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
 import { EsriStyle, EsriUtility } from './EsriMapsUtility';
 
-
 @Component({
     providers: [RemoteDataService],
     selector: 'app-map-cases',
