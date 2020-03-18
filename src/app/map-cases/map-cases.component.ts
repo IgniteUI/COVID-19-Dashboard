@@ -4,10 +4,8 @@ import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesCompon
 import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
 import { RemoteDataService } from '../services/data.service';
 import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
+import { EsriStyle, EsriUtility } from './EsriMapsUtility';
 
-export enum EsriStyle {
-    WorldLightGrayMap = 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer'
-}
 
 @Component({
     providers: [RemoteDataService],
@@ -75,7 +73,7 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
     public ngAfterViewInit() {
         const tileSource = new ArcGISOnlineMapImagery();
         (tileSource as any).i = tileSource;
-        tileSource.mapServerUri = this.getUri(EsriStyle.WorldLightGrayMap);
+        tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldLightGrayMap);
         (this.map as any).backgroundContent = tileSource;
     }
 
@@ -196,17 +194,5 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
             width: 300
         };
         this.map.zoomToGeographic(geoBounds);
-    }
-
-    private getUri(style: string): string {
-
-        const isHttpSecured = window.location.toString().startsWith('https:');
-
-        // resolving Esri Server uri based on hosting website
-        let uri: string = style;
-        if (!isHttpSecured) {
-            uri = uri.replace('https:', 'http:');
-        }
-        return uri;
     }
 }
