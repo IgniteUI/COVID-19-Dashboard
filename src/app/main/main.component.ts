@@ -183,7 +183,8 @@ export class MainComponent implements OnInit, OnDestroy {
       this.dataRequest$.unsubscribe();
     }
   }
-  public xAxis_FormatLabel(item: any) {
-    debugger;
+
+  public formatDateLabel(item: any): string {
+    return item.date.toLocaleDateString();
   }
 }

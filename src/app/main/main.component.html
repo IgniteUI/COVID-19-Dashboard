@@ -20,7 +20,7 @@
                         <div class="app__chart-component">
                             <igx-data-chart class="app__charts-chart" #chartActual [legend]="legendActual" 
                                 [dataSource]="chartData" isHorizontalZoomEnabled="true">
-                                <igx-category-x-axis label="date" title="Date" #xAxis2>
+                                <igx-category-x-axis label="date" title="Date" #xAxis2 [formatLabel]="formatDateLabel">
                                 </igx-category-x-axis>
                                 <igx-numeric-y-axis name="yAxis2" #yAxis2 title="Cases count"></igx-numeric-y-axis>
 
@@ -43,7 +43,7 @@
                         <div class="app__chart-component">
                             <igx-data-chart class="app__charts-chart" #chartActual [legend]="legendLogarithmic" 
                                 [dataSource]="chartData" isHorizontalZoomEnabled="true" >
-                                <igx-category-x-axis label="date" title="Date" #xAxis3>
+                                <igx-category-x-axis label="date" title="Date" #xAxis3 [formatLabel]="formatDateLabel">
                                 </igx-category-x-axis>
                                 <igx-numeric-y-axis name="yAxis3" #yAxis3 title="Cases count" isLogarithmic="true" ></igx-numeric-y-axis>
 
@@ -68,7 +68,7 @@
                                 isHorizontalZoomEnabled="true">
                                 <igx-numeric-y-axis #yAxis title="New and recovered cases">
                                 </igx-numeric-y-axis>
-                                <igx-category-x-axis label="date" title="Date" #xAxis>
+                                <igx-category-x-axis label="date" title="Date" #xAxis [formatLabel]="formatDateLabel">
                                 </igx-category-x-axis>
 
                                 <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
