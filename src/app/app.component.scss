@@ -1,5 +1,10 @@
 ::ng-deep {
   .app {
+    height: 100%;
+    overflow: hidden;
+  }
+  .app-dark-theme,
+  .app-light-theme{
     display: flex;
     flex-direction: column;
     height: 100%;

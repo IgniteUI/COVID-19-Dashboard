@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
+import {MainComponent} from './main/main.component';
 
 
 @Component({
@@ -9,9 +10,11 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
   public darkTheme = true;
+  @ViewChild('main', {static: true}) public main: MainComponent;
   constructor() {}
 
-  toggleTheme(eventArg: boolean) {
-    this.darkTheme = eventArg;
+  toggleTheme() {
+    this.darkTheme = !this.darkTheme;
+    this.main.map.changeMap(this.darkTheme);
   }
 }

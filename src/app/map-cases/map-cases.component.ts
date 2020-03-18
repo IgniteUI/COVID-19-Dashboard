@@ -70,10 +70,14 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
     }
 
     public ngAfterViewInit() {
-        const tileSource = new ArcGISOnlineMapImagery();
-        (tileSource as any).i = tileSource;
-        tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldShadedReliefMap);
-        (this.map as any).backgroundContent = tileSource;
+        this.changeMap();
+    }
+
+    public changeMap(mapStyle) {
+      const tileSource = new ArcGISOnlineMapImagery();
+      (tileSource as any).i = tileSource;
+      tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldShadedReliefMap);
+      (this.map as any).backgroundContent = tileSource;
     }
 
     public loadDataSet(index: number) {
