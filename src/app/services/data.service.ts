@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 // base URL for the data files
-const BASE_URL = 'https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data';
+const BASE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/';
 const TIME_SERIES = 'csse_covid_19_time_series';
 const FILE_NAME = 'time_series_19-covid-';
 const EMPTY_STRING = '';
@@ -36,7 +36,7 @@ export class RemoteDataService {
     };
     const data$ = Observable.create(observer => {
       // tslint:disable-next-line: max-line-length
-      fetch(`https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-${dataSet}.csv`)
+      fetch(`${BASE_URL}/${TIME_SERIES}/${FILE_NAME}${dataSet}.csv`)
         .then(response => {
           return response.text();
         })
