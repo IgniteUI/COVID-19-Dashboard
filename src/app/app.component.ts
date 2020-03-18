@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,10 @@ import { Component } from '@angular/core';
   host: {class: 'app'}
 })
 export class AppComponent {
+  public darkTheme = true;
+  constructor() {}
 
+  toggleTheme(eventArg: boolean) {
+    this.darkTheme = eventArg;
+  }
 }

@@ -1,4 +1,6 @@
-<app-header></app-header>
-<!-- <router-outlet></router-outlet> -->
-<app-main></app-main>
-<app-footer></app-footer>
+<div (themeChanged)="toggleTheme($event)" [class.app-dark-theme]="darkTheme">
+  <app-header></app-header>
+  <!-- <router-outlet></router-outlet> -->
+  <app-main></app-main>
+  <app-footer></app-footer>
+</div>

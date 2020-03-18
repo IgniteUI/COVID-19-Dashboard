@@ -1,5 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,18 +6,14 @@ import {DOCUMENT} from '@angular/common';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  public darkTheme = true;
 
-  constructor(@Inject(DOCUMENT) private document: Document) {}
-
+  @Output() themeChanged = new EventEmitter<any>();
   ngOnInit(): void {
   }
 
   toggleTheme() {
-    const bodyTag = this.document.body;
-    if (bodyTag.classList.contains('app-dark-theme')) {
-        bodyTag.classList.replace('app-dark-theme', 'app-light-theme');
-    } else if (bodyTag.classList.contains('app-light-theme')) {
-      bodyTag.classList.replace('app-light-theme', 'app-dark-theme');
-    }
+    const newVal = this.darkTheme = !this.darkTheme;
+    this.themeChanged.emit(newVal);
   }
 }
