@@ -18,8 +18,21 @@ html, body {
 }
 
 .app-light-theme {
+  background: linear-gradient(#ddd, #f1f1f1);
   @include igx-theme($palette: $app-palette, $legacy-support: false);
   @import "app/themes/components/light";
+
+  ::-webkit-scrollbar {
+    width: 8px
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: igx-color($app-palette, 'grays', 100);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: igx-color($app-palette, 'grays', 200);
+  }
 }
 
 .app-dark-theme {
@@ -33,7 +46,7 @@ html, body {
   }
 
   ::-webkit-scrollbar-track {
-    background-color: igx-color($app-dark-palette, 'surface');
+    background-color: igx-color($app-dark-palette, 'grays', 100);
   }
 
   ::-webkit-scrollbar-thumb {
