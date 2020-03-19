@@ -6,11 +6,18 @@
   <igx-divider></igx-divider>
   <igx-card-content class="app__card-content">
       <igx-list [displayDensity]="'cosy'" class="app__list-inner">
-        <igx-list-item #item *ngFor="let item of data">
-          <span igxListLineTitle *ngIf="item.region">{{ item.region }}, {{ item.country }}</span>
-          <span igxListLineTitle *ngIf="!item.region">{{ item.country }}</span>
-          <span igxListAction>{{ item.value | number }}</span>
-        </igx-list-item>
+          <igx-list-item #item *ngFor="let item of data">
+              <span igxListLineTitle *ngIf="item.region">{{ item.region }}, {{ item.country }}</span>
+              <span igxListLineTitle *ngIf="!item.region">{{ item.country }}</span>
+              <span igxListAction>{{ item.value | number }}</span>
+            </igx-list-item>
+            <ng-template igxEmptyList>
+                <div class="loader">
+                    <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <image xlink:href="../../assets/loading.svg" height="65" width="65"/>
+                    </svg>
+                </div>
+            </ng-template>
       </igx-list>
   </igx-card-content>
 </igx-card>

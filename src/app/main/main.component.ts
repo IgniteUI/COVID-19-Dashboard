@@ -20,8 +20,8 @@ interface IListItem {
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  @ViewChild(IgxExpansionPanelComponent, { static: true })
-  public panel: IgxExpansionPanelComponent;
+  // @ViewChildren(TimelineChartComponent, { read: TimelineChartComponent })
+  // public charts: QueryList<TimelineChartComponent>;
   @ViewChild('map', {static: true}) public map: MapCasesComponent;
   @ViewChild('confirmedList', { static: true }) public confirmedList: ListCasesComponent;
   @ViewChild('recoveredList', { static: true }) public recoveredList: ListCasesComponent;
@@ -55,65 +55,44 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    // Fetch Confirmed cases
-    this.dataRequest$ = this.dataService.getDataSet(0);
-    this.dataRequest$.subscribe(csvData => {
-      const csvLines = csvData.split('\n');
-      const allCases = this.fillData(csvLines);
+      // Fetch Confirmed cases
+      this.dataRequest$ = this.dataService.getDataSet(0);
+      this.dataRequest$.subscribe(csvData => {
+          // this.charts.first.transformChartConfirmedCases(csvData);
+          // this.charts.toArray()[1].transformChartConfirmedCases(csvData);
+          // this.charts.last.transformChartConfirmedCases(csvData);
+          this.transformConfirmedData(csvData);
+          // const jsonData = this.dataService.csvToJson(csvData);
+          // this.confirmedList.data = jsonData.data;
+          // this.confirmedList.totalNumber = jsonData.totalNumber;
+          // this.map.confirmedData = jsonData;
+          // this.map.onDataSetSelected( {index: 0} );
+      });
 
-      this.dailyConfirmedCases = allCases[0];
-      this.totalDailyOtherLocations = allCases[1];
-      this.totalDailyChina = allCases[2];
+      // Fetch Recovered cases
+      this.dataRequest$ = this.dataService.getDataSet(1);
+      this.dataRequest$.subscribe(csvData => {
+        // this.charts.first.transformChartRecoveredCases(csvData);
+        // this.charts.toArray()[1].transformChartRecoveredCases(csvData);
+        // this.charts.last.transformChartRecoveredCases(csvData);
+        this.transformRecoveredData(csvData);
+        // const jsonData = this.dataService.csvToJson(csvData);
+        // this.recoveredList.data = jsonData.data;
+        // this.recoveredList.totalNumber = jsonData.totalNumber;
+        // this.map.recoveredData = jsonData;
+      });
 
-      // Transform the data for Active cases Chart
-      for (const item of this.dailyConfirmedCases) {
-        this.dailyData.push({ date: new Date(item[0]), activeCases: item[1] });
-      }
-
-      // Transform the data for Total Daily Cases from all other locations except China
-      let i = 0;
-      for (const item of this.totalDailyOtherLocations) {
-        this.dailyData[i].totalDailyOtherLocations = item[1];
-        i++;
-      }
-
-      // Transform the data for Total Daily Cases only for China
-      i = 0;
-      for (const item of this.totalDailyChina) {
-        this.dailyData[i].totalDailyChina = item[1];
-        i++;
-      }
-    });
-
-    // Fetch Recovered cases
-    this.dataRequest$ = this.dataService.getDataSet(1);
-    this.dataRequest$.subscribe(csvData => {
-      const csvLines = csvData.split('\n');
-      const allCases = this.fillData(csvLines);
-
-      this.dailyRecoveredCases = allCases[0];
-      this.totalDailyRecoveredCases = allCases[3];
-
-      // Transfor the data for Recovered Cases Chart
-      let i = 0;
-      for (const item of this.dailyRecoveredCases) {
-        this.dailyData[i].recoveredCases = item[1];
-        i++;
-      }
-
-      // Transform the data for Total Recovered Cases
-      i = 0;
-      for (const item of this.totalDailyRecoveredCases) {
-        this.dailyData[i].totalDailyRecoveredCases = item[1];
-        i++;
-      }
-
-      // Push/Assign the data to Recovered cases Chart
-      this.chartData = this.dailyData;
-    });
+      // Fetch Recovered cases
+      // this.dataRequest$ = this.dataService.getDataSet(2);
+      // this.dataRequest$.subscribe(csvData => {
+      //   const jsonData = this.dataService.csvToJson(csvData);
+      //   this.deathsList.data = jsonData.data;
+      //   this.deathsList.totalNumber = jsonData.totalNumber;
+      //   this.map.deathsData = jsonData;
+      // });
   }
 
-  // Used to fill the data for both Confirmed and Recovered data sources
+    // Used to fill the data for both Confirmed and Recovered data sources
   public fillData(csvData) {
     let columns = [];
     let day: string = null;
@@ -186,6 +165,59 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   public formatDateLabel(item: any): string {
-    return item.date.toLocaleDateString();
+      return item.date.toLocaleDateString();
   }
+
+  public transformConfirmedData(csvData: string) {
+      const csvLines = csvData.split('\n');
+      const allCases = this.fillData(csvLines);
+
+      this.dailyConfirmedCases = allCases[0];
+      this.totalDailyOtherLocations = allCases[1];
+      this.totalDailyChina = allCases[2];
+
+      // Transform the data for Active cases Chart
+      for (const item of this.dailyConfirmedCases) {
+        this.dailyData.push({ date: new Date(item[0]), activeCases: item[1] });
+      }
+
+      // Transform the data for Total Daily Cases from all other locations except China
+      let i = 0;
+      for (const item of this.totalDailyOtherLocations) {
+        this.dailyData[i].totalDailyOtherLocations = item[1];
+        i++;
+      }
+
+      // Transform the data for Total Daily Cases only for China
+      i = 0;
+      for (const item of this.totalDailyChina) {
+        this.dailyData[i].totalDailyChina = item[1];
+        i++;
+    }
+  }
+
+  public transformRecoveredData(csvData: string) {
+      const csvLines = csvData.split('\n');
+      const allCases = this.fillData(csvLines);
+
+      this.dailyRecoveredCases = allCases[0];
+      this.totalDailyRecoveredCases = allCases[3];
+
+      // Transfor the data for Recovered Cases Chart
+      let i = 0;
+      for (const item of this.dailyRecoveredCases) {
+        this.dailyData[i].recoveredCases = item[1];
+        i++;
+      }
+
+      // Transform the data for Total Recovered Cases
+      i = 0;
+      for (const item of this.totalDailyRecoveredCases) {
+        this.dailyData[i].totalDailyRecoveredCases = item[1];
+        i++;
+      }
+
+      // Push/Assign the data to Recovered cases Chart
+      this.chartData = this.dailyData;
+    }
 }

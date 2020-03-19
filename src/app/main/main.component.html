@@ -16,6 +16,7 @@
             <igx-tabs class="app__charts-tabs" tabsType="fixed">
                 <igx-tabs-group label="actual">
                     <div class="app__chart-wrapper">
+                        <!-- <app-timeline-chart [isLogarithmic]='false' [timelineChart]='true'></app-timeline-chart> -->
                         <igx-legend class="app__charts-legend" #legendActual orientation="Horizontal"></igx-legend>
                         <div class="app__chart-component">
                             <igx-data-chart class="app__charts-chart" #chartActual [legend]="legendActual" 
@@ -39,6 +40,7 @@
                 </igx-tabs-group>
                 <igx-tabs-group label="logarithmic">
                     <div class="app__chart-wrapper">
+                        <!-- <app-timeline-chart [isLogarithmic]='true' [timelineChart]='true'></app-timeline-chart> -->
                         <igx-legend class="app__charts-legend" #legendLogarithmic orientation="Horizontal"></igx-legend>
                         <div class="app__chart-component">
                             <igx-data-chart class="app__charts-chart" #chartActual [legend]="legendLogarithmic" 
@@ -62,6 +64,7 @@
                 </igx-tabs-group>
                 <igx-tabs-group label="daily">
                     <div class="app__chart-wrapper">
+                        <!-- <app-timeline-chart [isLogarithmic]='false' [timelineChart]='false'></app-timeline-chart> -->
                         <igx-legend class="app__charts-legend" #legend orientation="Horizontal"></igx-legend>
                         <div class="app__chart-component">
                             <igx-data-chart class="app__charts-chart" #chart [legend]="legend" [dataSource]="chartData"

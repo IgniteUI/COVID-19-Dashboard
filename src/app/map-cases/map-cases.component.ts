@@ -1,6 +1,5 @@
-import { Component, TemplateRef, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesComponent, ArcGISOnlineMapImagery, GeographicMapImagery
-} from 'igniteui-angular-maps';
+import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
+import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesComponent, ArcGISOnlineMapImagery } from 'igniteui-angular-maps';
 import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
 import { RemoteDataService } from '../services/data.service';
 import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
@@ -13,9 +12,42 @@ import { EsriStyle, EsriUtility } from './EsriMapsUtility';
     styleUrls: ['./map-cases.component.scss'],
     host: {class: 'app__map-wrapper'}
 })
-export class MapCasesComponent implements OnInit, AfterViewInit {
+export class MapCasesComponent implements OnInit {
 
-    constructor(private dataService: RemoteDataService) {
+    @ViewChild('map', {static: true}) public map: IgxGeographicMapComponent;
+    @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
+
+    public tileImagery: IgxTileGeneratorMapImagery;
+
+    public confirmedSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+    public recoveredSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+    public deathSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+    public series: Array<IgxGeographicProportionalSymbolSeriesComponent> = [this.confirmedSeries, this.recoveredSeries, this.deathSeries];
+    public dataSetButtons: any[];
+    public titles = ['Infected', 'Recovered', 'Deaths'];
+    public brushes = [
+        [
+            'rgba(0,153,255, .3)',
+            'rgba(0,153,255, .5)',
+            'rgba(0,153,255, .7)',
+            'rgba(0,153,255, .95)',
+        ],
+        [
+            'rgba(50,205,50, .3)',
+            'rgba(50,205,50, .7)',
+            'rgba(50,205,50, .95)'],
+        [
+            'rgba(255, 0, 0, .3)',
+            'rgba(255, 0, 0, .6)',
+            'rgba(255, 0, 0, .8)']
+    ];
+    public tooltipTitle = this.titles[0];
+    public confirmedData: any;
+    public recoveredData: any;
+    public deathsData: any;
+    public dataSets = [this.confirmedData, this.recoveredData, this.deathsData];
+
+    constructor() {
         this.dataSetButtons = [
             {
                 name: 'Total',
@@ -32,103 +64,44 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
     ];
     }
 
-    @ViewChild('map', {static: true}) public map: IgxGeographicMapComponent;
-    @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
-
-    public tileImagery: IgxTileGeneratorMapImagery;
-
-    public confirmedSeries = new IgxGeographicProportionalSymbolSeriesComponent();
-    public recoveredSeries = new IgxGeographicProportionalSymbolSeriesComponent();
-    public deathSeries = new IgxGeographicProportionalSymbolSeriesComponent();
-    public series: Array<IgxGeographicProportionalSymbolSeriesComponent> = [this.confirmedSeries, this.recoveredSeries, this.deathSeries];
-
-    public dataSetButtons: any[];
-    public dataSets = ['Infected', 'Recovered', 'Deaths'];
-    public brushes = [
-        [
-            'rgba(0,153,255, .3)',
-            'rgba(0,153,255, .5)',
-            'rgba(0,153,255, .7)',
-            'rgba(0,153,255, .95)',
-        ],
-        [
-            'rgba(50,205,50, .3)',
-            'rgba(50,205,50, .7)',
-            'rgba(50,205,50, .95)'],
-        [
-            'rgba(255, 0, 0, .3)',
-            'rgba(255, 0, 0, .7)',
-            'rgba(255, 0, 0, .95)']
-    ];
-    public data: string;
-    public tooltipTitle = 'Infected';
-    public showMap = true;
-    private dataRequest$: any;
     public ngOnInit(): void {
-        this.loadDataSet(0);
-    }
-
-    public changeMap(mapStyle) {
-      const tileSource = new ArcGISOnlineMapImagery();
-      (tileSource as any).i = tileSource;
-      if (mapStyle) {
-        tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldDarkGrayMap);
-      } else {
-        tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldLightGrayMap);
-      }
-      (this.map as any).backgroundContent = tileSource;
-    }
-
-    public ngAfterViewInit() {
-      this.changeMap(true);
-    }
-
-    public loadDataSet(index: number) {
-        this.dataRequest$ = this.dataService.getDataSet(index);
-        this.dataRequest$.subscribe(csvData => {
-            this.addMapSeries(csvData, index);
-        });
+        this.changeMap(true);
     }
 
     /**
-     * fetching JSON data with geographic locations from public folder
+     * Assign corresponding EsriMapStyle for Light/Dark app theme
+     */
+    public changeMap(darkTheme: boolean) {
+        const tileSource = new ArcGISOnlineMapImagery();
+        (tileSource as any).i = tileSource;
+        if (darkTheme) {
+            tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldDarkGrayMap);
+        } else {
+            tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldLightGrayMap);
+        }
+        (this.map as any).backgroundContent = tileSource;
+    }
+
+    /**
+     * Bind the corresponding series data depending on selected button
      */
     public onDataSetSelected(event: any) {
-        this.loadDataSet(event.index);
+        if (event.index === 0 && this.confirmedData) {
+            this.addMapSeries(this.confirmedData, 0);
+        } else if (event.index === 1 && this.recoveredData) {
+            this.addMapSeries(this.recoveredData, 1);
+        } else if (this.deathsData) {
+            this.addMapSeries(this.deathsData, 2);
+        }
     }
 
     /**
      * Fill the map series corresponding to the passed index with tile imagery and add to map.
      */
-    public addMapSeries(csvData: string, index: number) {
-
-        this.tooltipTitle = this.dataSets[index];
-
-        // prepare data
-        csvData = csvData.replace(/, /g, ' - ');
-        csvData = csvData.replace(/"/g, '');
-        const csvLines = csvData.split('\n');
-        const locations = [];
-        let maxValue = 1;
-
-        for (let i = 1; i < csvLines.length; i++) {
-            const columns = csvLines[i].split(',');
-            let dataItem = {};
-
-            const value = parseInt(columns[columns.length - 1], 10);
-
-            if (value) {
-                const region = columns[0];
-                const country = columns[1];
-                const lat = parseInt(columns[2], 10);
-                const lon = parseInt(columns[3], 10);
-                dataItem = { region, country, lat, lon, value };
-                locations.push(dataItem);
-                if (value > maxValue) {
-                    maxValue = value;
-                }
-            }
-        }
+    public addMapSeries(data: any, index: number) {
+        this.tooltipTitle = this.titles[index];
+        const locations = data.data;
+        const maxValue = data.maxValue;
 
         // Geopraphic proportional symbol series
         const sizeScale = new IgxSizeScaleComponent();
@@ -138,7 +111,7 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
             sizeScale.maximumValue = maxValue / 1000;
         }
         if (index === 2) {
-            sizeScale.maximumValue = maxValue / 60;
+            sizeScale.maximumValue = maxValue / 50;
         }
         sizeScale.isLogarithmic = true;
 
@@ -156,48 +129,17 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
         symbolSeries.radiusMemberPath = 'value';
         symbolSeries.latitudeMemberPath = 'lat';
         symbolSeries.longitudeMemberPath = 'lon';
-        symbolSeries.markerOutline = 'rgba(0,0,0,0.3)';
+        symbolSeries.markerOutline = this.brushes[index][0];
         symbolSeries.tooltipTemplate = this.tooltip;
 
         this.map.series.clear();
         this.map.series.add(symbolSeries);
 
-        // // generating heat map imagery tiles
-        // this.tileImagery = new IgxTileGeneratorMapImagery();
-        // const gen = new IgxHeatTileGenerator();
-        // gen.xValues = lon;
-        // gen.yValues = lat;
-        // gen.values = val;
-        // gen.blurRadius = 6;
-        // gen.maxBlurRadius = 20;
-        // gen.useBlurRadiusAdjustedForZoom = true;
-        // gen.minimumColor = 'rgba(100, 255, 0, 0.5)';
-        // gen.maximumColor = 'rgba(255, 255, 0, 0.5)';
-        // gen.useGlobalMinMax = true;
-        // gen.useGlobalMinMaxAdjustedForZoom = true;
-        // gen.useLogarithmicScale = true;
-        // gen.useWebWorkers = true;
-        // // gen.webWorkerInstance = new Worker();
-        // gen.webWorkerInstance = new Worker('../heatmap.worker.ts', { type: 'module' });
-
-        // gen.scaleColors = this.scaleColors[index];
-        // this.tileImagery.tileGenerator = gen;
-        // this.map.clearTileCache();
-        // // generating heat map series
-        // this.series[index].name = 'heatMapSeries';
-        // this.series[index].tileImagery = this.tileImagery;
-
-        // // this.showMap = true;
-
-        // // add heat map series to the map
-        // this.map.series.clear();
-        // this.map.series.add(this.series[index]);
-
         const geoBounds = {
             height: 0,
             left: -0,
-            top: -0,
-            width: 300
+            top: 40,
+            width: 260
         };
         this.map.zoomToGeographic(geoBounds);
     }
