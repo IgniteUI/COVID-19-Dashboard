@@ -1,8 +1,8 @@
+@import "../themes/vars";
 ::ng-deep {
-  .wb_sunny {
-    color: #fff065!important;
-  }
-  .nights_stay {
-    color: #5f0eab!important;
+  .app-light-theme {
+    .app__theme-icon {
+      color: igx-color($app-palette, 'secondary') !important;
+    }
   }
 }
