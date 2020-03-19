@@ -1,4 +1,4 @@
-@import "../vars";
+@import "../themes/vars";
 ::ng-deep {
   .app__main {
     display: flex;
@@ -15,7 +15,7 @@
   }
 
   .app__list-stack {
-    max-height: 50%;
+    max-height: 40%;
   }
 
   .app__row {
@@ -50,6 +50,7 @@
       padding: $app-gap 0;
       height: 100%;
       flex: 1;
+      min-width: 43vw;
     }
    }
 
@@ -57,7 +58,7 @@
     padding: 0 $app-gap $app-gap $app-gap;
     display: flex;
     flex: 1;
-    max-height: 50%;
+    max-height: calc(50vh - 28px);
   }
 
   .app__chart-wrapper {
@@ -71,10 +72,10 @@
       height: 100%
     }
 
-    .igx-tabs__content-fluid,
-    .igx-tabs__content-fixed {
-      height: calc(100% - 48px);
-    }
+    //.igx-tabs__content-fluid,
+    //.igx-tabs__content-fixed {
+    //  height: calc(100% - 48px);
+    //}
 
     .igx-tabs__group {
       height: 100%;
@@ -89,7 +90,6 @@
 
   .app__charts-chart {
     width: 100%;
-    max-height: calc(100% - 42px);
-    height: 30vh;
+    height: calc(40vh - 42px);
   }
 }

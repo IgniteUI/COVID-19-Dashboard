@@ -1,9 +1,45 @@
+@import "themes/vars";
+
 ::ng-deep {
   .app {
+    height: 100%;
+    overflow: hidden;
+  }
+  .app-dark-theme,
+  .app-light-theme{
     display: flex;
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+  }
+
+  .app__logo {
+    height: 30px;
+    width:100px;
+    margin-top: 5px;
+  }
+
+  .app-light-theme {
+    .app__logo {
+      display: none;
+      &--dark {
+        display: block;
+      }
+    }
+    .text {
+      fill: map-get($light-vars, logo-color);
+    }
+  }
+  .app-dark-theme {
+    .app__logo {
+      display: block;
+      &--dark {
+        display: none;
+      }
+    }
+    .text {
+      fill: map-get($dark-vars, logo-color);
+    }
   }
 }
 

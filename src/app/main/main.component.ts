@@ -4,6 +4,7 @@ import { IgxDataChartComponent, IgxNumericYAxisComponent, IgxCategoryXAxisCompon
 import { RemoteDataService } from '../services/data.service';
 import { MapCasesComponent } from '../map-cases/map-cases.component';
 import { ListCasesComponent } from '../list-cases/list-cases.component';
+import {IgxGeographicMapComponent} from 'igniteui-angular-maps';
 
 interface IListItem {
   country: string;

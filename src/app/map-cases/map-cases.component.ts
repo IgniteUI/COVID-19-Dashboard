@@ -6,7 +6,6 @@ import { RemoteDataService } from '../services/data.service';
 import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
 import { EsriStyle, EsriUtility } from './EsriMapsUtility';
 
-
 @Component({
     providers: [RemoteDataService],
     selector: 'app-map-cases',
@@ -15,39 +14,6 @@ import { EsriStyle, EsriUtility } from './EsriMapsUtility';
     host: {class: 'app__map-wrapper'}
 })
 export class MapCasesComponent implements OnInit, AfterViewInit {
-
-    @ViewChild('map', {static: true}) public map: IgxGeographicMapComponent;
-    @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
-
-    public tileImagery: IgxTileGeneratorMapImagery;
-
-    public confirmedSeries = new IgxGeographicProportionalSymbolSeriesComponent();
-    public recoveredSeries = new IgxGeographicProportionalSymbolSeriesComponent();
-    public deathSeries = new IgxGeographicProportionalSymbolSeriesComponent();
-    public series: Array<IgxGeographicProportionalSymbolSeriesComponent> = [this.confirmedSeries, this.recoveredSeries, this.deathSeries];
-
-    public dataSetButtons: any[];
-    public dataSets = ['Infected', 'Recovered', 'Deaths'];
-    public brushes = [
-        [
-            'rgba(252, 32, 32, 0.3)',
-            'rgba(252, 32, 32, 0.55)',
-            'rgba(252, 32, 32, 0.8)',
-            'rgba(252, 32, 32, 0.99)',
-        ],
-        [
-            'rgba(50,205,50, 0.3)',
-            'rgba(50,205,50, 0.7)',
-            'rgba(50,205,50, 0.99)'],
-        [
-            'rgba(255, 0, 0, .5)',
-            'rgba(255, 0, 0, .8)',
-            'rgba(255, 0, 0, .99)']
-    ];
-    public data: string;
-    public tooltipTitle = 'Infected';
-    public showMap = true;
-    private dataRequest$: any;
 
     constructor(private dataService: RemoteDataService) {
         this.dataSetButtons = [
@@ -66,15 +32,55 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
     ];
     }
 
+    @ViewChild('map', {static: true}) public map: IgxGeographicMapComponent;
+    @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
+
+    public tileImagery: IgxTileGeneratorMapImagery;
+
+    public confirmedSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+    public recoveredSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+    public deathSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+    public series: Array<IgxGeographicProportionalSymbolSeriesComponent> = [this.confirmedSeries, this.recoveredSeries, this.deathSeries];
+
+    public dataSetButtons: any[];
+    public dataSets = ['Infected', 'Recovered', 'Deaths'];
+    public brushes = [
+        [
+            'rgba(0,153,255, .3)',
+            'rgba(0,153,255, .5)',
+            'rgba(0,153,255, .7)',
+            'rgba(0,153,255, .95)',
+        ],
+        [
+            'rgba(50,205,50, .3)',
+            'rgba(50,205,50, .7)',
+            'rgba(50,205,50, .95)'],
+        [
+            'rgba(255, 0, 0, .3)',
+            'rgba(255, 0, 0, .7)',
+            'rgba(255, 0, 0, .95)']
+    ];
+    public data: string;
+    public tooltipTitle = 'Infected';
+    public showMap = true;
+    private dataRequest$: any;
     public ngOnInit(): void {
         this.loadDataSet(0);
     }
 
-    public ngAfterViewInit() {
-        const tileSource = new ArcGISOnlineMapImagery();
-        (tileSource as any).i = tileSource;
+    public changeMap(mapStyle) {
+      const tileSource = new ArcGISOnlineMapImagery();
+      (tileSource as any).i = tileSource;
+      if (mapStyle) {
+        tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldDarkGrayMap);
+      } else {
         tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldLightGrayMap);
-        (this.map as any).backgroundContent = tileSource;
+      }
+      (this.map as any).backgroundContent = tileSource;
+    }
+
+    public ngAfterViewInit() {
+      this.changeMap(true);
     }
 
     public loadDataSet(index: number) {
@@ -92,7 +98,7 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Fill the map series corresponding to the passd index with tile imagery and add to map.
+     * Fill the map series corresponding to the passed index with tile imagery and add to map.
      */
     public addMapSeries(csvData: string, index: number) {
 
