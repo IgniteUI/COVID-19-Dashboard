@@ -16,15 +16,16 @@
   .app__logo {
     height: 30px;
     width:100px;
+    margin-top: 5px;
   }
 
   .app-light-theme {
-    .app__logo-text {
+    .text {
       fill: map-get($light-vars, logo-color);
     }
   }
   .app-dark-theme {
-    .app__logo-text {
+    .text {
       fill: map-get($dark-vars, logo-color);
     }
   }

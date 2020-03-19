@@ -74,7 +74,7 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
       if (mapStyle) {
         tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldDarkGrayMap);
       } else {
-        tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldStreetMap);
+        tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldLightGrayMap);
       }
       (this.map as any).backgroundContent = tileSource;
     }
