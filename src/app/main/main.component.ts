@@ -166,7 +166,9 @@ export class MainComponent implements OnInit, OnDestroy {
     // Persist the total recovered cases (on the second call of fillData) before transforming the 'cases' map
     // This number will be different for both Confirmed and Recovered data sources
     // This is why we are going to use it only from the second request
+    // Set initial value of the first recorder recovered cases
     totalRecoveredCases = new Map(cases);
+    totalRecoveredCases.set(firstRecordedDate, 25);
     transformedCases = new Map(cases);
 
     // Calculate daily difference and transform map

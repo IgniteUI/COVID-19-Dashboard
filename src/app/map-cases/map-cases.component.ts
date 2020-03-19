@@ -196,8 +196,8 @@ export class MapCasesComponent implements OnInit, AfterViewInit {
         const geoBounds = {
             height: 0,
             left: -0,
-            top: -0,
-            width: 300
+            top: 40,
+            width: 260
         };
         this.map.zoomToGeographic(geoBounds);
     }
