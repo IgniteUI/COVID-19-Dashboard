@@ -13,7 +13,6 @@ export class FooterComponent implements OnInit {
   ngOnInit(): void {
     const result$ = this.dataService.getLatestCommits();
     result$.subscribe(data => {
-      debugger;
       this.date = new Date(data[0].commit.author.date);
     });
   }
