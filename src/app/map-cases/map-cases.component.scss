@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: hidden;
     flex: 1;
   }
 
@@ -91,7 +90,6 @@
   min-width: 100%;
   height: calc(100% - 44px);
   border-radius: 8px;
-  overflow: hidden;
 }
 
 .app__map-inner {
