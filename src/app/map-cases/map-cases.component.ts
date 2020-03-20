@@ -4,6 +4,7 @@ import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
 import { RemoteDataService } from '../services/data.service';
 import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
 import { EsriStyle, EsriUtility } from './EsriMapsUtility';
+import { Rect } from 'igniteui-angular-core';
 
 @Component({
     providers: [RemoteDataService],
@@ -142,5 +143,13 @@ export class MapCasesComponent implements OnInit {
             width: 260
         };
         this.map.zoomToGeographic(geoBounds);
+    }
+
+    public zoomToLoc(event: any) {
+        const lat = event.args.item.lat;
+        const lon = event.args.item.lon;
+        const geoRect = new Rect(0, lon - 5, lat - 8, 10, 15);
+        const windowRect = this.map.getZoomFromGeographicRect(geoRect);
+        this.map.windowRect = windowRect;
     }
 }
