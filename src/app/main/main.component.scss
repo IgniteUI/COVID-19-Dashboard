@@ -4,6 +4,7 @@
     display: flex;
     flex: 1 0 0%;
     height: calc(100vh - 126px);
+    overflow: hidden;
   }
 
   .app__main-inner {
