@@ -10,7 +10,7 @@ import {
     IgxListModule,
     IgxNavbarModule,
     IgxDividerModule,
-    IgxTooltipModule, IgxSwitchModule
+    IgxTooltipModule, IgxSwitchModule, IgxProgressBarModule
 } from 'igniteui-angular';
 import { IgxDataChartCoreModule, IgxDataChartCategoryModule,
     IgxDataChartAnnotationModule, IgxCalloutLayerModule, IgxCrosshairLayerModule,
@@ -71,7 +71,8 @@ import { TimelineChartComponent } from './timeline-chart/timeline-chart.componen
         IgxScatterLineSeriesModule,
         IgxLineSeriesModule,
         IgxTooltipModule,
-        IgxSwitchModule
+        IgxSwitchModule,
+        IgxProgressBarModule
     ],
   providers: [],
   bootstrap: [AppComponent]
