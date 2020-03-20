@@ -44,13 +44,14 @@
 
     &--stats {
       height: 100%;
+      width:40vw;
     }
 
     &--map {
       padding: $app-gap 0;
       height: 100%;
       flex: 1;
-      min-width: 43vw;
+      min-width: 40vw;
     }
    }
 
