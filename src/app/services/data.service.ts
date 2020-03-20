@@ -44,7 +44,7 @@ export class RemoteDataService {
 
     const data$ = Observable.create(observer => {
       // tslint:disable-next-line: max-line-length
-      fetch(`${baseDataPath}/${TIME_SERIES}/${FILE_NAME}${dataSet}.csv`)
+      fetch(`${BASE_URL}/${TIME_SERIES}/${FILE_NAME}${dataSet}.csv`)
         .then(response => {
           return response.text();
         })
