@@ -62,11 +62,11 @@ export class MainComponent implements OnInit, OnDestroy {
           // this.charts.toArray()[1].transformChartConfirmedCases(csvData);
           // this.charts.last.transformChartConfirmedCases(csvData);
           this.transformConfirmedData(csvData);
-          // const jsonData = this.dataService.csvToJson(csvData);
-          // this.confirmedList.data = jsonData.data;
-          // this.confirmedList.totalNumber = jsonData.totalNumber;
-          // this.map.confirmedData = jsonData;
-          // this.map.onDataSetSelected( {index: 0} );
+          const jsonData = this.dataService.csvToJson(csvData);
+          this.confirmedList.data = jsonData.data;
+          this.confirmedList.totalNumber = jsonData.totalNumber;
+          this.map.confirmedData = jsonData;
+          this.map.onDataSetSelected( {index: 0} );
       });
 
       // Fetch Recovered cases
@@ -76,20 +76,20 @@ export class MainComponent implements OnInit, OnDestroy {
         // this.charts.toArray()[1].transformChartRecoveredCases(csvData);
         // this.charts.last.transformChartRecoveredCases(csvData);
         this.transformRecoveredData(csvData);
-        // const jsonData = this.dataService.csvToJson(csvData);
-        // this.recoveredList.data = jsonData.data;
-        // this.recoveredList.totalNumber = jsonData.totalNumber;
-        // this.map.recoveredData = jsonData;
+        const jsonData = this.dataService.csvToJson(csvData);
+        this.recoveredList.data = jsonData.data;
+        this.recoveredList.totalNumber = jsonData.totalNumber;
+        this.map.recoveredData = jsonData;
       });
 
       // Fetch Recovered cases
-      // this.dataRequest$ = this.dataService.getDataSet(2);
-      // this.dataRequest$.subscribe(csvData => {
-      //   const jsonData = this.dataService.csvToJson(csvData);
-      //   this.deathsList.data = jsonData.data;
-      //   this.deathsList.totalNumber = jsonData.totalNumber;
-      //   this.map.deathsData = jsonData;
-      // });
+      this.dataRequest$ = this.dataService.getDataSet(2);
+      this.dataRequest$.subscribe(csvData => {
+        const jsonData = this.dataService.csvToJson(csvData);
+        this.deathsList.data = jsonData.data;
+        this.deathsList.totalNumber = jsonData.totalNumber;
+        this.map.deathsData = jsonData;
+      });
   }
 
     // Used to fill the data for both Confirmed and Recovered data sources
