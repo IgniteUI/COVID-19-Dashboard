@@ -12,10 +12,8 @@
           <span igxListAction>{{ item.value | number }}</span>
         </igx-list-item>
         <ng-template igxEmptyList>
-          <div class="loader">
-              <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-              <image xlink:href="../../assets/loading.svg" height="65" width="65"/>
-              </svg>
+          <div class="app__loader">
+            <igx-circular-bar [indeterminate]="true"></igx-circular-bar>
           </div>
       </ng-template>
       </igx-list>
