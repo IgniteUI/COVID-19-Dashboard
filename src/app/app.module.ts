@@ -22,6 +22,7 @@ import { MapCasesComponent } from './map-cases/map-cases.component';
 import { ListCasesComponent } from './list-cases/list-cases.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { TimelineChartComponent } from './timeline-chart/timeline-chart.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FooterComponent } from './footer/footer.component';
     MapCasesComponent,
     ListCasesComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    TimelineChartComponent
   ],
     imports: [
         BrowserModule,
