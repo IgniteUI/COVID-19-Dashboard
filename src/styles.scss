@@ -22,6 +22,8 @@ html, body {
   @include igx-theme($palette: $app-palette, $legacy-support: false);
   @import "app/themes/components/light";
 
+  scrollbar-color: igx-color($app-palette, 'grays', 100) igx-color($app-palette, 'grays', 200);
+
   ::-webkit-scrollbar {
     width: 8px
   }
@@ -40,6 +42,8 @@ html, body {
   @import "app/themes/components/dark";
   background: linear-gradient(#24304b, #0f1420);
   color: #ddd;
+
+  scrollbar-color: igx-color($app-dark-palette, 'grays', 100) #24304b;
 
   ::-webkit-scrollbar {
     width: 8px

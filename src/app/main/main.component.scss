@@ -4,6 +4,7 @@
     display: flex;
     flex: 1 0 0%;
     height: calc(100vh - 126px);
+    overflow: hidden;
   }
 
   .app__main-inner {
@@ -14,6 +15,7 @@
 
   .app__list-stack {
     max-height: 40%;
+    height: 40%;
   }
 
   .app__row {
