@@ -6,30 +6,10 @@
     </section>
 
     <div class="app__col app__col--stats">
-
         <div class="app__row app__list-stack">
             <app-list-cases class="app__list--deaths" #deathsList type="Deaths"></app-list-cases>
             <app-list-cases class="app__list--recovered" #recoveredList type="Recovered"></app-list-cases>
         </div>
-
-        <div class="app__charts">
-            <igx-tabs class="app__charts-tabs" tabsType="fixed">
-                <igx-tabs-group label="actual">
-                    <div class="app__chart-wrapper">
-                        <app-timeline-chart [isLogarithmic]='false' [timelineChart]='true'></app-timeline-chart>
-                    </div>
-                </igx-tabs-group>
-                <igx-tabs-group label="logarithmic">
-                    <div class="app__chart-wrapper">
-                        <app-timeline-chart [isLogarithmic]='true' [timelineChart]='true'></app-timeline-chart>
-                    </div>
-                </igx-tabs-group>
-                <igx-tabs-group label="daily">
-                    <div class="app__chart-wrapper">
-                        <app-timeline-chart [isLogarithmic]='false' [timelineChart]='false'></app-timeline-chart>
-                    </div>
-                </igx-tabs-group>
-            </igx-tabs>
-        </div>
+        <app-timeline-chart #charts></app-timeline-chart>
     </div>
 </main>

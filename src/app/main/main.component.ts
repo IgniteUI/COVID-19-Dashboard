@@ -1,9 +1,8 @@
-import { Component, OnDestroy, ViewChild, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { RemoteDataService } from '../services/data.service';
 import { MapCasesComponent } from '../map-cases/map-cases.component';
 import { ListCasesComponent } from '../list-cases/list-cases.component';
 import { TimelineChartComponent } from '../timeline-chart/timeline-chart.component';
-import { Observable, BehaviorSubject, Observer } from 'rxjs';
 
 @Component({
   providers: [RemoteDataService],
@@ -14,8 +13,7 @@ import { Observable, BehaviorSubject, Observer } from 'rxjs';
 })
 export class MainComponent implements OnDestroy {
 
-  @ViewChildren(TimelineChartComponent, { read: TimelineChartComponent })
-  public charts: QueryList<TimelineChartComponent>;
+  @ViewChild(TimelineChartComponent, { read: TimelineChartComponent }) public charts: TimelineChartComponent;
   @ViewChild('map', {static: true}) public map: MapCasesComponent;
   @ViewChild('confirmedList', { static: true }) public confirmedList: ListCasesComponent;
   @ViewChild('recoveredList', { static: true }) public recoveredList: ListCasesComponent;
@@ -37,9 +35,7 @@ export class MainComponent implements OnDestroy {
     // Fetch Confirmed cases
     this.dataRequest$ = this.dataService.getDataSet(0);
     this.dataRequest$.subscribe(csvData => {
-        this.charts.first.transformChartConfirmedCases(csvData);
-        this.charts.toArray()[1].transformChartConfirmedCases(csvData);
-        this.charts.last.transformChartConfirmedCases(csvData);
+        this.charts.transformChartConfirmedCases(csvData);
         const jsonData = this.dataService.csvToJson(csvData);
         this.confirmedList.data = jsonData.data;
         this.confirmedList.totalNumber = jsonData.totalNumber;
@@ -49,16 +45,14 @@ export class MainComponent implements OnDestroy {
     // Fetch Recovered cases
     this.dataRequest$ = this.dataService.getDataSet(1);
     this.dataRequest$.subscribe(csvData => {
-      this.charts.first.transformChartRecoveredCases(csvData);
-      this.charts.toArray()[1].transformChartRecoveredCases(csvData);
-      this.charts.last.transformChartRecoveredCases(csvData);
+      this.charts.transformChartRecoveredCases(csvData);
       const jsonData = this.dataService.csvToJson(csvData);
       this.recoveredList.data = jsonData.data;
       this.recoveredList.totalNumber = jsonData.totalNumber;
       this.map.recoveredData = jsonData;
     });
 
-    // Fetch Recovered cases
+    // Fetch Deaths cases
     this.dataRequest$ = this.dataService.getDataSet(2);
     this.dataRequest$.subscribe(csvData => {
       const jsonData = this.dataService.csvToJson(csvData);
