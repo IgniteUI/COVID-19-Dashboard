@@ -36,7 +36,7 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   ngOnInit(): void { }
 
   ngAfterViewInit(): void {
-    //// Uncomment this like in order to enable custom tooltips
+    // Uncomment this like in order to enable custom tooltips
     // this.setCustomTooltips();
   }
 
