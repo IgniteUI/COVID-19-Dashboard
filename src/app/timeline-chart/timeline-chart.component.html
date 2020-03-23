@@ -71,7 +71,25 @@
     </igx-tabs>
 </div>
 
-<ng-template let-series="series" let-item="item" #tooltip>
+<ng-template let-series="series" let-item="item" #tooltipActualChart>
+    <div class="tooltipGrid">
+        <div class="tooltipRow">
+            <div >test test</div>
+            <!-- <div class="tooltipCountry" >{{item.Country}}</div> -->
+        </div>
+    </div>
+</ng-template>
+
+<ng-template let-series="series" let-item="item" #tooltipLogarithmicChart>
+    <div class="tooltipGrid">
+        <div class="tooltipRow">
+            <div >test test</div>
+            <!-- <div class="tooltipCountry" >{{item.Country}}</div> -->
+        </div>
+    </div>
+</ng-template>
+
+<ng-template let-series="series" let-item="item" #tooltipDailyChart>
     <div class="tooltipGrid">
         <div class="tooltipRow">
             <div >test test</div>

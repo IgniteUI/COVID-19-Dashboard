@@ -14,7 +14,9 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   @ViewChild('chartDaily', { static: true }) public chartDaily: IgxDataChartComponent;
   @ViewChild('xAxis', { static: true }) public xAxis: IgxCategoryXAxisComponent;
   @ViewChild('yAxis', { static: true }) public yAxis: IgxNumericYAxisComponent;
-  @ViewChild('tooltip', {static: true}) public tooltipTemplate: TemplateRef<any>;
+  @ViewChild('tooltipActualChart', {static: true}) public tooltipActualTemplate: TemplateRef<any>;
+  @ViewChild('tooltipLogarithmicChart', {static: true}) public tooltipLogarithmicTemplate: TemplateRef<any>;
+  @ViewChild('tooltipDailyChart', {static: true}) public tooltipDailyTemplate: TemplateRef<any>;
 
   public chartData: any[] = [];
   public dailyDataOtherLocations: any[] = [];
@@ -34,7 +36,8 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   ngOnInit(): void { }
 
   ngAfterViewInit(): void {
-    this.chartActual.actualSeries[0].tooltipTemplate = this.tooltipTemplate;
+    //// Uncomment this like in order to enable custom tooltips
+    // this.setCustomTooltips();
   }
 
   // Used to fill the data for both Confirmed and Recovered data sources
@@ -167,7 +170,7 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   }
 
   public transformChartRecoveredCases(csvData: string) {
-    let dailyData: any[] = [];
+    const dailyData: any[] = [];
     const csvLines = csvData.split('\n');
     const allCases = this.fillData(csvLines);
 
@@ -209,5 +212,19 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
 
   public formatDateLabel(item: any): string {
     return item.date.toLocaleDateString();
+  }
+
+  private setCustomTooltips() {
+    this.chartActual.actualSeries[0].tooltipTemplate = this.tooltipActualTemplate;
+    this.chartActual.actualSeries[1].tooltipTemplate = this.tooltipActualTemplate;
+    this.chartActual.actualSeries[2].tooltipTemplate = this.tooltipActualTemplate;
+
+    this.chartLogarithmic.actualSeries[0].tooltipTemplate = this.tooltipLogarithmicTemplate;
+    this.chartLogarithmic.actualSeries[1].tooltipTemplate = this.tooltipLogarithmicTemplate;
+    this.chartLogarithmic.actualSeries[2].tooltipTemplate = this.tooltipLogarithmicTemplate;
+
+    this.chartDaily.actualSeries[0].tooltipTemplate = this.tooltipDailyTemplate;
+    this.chartDaily.actualSeries[1].tooltipTemplate = this.tooltipDailyTemplate;
+    this.chartDaily.actualSeries[2].tooltipTemplate = this.tooltipDailyTemplate;
   }
 }
