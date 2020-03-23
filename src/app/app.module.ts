@@ -14,9 +14,10 @@ import {
 } from 'igniteui-angular';
 import { IgxDataChartCoreModule, IgxDataChartCategoryModule,
     IgxDataChartAnnotationModule, IgxCalloutLayerModule, IgxCrosshairLayerModule,
-    IgxFinalValueLayerModule, IgxDataChartInteractivityModule, IgxLegendModule, IgxTimeXAxisModule,
+    IgxFinalValueLayerModule, IgxLegendModule, IgxTimeXAxisModule,
     IgxNumericXAxisModule, IgxCategoryXAxisModule, IgxFinancialChartModule,
-    IgxScatterLineSeriesModule, IgxLineSeriesModule } from 'igniteui-angular-charts';
+    IgxScatterLineSeriesModule, IgxLineSeriesModule, IgxCategoryToolTipLayerModule,
+    IgxDataChartInteractivityModule  } from 'igniteui-angular-charts';
 import { IgxGeographicMapCoreModule, IgxGeographicMapModule } from 'igniteui-angular-maps';
 import { MapCasesComponent } from './map-cases/map-cases.component';
 import { ListCasesComponent } from './list-cases/list-cases.component';
@@ -59,7 +60,6 @@ import { TimelineChartComponent } from './timeline-chart/timeline-chart.componen
         IgxCalloutLayerModule,
         IgxCrosshairLayerModule,
         IgxFinalValueLayerModule,
-        IgxDataChartInteractivityModule,
         IgxLegendModule,
         IgxTimeXAxisModule,
         IgxNumericXAxisModule,
@@ -72,7 +72,9 @@ import { TimelineChartComponent } from './timeline-chart/timeline-chart.componen
         IgxLineSeriesModule,
         IgxTooltipModule,
         IgxSwitchModule,
-        IgxProgressBarModule
+        IgxProgressBarModule,
+        IgxCategoryToolTipLayerModule,
+        IgxDataChartInteractivityModule
     ],
   providers: [],
   bootstrap: [AppComponent]

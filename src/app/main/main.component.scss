@@ -54,43 +54,4 @@
       min-width: 40vw;
     }
    }
-
-  .app__charts {
-    padding: 0 $app-gap $app-gap $app-gap;
-    display: flex;
-    flex: 1;
-    max-height: calc(50vh - 28px);
-  }
-
-  .app__chart-wrapper {
-    display:flex;
-    flex-direction:column;
-  }
-
-  .app__charts-tabs {
-    flex:1;
-    > div {
-      height: 100%
-    }
-
-    //.igx-tabs__content-fluid,
-    //.igx-tabs__content-fixed {
-    //  height: calc(100% - 48px);
-    //}
-
-    .igx-tabs__group {
-      height: 100%;
-    }
-  }
-
-  .app__chart-component {
-    width: 100%;
-    height: 100%;
-    flex: 1;
-  }
-
-  .app__charts-chart {
-    width: 100%;
-    height: calc(40vh - 42px);
-  }
 }
