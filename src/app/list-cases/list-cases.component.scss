@@ -46,6 +46,10 @@
       padding: 0;
     }
 
+    .igx-list__item-base {
+      flex: 1 0 auto;
+    }
+
     .app__list-inner {
       overflow: auto;
     }

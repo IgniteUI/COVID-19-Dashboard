@@ -17,7 +17,7 @@ $light-vars:(
 );
 
 $dark-vars:(
-  confirmed-color: igx-color($app-dark-palette, 'secondary'),
+  confirmed-color: igx-color($app-dark-palette, 'info'),
   confirmed-bg: rgba(igx-color($app-dark-palette, 'secondary'), .03),
   deaths-color: igx-color($app-dark-palette, 'error'),
   deaths-bg: rgba(igx-color($app-dark-palette, 'error'), .03),
