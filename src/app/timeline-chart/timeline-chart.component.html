@@ -8,7 +8,7 @@
                         [dataSource]="chartData" isHorizontalZoomEnabled="true">
                         <igx-category-x-axis label="date" title="Date" #xAxis2 [formatLabel]="formatDateLabel">
                         </igx-category-x-axis>
-                        <igx-numeric-y-axis name="yAxis2" #yAxis2 title="Cases count"></igx-numeric-y-axis>
+                        <igx-numeric-y-axis name="yAxis2" #yAxis2 title="Cases count" abbreviateLargeNumbers="true" ></igx-numeric-y-axis>
 
                         <igx-line-series name="seriesTotalDailyOtherLocations" title="Total Daily Other Locations" [xAxis]="xAxis2" [yAxis]="yAxis2"
                             valueMemberPath="totalDailyOtherLocations" [markerType]="3" showDefaultTooltip="true">
@@ -73,9 +73,10 @@
 
 <ng-template let-series="series" let-item="item" #tooltipActualChart>
     <div class="app__tooltip">
-        <div>Total Daily Other Locations: {{ item.totalDailyOtherLocations }}</div>
-        <div>Total Daily China: {{ item.totalDailyChina }}</div>
-        <div>Total Daily Recovered Cases: {{ item.totalDailyRecoveredCases }}</div>
+        <div>Total Daily:</div>
+        <div>Othel Dar Locations: {{ item.totalDailyOtherLocations }}</div>
+        <div>China: {{ item.totalDailyChina }}</div>
+        <div>Recovered Cases: {{ item.totalDailyRecoveredCases }}</div>
     </div>
 </ng-template>
 

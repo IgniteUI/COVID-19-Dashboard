@@ -43,7 +43,8 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   ngOnInit(): void { }
 
   ngAfterViewInit(): void {
-    this.configureCharts();
+    // this.configureCharts();
+    // this.setCustomTooltips();
   }
 
   private configureCharts() {
@@ -63,7 +64,7 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
       toolTipLayer.i.m5  = CategoryTooltipLayerPosition.Auto;
       toolTipLayer.transitionDuration = 200;
       // Tooltip template
-      // toolTipLayer.tooltipTemplate = chart.tooltipTemplate;
+      toolTipLayer.tooltipTemplate = chart.tooltipTemplate;
       chart.chartComponent.series.add(toolTipLayer);
     }
   }
