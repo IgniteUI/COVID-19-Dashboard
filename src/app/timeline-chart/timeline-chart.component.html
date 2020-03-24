@@ -4,7 +4,7 @@
             <div class="app__chart-wrapper">
                 <igx-legend class="app__charts-legend" #legendActual orientation="Horizontal"></igx-legend>
                 <div class="app__chart-component">
-                    <igx-data-chart class="app__charts-chart" #chartActual [legend]="legendActual" 
+                    <igx-data-chart class="app__charts-chart" #chartActual [legend]="legendActual"
                         [dataSource]="chartData" isHorizontalZoomEnabled="true">
                         <igx-category-x-axis label="date" title="Date" #xAxis2 [formatLabel]="formatDateLabel">
                         </igx-category-x-axis>
@@ -27,7 +27,7 @@
             <div class="app__chart-wrapper">
                 <igx-legend class="app__charts-legend" #legendLogarithmic orientation="Horizontal"></igx-legend>
                 <div class="app__chart-component">
-                    <igx-data-chart class="app__charts-chart" #chartLogarithmic [legend]="legendLogarithmic" 
+                    <igx-data-chart class="app__charts-chart" #chartLogarithmic [legend]="legendLogarithmic"
                         [dataSource]="chartData" isHorizontalZoomEnabled="true" >
                         <igx-category-x-axis label="date" title="Date" #xAxis3 [formatLabel]="formatDateLabel">
                         </igx-category-x-axis>
@@ -72,28 +72,22 @@
 </div>
 
 <ng-template let-series="series" let-item="item" #tooltipActualChart>
-    <div class="tooltipGrid">
-        <div class="tooltipRow">
-            <div >test test</div>
-            <!-- <div class="tooltipCountry" >{{item.Country}}</div> -->
-        </div>
+    <div class="app__tooltip">
+        <div >test test</div>
+        <!-- <div class="tooltipCountry" >{{item.Country}}</div> -->
     </div>
 </ng-template>
 
 <ng-template let-series="series" let-item="item" #tooltipLogarithmicChart>
-    <div class="tooltipGrid">
-        <div class="tooltipRow">
-            <div >test test</div>
-            <!-- <div class="tooltipCountry" >{{item.Country}}</div> -->
-        </div>
+    <div class="app__tooltip">
+        <div >test test</div>
+        <!-- <div class="tooltipCountry" >{{item.Country}}</div> -->
     </div>
 </ng-template>
 
 <ng-template let-series="series" let-item="item" #tooltipDailyChart>
-    <div class="tooltipGrid">
-        <div class="tooltipRow">
-            <div >test test</div>
-            <!-- <div class="tooltipCountry" >{{item.Country}}</div> -->
-        </div>
+    <div class="app__tooltip">
+        <div >test test</div>
+        <!-- <div class="tooltipCountry" >{{item.Country}}</div> -->
     </div>
 </ng-template>

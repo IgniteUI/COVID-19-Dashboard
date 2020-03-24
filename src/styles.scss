@@ -43,7 +43,7 @@ html, body {
   background: linear-gradient(#24304b, #0f1420);
   color: #ddd;
 
-  scrollbar-color: igx-color($app-dark-palette, 'grays', 100) #24304b;
+  scrollbar-color: igx-color($app-dark-palette, 'surface') #24304b;
 
   ::-webkit-scrollbar {
     width: 8px

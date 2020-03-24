@@ -15,10 +15,11 @@
     min-width: 0
   }
 
-  .app__map-tooltip {
+  .app__tooltip {
     top: -2px;
     left: -2px;
     position: absolute;
+    z-index: 1;
     border-radius:8px;
     padding: 8px;
     box-shadow: 0 3px 5px -1px igx-color($app-palette, 'grays', 400),
@@ -34,7 +35,26 @@
     }
   }
 
-  .app__map-tooltip-list {
+  .app-light-theme {
+    .app__tooltip {
+      background: map-get($light-vars, tooltip-bg);
+    }
+  }
+
+  .app-dark-theme {
+    .app__tooltip {
+      background: map-get($dark-vars, tooltip-bg);
+    }
+
+    .infected {
+      span {
+        font-weight: bold;
+        color: map-get($dark-vars, confirmed-color);
+      }
+    }
+  }
+
+  .app__tooltip-list {
     padding: 0;
 
     li {
@@ -49,8 +69,6 @@
     }
   }
 
-
-
   .recovered {
     span {
       font-weight: bold;
@@ -62,25 +80,6 @@
     span {
       font-weight: bold;
       color: igx-color($app-palette, 'error')
-    }
-  }
-
-  .app-light-theme {
-    .app__map-tooltip {
-      background: map-get($light-vars, tooltip-bg);
-    }
-  }
-
-  .app-dark-theme {
-    .app__map-tooltip {
-      background: map-get($dark-vars, tooltip-bg);
-    }
-
-    .infected {
-      span {
-        font-weight: bold;
-        color: map-get($dark-vars, confirmed-color);
-      }
     }
   }
 }

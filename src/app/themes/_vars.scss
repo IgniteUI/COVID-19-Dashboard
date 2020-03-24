@@ -4,7 +4,7 @@ $card-header-height: 80px;
 $app-gap: 16px;
 
 $light-vars:(
-  confirmed-color: igx-color($app-palette, 'secondary'),
+  confirmed-color: igx-color($app-palette, 'info'),
   confirmed-bg: rgba(igx-color($app-palette, 'secondary'), .03),
   deaths-color: igx-color($app-palette, 'error'),
   deaths-bg: rgba(igx-color($app-palette, 'error'), .03),
