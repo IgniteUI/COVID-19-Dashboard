@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { IgxDataChartComponent, IgxCategoryXAxisComponent, IgxNumericYAxisComponent,
-  IgxCategoryToolTipLayerComponent } from 'igniteui-angular-charts';
+  IgxCategoryToolTipLayerComponent,
+  CategoryTooltipLayerPosition } from 'igniteui-angular-charts';
 
 @Component({
   selector: 'app-timeline-chart',
@@ -14,9 +15,15 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   @ViewChild('chartDaily', { static: true }) public chartDaily: IgxDataChartComponent;
   @ViewChild('xAxis', { static: true }) public xAxis: IgxCategoryXAxisComponent;
   @ViewChild('yAxis', { static: true }) public yAxis: IgxNumericYAxisComponent;
-  @ViewChild('tooltipActualChart', {static: true}) public tooltipActualTemplate: TemplateRef<any>;
-  @ViewChild('tooltipLogarithmicChart', {static: true}) public tooltipLogarithmicTemplate: TemplateRef<any>;
-  @ViewChild('tooltipDailyChart', {static: true}) public tooltipDailyTemplate: TemplateRef<any>;
+
+  @ViewChild('tooltipActualChart', { read: TemplateRef, static: true})
+  public tooltipActualTemplate: TemplateRef<any>;
+
+  @ViewChild('tooltipLogarithmicChart', { read: TemplateRef, static: true})
+  public tooltipLogarithmicTemplate: TemplateRef<any>;
+
+  @ViewChild('tooltipDailyChart', { read: TemplateRef, static: true})
+  public tooltipDailyTemplate: TemplateRef<any>;
 
   public chartData: any[] = [];
   public dailyDataOtherLocations: any[] = [];
@@ -36,8 +43,29 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   ngOnInit(): void { }
 
   ngAfterViewInit(): void {
-    // Uncomment this like in order to enable custom tooltips
-    // this.setCustomTooltips();
+    this.configureCharts();
+  }
+
+  private configureCharts() {
+    const chartActual: IChartConfig = { name: 'Actual', chartComponent: this.chartActual,
+      tooltipTemplate: this.tooltipActualTemplate };
+    const chartLogarithmic: IChartConfig = { name: 'Logarithmic', chartComponent: this.chartLogarithmic,
+      tooltipTemplate: this.tooltipLogarithmicTemplate };
+    const chartDaily: IChartConfig = { name: 'Daily', chartComponent: this.chartDaily,
+      tooltipTemplate: this.tooltipDailyTemplate };
+
+    const charts: IChartConfig[] = [chartActual, chartLogarithmic, chartDaily];
+    let toolTipLayer;
+
+    for (const chart of charts) {
+      toolTipLayer = new IgxCategoryToolTipLayerComponent();
+      toolTipLayer.name = 'categorySeries' + chart.name;
+      toolTipLayer.i.m5  = CategoryTooltipLayerPosition.Auto;
+      toolTipLayer.transitionDuration = 200;
+      // Tooltip template
+      // toolTipLayer.tooltipTemplate = chart.tooltipTemplate;
+      chart.chartComponent.series.add(toolTipLayer);
+    }
   }
 
   // Used to fill the data for both Confirmed and Recovered data sources
@@ -227,4 +255,11 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     this.chartDaily.actualSeries[1].tooltipTemplate = this.tooltipDailyTemplate;
     this.chartDaily.actualSeries[2].tooltipTemplate = this.tooltipDailyTemplate;
   }
+
+}
+
+interface IChartConfig {
+  name: string;
+  chartComponent: IgxDataChartComponent;
+  tooltipTemplate: TemplateRef<any>;
 }

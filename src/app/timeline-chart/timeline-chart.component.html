@@ -73,8 +73,9 @@
 
 <ng-template let-series="series" let-item="item" #tooltipActualChart>
     <div class="app__tooltip">
-        <div >test test</div>
-        <!-- <div class="tooltipCountry" >{{item.Country}}</div> -->
+        <div>Total Daily Other Locations: {{ item.totalDailyOtherLocations }}</div>
+        <div>Total Daily China: {{ item.totalDailyChina }}</div>
+        <div>Total Daily Recovered Cases: {{ item.totalDailyRecoveredCases }}</div>
     </div>
 </ng-template>
 
