@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
 import { RemoteDataService } from '../services/data.service';
 import { MapCasesComponent } from '../map-cases/map-cases.component';
 import { ListCasesComponent } from '../list-cases/list-cases.component';
@@ -19,53 +19,74 @@ export class MainComponent implements OnDestroy {
   @ViewChild('recoveredList', { static: true }) public recoveredList: ListCasesComponent;
   @ViewChild('deathsList', { static: true }) public deathsList: ListCasesComponent;
 
-  private dataRequest$: any;
+  private confirmedRequest$: any;
+  private recoveredRequest$: any;
+  private deathsRequest$: any;
   public confirmed: string;
   public recovered: string;
   public deaths: string;
   public confirmedData: any[] = [];
   public recoveredData: any[] = [];
   public deathsData: any[] = [];
+  public lastCommit: number;
+  public lastUpdate = parseInt(window.localStorage.getItem('lastUpdate'), 10);
 
-  constructor(private dataService: RemoteDataService, private cdr: ChangeDetectorRef) {
-    this.loadDataSets();
+  @Output() dataLoaded = new EventEmitter<any>();
+
+  constructor(private dataService: RemoteDataService) {
+    const result$ = this.dataService.getLatestCommits();
+    result$.subscribe(data => {
+      let loadFromCache = false;
+      const lastCommit = new Date(data[0].commit.author.date).getTime();
+      this.dataLoaded.emit(lastCommit);
+      this.lastCommit = lastCommit;
+      window.localStorage.setItem(`lastUpdate`,  lastCommit as any);
+      if (this.lastUpdate && this.lastUpdate >= lastCommit) { loadFromCache = true; }
+      this.loadDataSets(loadFromCache);
+    });
   }
 
-  public loadDataSets() {
+  public loadDataSets(loadFromCache: boolean) {
     // Fetch Confirmed cases
-    this.dataRequest$ = this.dataService.getDataSet(0);
-    this.dataRequest$.subscribe(csvData => {
-        this.charts.transformChartConfirmedCases(csvData);
+    this.confirmedRequest$ = this.dataService.getDataSet(0, loadFromCache);
+    this.confirmedRequest$.subscribe(csvData => {
         const jsonData = this.dataService.csvToJson(csvData);
         this.confirmedList.data = jsonData.data;
         this.confirmedList.totalNumber = jsonData.totalNumber;
         this.map.confirmedData = jsonData;
+        this.map.onDataSetSelected( {index: 0} );
+        this.charts.transformChartConfirmedCases(csvData);
     });
 
     // Fetch Recovered cases
-    this.dataRequest$ = this.dataService.getDataSet(1);
-    this.dataRequest$.subscribe(csvData => {
-      this.charts.transformChartRecoveredCases(csvData);
+    this.recoveredRequest$ = this.dataService.getDataSet(1, loadFromCache);
+    this.recoveredRequest$.subscribe(csvData => {
       const jsonData = this.dataService.csvToJson(csvData);
       this.recoveredList.data = jsonData.data;
       this.recoveredList.totalNumber = jsonData.totalNumber;
       this.map.recoveredData = jsonData;
+      this.charts.transformChartRecoveredCases(csvData);
     });
 
     // Fetch Deaths cases
-    this.dataRequest$ = this.dataService.getDataSet(2);
-    this.dataRequest$.subscribe(csvData => {
+    this.deathsRequest$ = this.dataService.getDataSet(2, loadFromCache);
+    this.deathsRequest$.subscribe(csvData => {
       const jsonData = this.dataService.csvToJson(csvData);
       this.deathsList.data = jsonData.data;
       this.deathsList.totalNumber = jsonData.totalNumber;
       this.map.deathsData = jsonData;
-      this.map.onDataSetSelected( {index: 0} );
     });
   }
 
   public ngOnDestroy() {
-    if (this.dataRequest$) {
-      this.dataRequest$.unsubscribe();
+    if (this.confirmedRequest$) {
+      this.confirmedRequest$.unsubscribe();
+    }
+    if (this.recoveredRequest$) {
+      this.recoveredRequest$.unsubscribe();
+    }
+    if (this.deathsRequest$) {
+      this.deathsRequest$.unsubscribe();
     }
   }
 

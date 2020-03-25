@@ -1,5 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {MainComponent} from './main/main.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @Component({
@@ -9,12 +10,18 @@ import {MainComponent} from './main/main.component';
   host: {class: 'app'}
 })
 export class AppComponent {
+
+  @ViewChild('main', { static: true }) public main: MainComponent;
+  @ViewChild(FooterComponent, { read: FooterComponent}) public footer: FooterComponent;
+
   public darkTheme = true;
-  @ViewChild('main', {static: true}) public main: MainComponent;
-  constructor() {}
 
   public toggleTheme() {
     this.darkTheme = !this.darkTheme;
     this.main.map.changeMap(this.darkTheme);
+  }
+
+  public onDataLoaded(lastCommit: number) {
+    this.footer.lastUpdate = new Date(lastCommit);
   }
 }

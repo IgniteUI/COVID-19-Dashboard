@@ -145,11 +145,31 @@ export class MapCasesComponent implements OnInit {
         this.map.zoomToGeographic(geoBounds);
     }
 
+    public showRegion(item) {
+        return item.region.length !== 0 && item.region !== item.country;
+    }
+
+    public getTotalRecoveredForCountry(item): number {
+        const dataRec = this.recoveredData.data.find((rec) => {
+            return rec.region === item.region && rec.country === item.country;
+        });
+        return dataRec ? dataRec.value : 0;
+    }
+
+    public getTotalDeathsForCountry(item) {
+        const dataRec =  this.deathsData.data.find((rec) => {
+            return rec.region === item.region && rec.country === item.country;
+        });
+        return dataRec ? dataRec.value : 0;
+    }
+
+    /**
+     * Zoom the map to show the corresponding country.
+     */
     public zoomToLoc(event: any) {
         const lat = event.args.item.lat;
         const lon = event.args.item.lon;
         const geoRect = new Rect(0, lon - 5, lat - 8, 10, 15);
-        const windowRect = this.map.getZoomFromGeographicRect(geoRect);
-        this.map.windowRect = windowRect;
+        this.map.zoomToGeographic(geoRect);
     }
 }
