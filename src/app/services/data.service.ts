@@ -14,18 +14,23 @@ export enum DATA_SET {
 }
 
 export interface IRegionData {
-  value?: number;
+  value: number;
   lat: number;
   lon: number;
   region: string;
   country: string;
-  increase?: number;
 }
 
 export interface IWorldData {
   data: IRegionData[];
-  maxNumber; number;
-  totalNumber: number;
+  peakValue: number;
+  totalCases: number;
+}
+
+export interface ICasesData {
+  totalConfirmed: IWorldData;
+  totalRecovered: IWorldData;
+  totalDeaths: IWorldData;
 }
 
 @Injectable()
@@ -55,7 +60,7 @@ export class RemoteDataService {
     } else {
       data$ = Observable.create(observer => {
         // tslint:disable-next-line: max-line-length
-        fetch(`${BASE_URL}/${DAILY_SERIES}/${FILE_NAME}${dataSet}.csv`)
+        fetch(`${BASE_URL}/${TIME_SERIES}/${FILE_NAME}${dataSet}.csv`)
           .then(response => {
             return response.text();
           })
@@ -74,7 +79,7 @@ export class RemoteDataService {
   }
 
   /**
-   * Retrieves data from daily report files, based on the index passed.
+   * Retrieves the daily report file for last available day.
    */
   public getDataSetFromDailyReport(loadFromCache: boolean): Observable<any> {
     const today = new Date();
@@ -110,6 +115,9 @@ export class RemoteDataService {
     return data$;
   }
 
+  /**
+   * Retrieves the date when the data source files were last updated.
+   */
   public getLatestCommits(): Observable<any> {
     const resultData$ = Observable.create(observer => {
       fetch(`https://api.github.com/repos/CSSEGISandData/COVID-19/commits`)
@@ -128,15 +136,19 @@ export class RemoteDataService {
     return resultData$;
   }
 
+  /**
+   * Converts csv file data to JSON, calculate highest value per region and total value for all regions.
+   * Returns an IWorldData оObject.
+   */
   public csvToJson(csvData: string): IWorldData {
       csvData = csvData.replace(/, /g, ' - ');
       csvData = csvData.replace(/"/g, '');
       const csvLines = csvData.split('\n');
       const headers = csvLines[0].split(',');
       const locations = [];
-      let data = [];
-      let totalNumber = 0;
-      let maxValue = 0;
+      let data: IRegionData[] = [];
+      let totalCases = 0;
+      let peakValue = 0;
 
       for (let i = 1; i < csvLines.length; i++) {
           const columns = csvLines[i].split(',');
@@ -149,11 +161,11 @@ export class RemoteDataService {
               const country = columns[1];
               const lat = parseInt(columns[2], 10);
               const lon = parseInt(columns[3], 10);
-              totalNumber += value;
+              totalCases += value;
               dataItem = { region, country, lat, lon, value };
               locations.push(dataItem);
-              if (value > maxValue) {
-                  maxValue = value;
+              if (value > peakValue) {
+                  peakValue = value;
               }
           }
       }
@@ -172,9 +184,9 @@ export class RemoteDataService {
       // }, []);
 
       data = locations.sort((a, b) => {
-        return b.totalConfirmed - a.totalConfirmed;
+        return b.value - a.value;
       });
 
-      return { data, maxValue, totalNumber };
+      return { data, peakValue, totalCases };
   }
 }

@@ -23,7 +23,7 @@ export class AppComponent {
     this.main.map.changeMapSeriesBrushScale();
   }
 
-  public onDataLoaded(lastCommit: number) {
+  public onUpdateTimeRetrieved(lastCommit: number) {
     this.footer.lastUpdate = new Date(lastCommit);
   }
 }

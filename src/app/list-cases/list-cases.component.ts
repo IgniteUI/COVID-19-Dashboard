@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import {DisplayDensityToken} from 'igniteui-angular';
-import { IRegionData } from '../services/data.service';
+import { DisplayDensityToken } from 'igniteui-angular';
+import { IRegionData, IWorldData } from '../services/data.service';
 
 @Component({
     providers: [{ provide: DisplayDensityToken, useValue: { displayDensity: 'comfortable' } }],
@@ -13,9 +13,9 @@ export class ListCasesComponent {
 
     public dataSets = ['Confirmed', 'Recovered', 'Deaths', 'Active'];
     public key: string;
-    public totalNumber: number;
+    public totalCases: number;
     public listSortedData: IRegionData[];
-    private  _type: string;
+    private _type: string;
 
     @Input()
     public set type(value: string) {
@@ -27,13 +27,10 @@ export class ListCasesComponent {
     }
 
     @Input()
-    public set data(value: IRegionData[]) {
-        this.listSortedData = value.filter(rec => rec[this.key]).sort((a, b) => {
-            return b[this.key] - a[this.key];
+    public set data(value: IWorldData) {
+        this.listSortedData = value.data.sort((a, b) => {
+            return b.value - a.value;
         });
-    }
-
-    public getTotal(item: IRegionData) {
-        return item[this.key];
+        this.totalCases = value.totalCases;
     }
 }
