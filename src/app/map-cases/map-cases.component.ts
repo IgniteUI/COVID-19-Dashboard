@@ -112,7 +112,7 @@ export class MapCasesComponent implements OnInit {
      */
     public addMapSeries(data: any, index: number) {
         this.tooltipTitle = this.titles[index];
-        const locations = data.data;
+        const locations = data.data.filter(rec => rec.value > 0);
         const maxValue = data.maxValue;
 
         this.map.series.clear();
