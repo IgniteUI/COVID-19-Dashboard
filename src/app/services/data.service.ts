@@ -128,7 +128,7 @@ export class RemoteDataService {
 
           const value = parseInt(columns[columns.length - 1], 10);
 
-          if (value) {
+          if (value > 0) {
               const region = columns[0];
               const country = columns[1];
               const lat = parseInt(columns[2], 10);
