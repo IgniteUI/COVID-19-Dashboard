@@ -39,10 +39,8 @@ export class MapCasesComponent implements OnInit {
         ]
       ];
     public tooltipTitle = this.titles[0];
-    public confirmedData: any;
-    public recoveredData: any;
-    public deathsData: any;
-    public dataSets = [this.confirmedData, this.recoveredData, this.deathsData];
+    public dataSets = [];
+    public index = 0;
 
     constructor() {
         this.dataSetButtons = [
@@ -81,29 +79,32 @@ export class MapCasesComponent implements OnInit {
     }
 
     public changeMapSeriesBrushScale() {
-      const brushScale = new IgxValueBrushScaleComponent();
-      const series = this.map.series.item(0) as IgxGeographicProportionalSymbolSeriesComponent;
+        const brushScale = new IgxValueBrushScaleComponent();
+        if (this.darkTheme) {
+            brushScale.brushes = this.brushes[0][this.index];
+        } else {
+            brushScale.brushes = this.brushes[1][this.index];
+        }
+        brushScale.minimumValue = 1;
+        brushScale.maximumValue = this.dataSets[this.index].maxValue;
 
-    //   if (this.darkTheme) {
-    //     series.fillScale = brushScale;
-    //     series.markerOutline = brushScale[0];
-    //   } else {
-    //     brushScale.brushes = ;
-    //     series.fillScale = brushScale;
-    //     series.markerOutline = brushScale[1];
-    // }
-}
+        const series = this.map.series.item(0) as IgxGeographicProportionalSymbolSeriesComponent;
+
+        series.fillScale = brushScale;
+        series.markerOutline = brushScale.brushes[0];
+    }
 
     /**
      * Bind the corresponding series data depending on selected button
      */
     public onDataSetSelected(event: any) {
-        if (event.index === 0 && this.confirmedData) {
-            this.addMapSeries(this.confirmedData, 0);
-        } else if (event.index === 1 && this.recoveredData) {
-            this.addMapSeries(this.recoveredData, 1);
-        } else if (this.deathsData) {
-            this.addMapSeries(this.deathsData, 2);
+        this.index = event.index;
+        if (event.index === 0 && this.dataSets[event.index]) {
+            this.addMapSeries(this.dataSets[event.index], 0);
+        } else if (event.index === 1 && this.dataSets[event.index]) {
+            this.addMapSeries(this.dataSets[event.index], 1);
+        } else if (this.dataSets[2]) {
+            this.addMapSeries(this.dataSets[event.index], 2);
         }
     }
 
@@ -112,12 +113,39 @@ export class MapCasesComponent implements OnInit {
      */
     public addMapSeries(data: any, index: number) {
         this.tooltipTitle = this.titles[index];
-        const locations = data.data.filter(rec => rec.value > 0);
+        const locations = data.data;
         const maxValue = data.maxValue;
 
         this.map.series.clear();
-        const seriesToAdd = this.series[index];
-        this.map.series.add(seriesToAdd);
+        const symbolSeries = this.series[index];
+
+        // Geopraphic proportional symbol series
+        const sizeScale = new IgxSizeScaleComponent();
+        sizeScale.minimumValue = 1;
+        sizeScale.maximumValue = maxValue / 1200;
+        if (index === 1) {
+            sizeScale.maximumValue = maxValue / 1000;
+        }
+        if (index === 2) {
+            sizeScale.maximumValue = maxValue / 120;
+        }
+        sizeScale.isLogarithmic = true;
+
+        const brushScale = new IgxValueBrushScaleComponent();
+        if (this.darkTheme) {
+            brushScale.brushes = this.brushes[0][index];
+        } else {
+            brushScale.brushes = this.brushes[1][index];
+        }
+        brushScale.minimumValue = 1;
+        brushScale.maximumValue = maxValue;
+
+        symbolSeries.dataSource = locations;
+        symbolSeries.radiusScale = sizeScale;
+        symbolSeries.fillScale = brushScale;
+        symbolSeries.markerOutline = brushScale.brushes[0];
+
+        this.map.series.add(symbolSeries);
 
         const geoBounds = {
             height: 0,
@@ -130,37 +158,12 @@ export class MapCasesComponent implements OnInit {
 
     public createSeries() {
         for (let i = 0; i < this.series.length; i++) {
-            // Geopraphic proportional symbol series
-            const sizeScale = new IgxSizeScaleComponent();
-            sizeScale.minimumValue = 1;
-            sizeScale.maximumValue = (10000 / 1200);
-            if (i === 1) {
-                sizeScale.maximumValue = 10000 / 1000;
-            }
-            if (i === 2) {
-                sizeScale.maximumValue = 10000 / 50;
-            }
-            sizeScale.isLogarithmic = true;
-
-            const brushScale = new IgxValueBrushScaleComponent();
-            if (this.darkTheme) {
-                brushScale.brushes = this.brushes[0][i];
-            } else {
-                brushScale.brushes = this.brushes[1][i];
-            }
-            brushScale.minimumValue = 1;
-            brushScale.maximumValue = 1000;
-
             const symbolSeries = this.series[i];
-            // symbolSeries.dataSource = locations;
             symbolSeries.markerType = MarkerType.Circle;
-            symbolSeries.radiusScale = sizeScale;
-            symbolSeries.fillScale = brushScale;
             symbolSeries.fillMemberPath = 'value';
             symbolSeries.radiusMemberPath = 'value';
             symbolSeries.latitudeMemberPath = 'lat';
             symbolSeries.longitudeMemberPath = 'lon';
-            symbolSeries.markerOutline = brushScale.brushes[0];
             symbolSeries.tooltipTemplate = this.tooltip;
         }
     }
