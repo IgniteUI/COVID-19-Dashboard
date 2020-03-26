@@ -19,7 +19,7 @@ export class MapCasesComponent implements OnInit {
     @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
 
     public tileImagery: IgxTileGeneratorMapImagery;
-
+    public darkTheme = true;
     public confirmedSeries = new IgxGeographicProportionalSymbolSeriesComponent();
     public recoveredSeries = new IgxGeographicProportionalSymbolSeriesComponent();
     public deathSeries = new IgxGeographicProportionalSymbolSeriesComponent();
@@ -27,9 +27,16 @@ export class MapCasesComponent implements OnInit {
     public dataSetButtons: any[];
     public titles = ['Infected', 'Recovered', 'Deaths'];
     public brushes = [
-        ['rgba(0,153,255, .5)'],
-        ['rgba(95,191,112, .5)'],
-        ['rgba(255, 138, 144, .5)']
+        [
+            ['rgba(0,153,255, .5)'],
+            ['rgba(95,191,112, .5)'],
+            ['rgba(255, 138, 144, .5)']
+        ],
+        [
+            ['rgba(62,57,114, .5)'],
+            ['rgba(78,184,98, .5)'],
+            ['rgba(255, 17, 94, .5)']
+        ]
       ];
     public tooltipTitle = this.titles[0];
     public confirmedData: any;
@@ -55,16 +62,17 @@ export class MapCasesComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.changeMap(true);
+        this.createSeries();
+        this.changeMap();
     }
 
     /**
      * Assign corresponding EsriMapStyle for Light/Dark app theme
      */
-    public changeMap(darkTheme: boolean) {
+    public changeMap() {
         const tileSource = new ArcGISOnlineMapImagery();
         (tileSource as any).i = tileSource;
-        if (darkTheme) {
+        if (this.darkTheme) {
             tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldDarkGrayMap);
         } else {
             tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldLightGrayMap);
@@ -72,26 +80,19 @@ export class MapCasesComponent implements OnInit {
         (this.map as any).backgroundContent = tileSource;
     }
 
-    public changeMapSeriesBrushScale(darkTheme: boolean) {
+    public changeMapSeriesBrushScale() {
       const brushScale = new IgxValueBrushScaleComponent();
       const series = this.map.series.item(0) as IgxGeographicProportionalSymbolSeriesComponent;
 
-      if (darkTheme) {
-        brushScale.brushes = [
-          'rgba(0,153,255, .5)',
-          'rgba(95,191,112, .5)',
-          'rgba(255, 138, 144, .5)'
-        ];
-        series.fillScale = brushScale;
-      } else {
-        brushScale.brushes = [
-          'rgba(62,57,114, .5)',
-          'rgba(78,184,98, .5)',
-          'rgba(255, 17, 94, .5)'
-        ];
-        series.fillScale = brushScale;
-      }
-    }
+    //   if (this.darkTheme) {
+    //     series.fillScale = brushScale;
+    //     series.markerOutline = brushScale[0];
+    //   } else {
+    //     brushScale.brushes = ;
+    //     series.fillScale = brushScale;
+    //     series.markerOutline = brushScale[1];
+    // }
+}
 
     /**
      * Bind the corresponding series data depending on selected button
@@ -114,37 +115,9 @@ export class MapCasesComponent implements OnInit {
         const locations = data.data;
         const maxValue = data.maxValue;
 
-        // Geopraphic proportional symbol series
-        const sizeScale = new IgxSizeScaleComponent();
-        sizeScale.minimumValue = 1;
-        sizeScale.maximumValue = (maxValue / 1200);
-        if (index === 1) {
-            sizeScale.maximumValue = maxValue / 1000;
-        }
-        if (index === 2) {
-            sizeScale.maximumValue = maxValue / 50;
-        }
-        sizeScale.isLogarithmic = true;
-
-        const brushScale = new IgxValueBrushScaleComponent();
-        brushScale.brushes = this.brushes[index];
-        brushScale.minimumValue = 1;
-        brushScale.maximumValue = maxValue;
-
-        const symbolSeries = new IgxGeographicProportionalSymbolSeriesComponent();
-        symbolSeries.dataSource = locations;
-        symbolSeries.markerType = MarkerType.Circle;
-        symbolSeries.radiusScale = sizeScale;
-        symbolSeries.fillScale = brushScale;
-        symbolSeries.fillMemberPath = 'value';
-        symbolSeries.radiusMemberPath = 'value';
-        symbolSeries.latitudeMemberPath = 'lat';
-        symbolSeries.longitudeMemberPath = 'lon';
-        symbolSeries.markerOutline = this.brushes[index][0];
-        symbolSeries.tooltipTemplate = this.tooltip;
-
         this.map.series.clear();
-        this.map.series.add(symbolSeries);
+        const seriesToAdd = this.series[index];
+        this.map.series.add(seriesToAdd);
 
         const geoBounds = {
             height: 0,
@@ -153,6 +126,43 @@ export class MapCasesComponent implements OnInit {
             width: 260
         };
         this.map.zoomToGeographic(geoBounds);
+    }
+
+    public createSeries() {
+        for (let i = 0; i < this.series.length; i++) {
+            // Geopraphic proportional symbol series
+            const sizeScale = new IgxSizeScaleComponent();
+            sizeScale.minimumValue = 1;
+            sizeScale.maximumValue = (10000 / 1200);
+            if (i === 1) {
+                sizeScale.maximumValue = 10000 / 1000;
+            }
+            if (i === 2) {
+                sizeScale.maximumValue = 10000 / 50;
+            }
+            sizeScale.isLogarithmic = true;
+
+            const brushScale = new IgxValueBrushScaleComponent();
+            if (this.darkTheme) {
+                brushScale.brushes = this.brushes[0][i];
+            } else {
+                brushScale.brushes = this.brushes[1][i];
+            }
+            brushScale.minimumValue = 1;
+            brushScale.maximumValue = 1000;
+
+            const symbolSeries = this.series[i];
+            // symbolSeries.dataSource = locations;
+            symbolSeries.markerType = MarkerType.Circle;
+            symbolSeries.radiusScale = sizeScale;
+            symbolSeries.fillScale = brushScale;
+            symbolSeries.fillMemberPath = 'value';
+            symbolSeries.radiusMemberPath = 'value';
+            symbolSeries.latitudeMemberPath = 'lat';
+            symbolSeries.longitudeMemberPath = 'lon';
+            symbolSeries.markerOutline = brushScale.brushes[0];
+            symbolSeries.tooltipTemplate = this.tooltip;
+        }
     }
 
     public zoomToLoc(event: any) {
