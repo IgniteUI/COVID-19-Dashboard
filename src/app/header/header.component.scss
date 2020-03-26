@@ -1,8 +1,2 @@
 @import "../themes/vars";
-::ng-deep {
-  .app-light-theme {
-    .app__theme-icon {
-      color: igx-color($app-palette, 'secondary') !important;
-    }
-  }
-}
+

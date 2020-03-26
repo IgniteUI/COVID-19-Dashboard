@@ -19,7 +19,7 @@ html, body {
 
 .app-light-theme {
   background: linear-gradient(#ddd, #f1f1f1);
-  @include igx-theme($palette: $app-palette, $legacy-support: false);
+  @include igx-theme($palette: $app-palette, $legacy-support:true);
   @import "app/themes/components/light";
 
   scrollbar-color: igx-color($app-palette, 'grays', 100) igx-color($app-palette, 'grays', 200);
@@ -38,7 +38,7 @@ html, body {
 }
 
 .app-dark-theme {
-  @include igx-theme($palette: $app-dark-palette, $schema: $dark-schema, $legacy-support:false);
+  @include igx-theme($palette: $app-dark-palette, $schema: $dark-schema, $legacy-support:true);
   @import "app/themes/components/dark";
   background: linear-gradient(#24304b, #0f1420);
   color: #ddd;
