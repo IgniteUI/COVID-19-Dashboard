@@ -4,12 +4,12 @@ import { Observable, BehaviorSubject } from 'rxjs';
 // base URL for the data files
 const BASE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/';
 const TIME_SERIES = 'csse_covid_19_time_series';
-const FILE_NAME = 'time_series_19-covid-';
+const FILE_NAME = 'time_series_covid19_';
 
 export enum DATA_SET {
-  CONFIRMED = 'Confirmed',
-  RECOVERED = 'Recovered',
-  DEATHS = 'Deaths'
+  CONFIRMED = 'confirmed_global',
+  RECOVERED = 'recovered_global',
+  DEATHS = 'deaths_global'
 }
 
 export interface IDataPoint {
@@ -27,7 +27,7 @@ export interface IDataPoint {
 
 @Injectable()
 export class RemoteDataService {
-  public dataSets = ['Confirmed', 'Recovered', 'Deaths'];
+  public dataSets = [DATA_SET.CONFIRMED, DATA_SET.RECOVERED, DATA_SET.DEATHS];
 
   private data: BehaviorSubject<any[]> = new BehaviorSubject([]);
   public data$: Observable<any[]> = this.data.asObservable();
