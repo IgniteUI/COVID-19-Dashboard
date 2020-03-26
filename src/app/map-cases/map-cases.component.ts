@@ -101,18 +101,18 @@ export class MapCasesComponent implements OnInit {
      */
     public addMapSeries(data: any, index: number) {
         this.tooltipTitle = this.titles[index];
-        const locations = data.data;
+        const locations = data.data.filter(rec => rec.value > 0);
         const maxValue = data.maxValue;
 
         // Geopraphic proportional symbol series
         const sizeScale = new IgxSizeScaleComponent();
         sizeScale.minimumValue = 1;
-        sizeScale.maximumValue = (maxValue / 1200);
+        sizeScale.maximumValue = maxValue / 1200;
         if (index === 1) {
             sizeScale.maximumValue = maxValue / 1000;
         }
         if (index === 2) {
-            sizeScale.maximumValue = maxValue / 50;
+            sizeScale.maximumValue = maxValue / 120;
         }
         sizeScale.isLogarithmic = true;
 
