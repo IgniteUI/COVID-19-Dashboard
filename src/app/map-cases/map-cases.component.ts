@@ -1,10 +1,22 @@
 import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesComponent, ArcGISOnlineMapImagery } from 'igniteui-angular-maps';
 import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
-import { RemoteDataService } from '../services/data.service';
+import { RemoteDataService, IWorldData } from '../services/data.service';
 import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
 import { EsriStyle, EsriUtility } from './EsriMapsUtility';
 import { Rect } from 'igniteui-angular-core';
+
+export enum dataSet {
+    totalConfirmed = 0,
+    totalRecovered = 1,
+    totalDeaths = 2
+}
+
+export enum maxValues {
+    maxConfirmed = 0,
+    maxRecovered = 1,
+    maxDeaths = 2
+}
 
 @Component({
     providers: [RemoteDataService],
@@ -43,10 +55,14 @@ export class MapCasesComponent implements OnInit {
             'rgba(255, 0, 0, .8)']
     ];
     public tooltipTitle = this.titles[0];
-    public confirmedData: any;
-    public recoveredData: any;
-    public deathsData: any;
-    public dataSets = [this.confirmedData, this.recoveredData, this.deathsData];
+    public confirmedData: any[];
+    public recoveredData: any[];
+    public deathsData: any[];
+    public data = [this.confirmedData, this.recoveredData, this.deathsData];
+
+    // public recoveredData: any;
+    // public deathsData: any;
+    public dataSets = ['totalConfirmed', 'totalRecovered', 'totalDeaths'];
 
     constructor() {
         this.dataSetButtons = [
@@ -87,22 +103,26 @@ export class MapCasesComponent implements OnInit {
      * Bind the corresponding series data depending on selected button
      */
     public onDataSetSelected(event: any) {
-        if (event.index === 0 && this.confirmedData) {
-            this.addMapSeries(this.confirmedData, 0);
-        } else if (event.index === 1 && this.recoveredData) {
-            this.addMapSeries(this.recoveredData, 1);
-        } else if (this.deathsData) {
-            this.addMapSeries(this.deathsData, 2);
-        }
+        // if (event.index === 0 && this.confirmedData) {
+        //     this.addMapSeries(this.confirmedData, 0);
+        // } else if (event.index === 1 && this.recoveredData) {
+        //     this.addMapSeries(this.recoveredData, 1);
+        // } else if (this.deathsData) {
+        //     this.addMapSeries(this.deathsData, 2);
+        // }
+        if (this.data) { this.addMapSeries(event.index); }
+
     }
 
     /**
      * Fill the map series corresponding to the passed index with tile imagery and add to map.
      */
-    public addMapSeries(data: any, index: number) {
+    public addMapSeries(index: number) {
         this.tooltipTitle = this.titles[index];
-        const locations = data.data.filter(rec => rec.value > 0);
-        const maxValue = data.maxValue;
+        const locations = this.data[index].filter(rec => rec.value > 0);
+        // const maxValue = this.data[index].maxValue;
+        const maxValue = 10000;
+
 
         // Geopraphic proportional symbol series
         const sizeScale = new IgxSizeScaleComponent();
@@ -126,8 +146,8 @@ export class MapCasesComponent implements OnInit {
         symbolSeries.markerType = MarkerType.Circle;
         symbolSeries.radiusScale = sizeScale;
         symbolSeries.fillScale = brushScale;
-        symbolSeries.fillMemberPath = 'value';
-        symbolSeries.radiusMemberPath = 'value';
+        symbolSeries.fillMemberPath = dataSet[index];
+        symbolSeries.radiusMemberPath = dataSet[index];
         symbolSeries.latitudeMemberPath = 'lat';
         symbolSeries.longitudeMemberPath = 'lon';
         symbolSeries.markerOutline = this.brushes[index][0];
@@ -149,19 +169,19 @@ export class MapCasesComponent implements OnInit {
         return item.region.length !== 0 && item.region !== item.country;
     }
 
-    public getTotalRecoveredForCountry(item): number {
-        const dataRec = this.recoveredData.data.find((rec) => {
-            return rec.region === item.region && rec.country === item.country;
-        });
-        return dataRec ? dataRec.value : 0;
-    }
+    // public getTotalRecoveredForCountry(item): number {
+    //     const dataRec = this.data.data.find((rec) => {
+    //         return rec.region === item.region && rec.country === item.country;
+    //     });
+    //     return dataRec ? dataRec.value : 0;
+    // }
 
-    public getTotalDeathsForCountry(item) {
-        const dataRec =  this.deathsData.data.find((rec) => {
-            return rec.region === item.region && rec.country === item.country;
-        });
-        return dataRec ? dataRec.value : 0;
-    }
+    // public getTotalDeathsForCountry(item) {
+    //     const dataRec =  this.deathsData.data.find((rec) => {
+    //         return rec.region === item.region && rec.country === item.country;
+    //     });
+    //     return dataRec ? dataRec.value : 0;
+    // }
 
     /**
      * Zoom the map to show the corresponding country.

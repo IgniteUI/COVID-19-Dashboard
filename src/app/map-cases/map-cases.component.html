@@ -14,9 +14,9 @@
         <h1 *ngIf="showRegion(item)">{{item.region}}, {{item.country}}</h1>
         <h1 *ngIf="!showRegion(item)">{{item.country}}</h1>
         <ul class="app__map-tooltip-list">
-          <li [class]="tooltipTitle.toLowerCase()">{{ tooltipTitle }}: <span>{{ item.value }}</span></li>
-          <li [class]="tooltipTitle.toLowerCase()">Total recovered: <span>{{ getTotalRecoveredForCountry(item) }}</span></li>
-          <li [class]="tooltipTitle.toLowerCase()">Total dead: <span>{{ getTotalDeathsForCountry(item) }}</span></li>
+          <li [class]="tooltipTitle.toLowerCase()">{{ tooltipTitle }}: <span>{{ item.totalDeaths }}</span></li>
+          <!-- <li [class]="tooltipTitle.toLowerCase()">Total recovered: <span>{{ getTotalRecoveredForCountry(item) }}</span></li>
+          <li [class]="tooltipTitle.toLowerCase()">Total dead: <span>{{ getTotalDeathsForCountry(item) }}</span></li> -->
         </ul>
     </div>
 </ng-template>

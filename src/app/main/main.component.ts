@@ -63,6 +63,7 @@ export class MainComponent implements OnDestroy {
       this.confirmedList.data = jsonDataConfirmed.data;
       this.confirmedList.totalNumber = jsonDataConfirmed.totalNumber;
       this.map.confirmedData = jsonDataConfirmed;
+      this.map.onDataSetSelected( {index: 0} );
 
       this.charts.transformChartRecoveredCases(results[1].toString());
       const jsonDataRecovered = this.dataService.csvToJson(results[1].toString());
@@ -74,7 +75,6 @@ export class MainComponent implements OnDestroy {
       this.deathsList.data = jsonDataDeaths.data;
       this.deathsList.totalNumber = jsonDataDeaths.totalNumber;
       this.map.deathsData = jsonDataDeaths;
-      this.map.onDataSetSelected( {index: 0} );
     });
   }
 
