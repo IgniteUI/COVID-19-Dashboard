@@ -63,16 +63,16 @@ export class MapCasesComponent implements OnInit {
         if (darkTheme) {
             tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldDarkGrayMap);
             this.brushes = [
-              ['rgba(62,57,114, .8)',],
-              ['rgba(78,184,98, .8)'],
-              ['rgba(255, 17, 94, .8)']
+              ['rgba(0,153,255, .5)'],
+              ['rgba(95,191,112, .5)'],
+              ['rgba(255, 138, 144, .5)']
             ];
         } else {
             tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldLightGrayMap);
             this.brushes = [
-              ['rgba(0,153,255, .8)',],
-              ['rgba(50,205,50, .8)'],
-              ['rgba(255, 0, 0, .8)']
+              ['rgba(62,57,114, .5)'],
+              ['rgba(78,184,98, .5)'],
+              ['rgba(255, 17, 94, .5)']
             ];
         }
         (this.map as any).backgroundContent = tileSource;
