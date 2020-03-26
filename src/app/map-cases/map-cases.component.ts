@@ -27,6 +27,17 @@ export interface IWorldData {
 //     maxRecovered = 1,
 //     maxDeaths = 2
 // }
+export enum YY {
+    totalConfirmed = 0,
+    totalRecovered = 1,
+    totalDeaths = 2
+}
+
+export enum maxValues {
+    maxConfirmed = 0,
+    maxRecovered = 1,
+    maxDeaths = 2
+}
 
 @Component({
     providers: [RemoteDataService],
@@ -65,10 +76,8 @@ export class MapCasesComponent implements OnInit {
             'rgba(255, 0, 0, .8)']
     ];
     public tooltipTitle = this.titles[0];
-    // public confirmedData: any[];
-    // public recoveredData: any[];
-    // public deathsData: any[];
     public data = {} as IWorldData;
+
 
     constructor() {
         this.dataSetButtons = [
@@ -117,8 +126,8 @@ export class MapCasesComponent implements OnInit {
      */
     public addMapSeries(index: number) {
         this.tooltipTitle = this.titles[index];
-        const locations = this.data[this.dataSets[index]].data;
-        const maxValue = this.data[this.dataSets[index]].maxValue;
+        const locations = this.data.data;
+        const maxValue = this.data[maxValues[index]];
 
         // Geopraphic proportional symbol series
         const sizeScale = new IgxSizeScaleComponent();

@@ -6,7 +6,7 @@
   <igx-divider></igx-divider>
   <igx-card-content class="app__card-content">
       <igx-list [displayDensity]="'cosy'" class="app__list-inner">
-        <igx-list-item #item *ngFor="let item of listSortedData">
+        <igx-list-item #item *ngFor="let item of data">
           <span igxListLineTitle *ngIf="item.region && item.country !== item.region; else">{{ item.region }}, {{ item.country }}</span>
           <span igxListLineTitle #else>{{ item.country }}</span>
           <span igxListAction>{{ getTotal(item) | number }}</span>

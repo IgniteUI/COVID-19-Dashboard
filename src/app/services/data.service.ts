@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 // base URL for the data files
-const BASE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/';
+const BASE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data';
 const TIME_SERIES = 'csse_covid_19_time_series';
 const DAILY_SERIES = 'csse_covid_19_daily_reports';
 const FILE_NAME = 'time_series_covid19_';
@@ -20,6 +20,12 @@ export interface IRegionData {
   region: string;
   country: string;
   increase?: number;
+}
+
+export interface IWorldData {
+  data: IRegionData[];
+  maxNumber; number;
+  totalNumber: number;
 }
 
 @Injectable()
@@ -49,7 +55,7 @@ export class RemoteDataService {
     } else {
       data$ = Observable.create(observer => {
         // tslint:disable-next-line: max-line-length
-        fetch(`${BASE_URL}/${TIME_SERIES}/${FILE_NAME}${dataSet}.csv`)
+        fetch(`${BASE_URL}/${DAILY_SERIES}/${FILE_NAME}${dataSet}.csv`)
           .then(response => {
             return response.text();
           })
@@ -122,16 +128,15 @@ export class RemoteDataService {
     return resultData$;
   }
 
-  public csvToJson(csvData: string): any {
+  public csvToJson(csvData: string): IWorldData {
       csvData = csvData.replace(/, /g, ' - ');
       csvData = csvData.replace(/"/g, '');
       const csvLines = csvData.split('\n');
       const headers = csvLines[0].split(',');
-
       const locations = [];
       let data = [];
-      let maxValue = 1;
       let totalNumber = 0;
+      let maxValue = 0;
 
       for (let i = 1; i < csvLines.length; i++) {
           const columns = csvLines[i].split(',');
@@ -153,21 +158,21 @@ export class RemoteDataService {
           }
       }
 
-        // aggregate list based on country
-        // const result = listData.reduce((prev, item) => {
-        //     const newItem = prev.find((i) => {
-        //         return i.country === item.country;
-        //     });
-        //     if (newItem) {
-        //         newItem.value += item.value;
-        //     } else {
-        //         prev.push(item);
-        //     }
-        //     return prev;
-        // }, []);
+      // aggregate list based on country
+      // const result = locations.reduce((prev, item) => {
+      //     const newItem = prev.find((i) => {
+      //         return i.country === item.country;
+      //     });
+      //     if (newItem) {
+      //         newItem.value += item.value;
+      //     } else {
+      //         prev.push(item);
+      //     }
+      //     return prev;
+      // }, []);
 
       data = locations.sort((a, b) => {
-        return b.value - a.value;
+        return b.totalConfirmed - a.totalConfirmed;
       });
 
       return { data, maxValue, totalNumber };
