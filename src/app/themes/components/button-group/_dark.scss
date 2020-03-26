@@ -8,4 +8,4 @@ $app-button-group-theme-dark: igx-button-group-theme(
   $item-border-color: igx-color($app-dark-palette, 'surface'),
   $shadow: none,
 );
-@include igx-css-vars($app-button-group-theme-dark);
+@include igx-button-group($app-button-group-theme-dark);

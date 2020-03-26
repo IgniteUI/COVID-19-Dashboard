@@ -2,11 +2,12 @@ $app-tabs-theme: igx-tabs-theme(
   $border-radius: 8px,
   $disable-shadow: false,
   $item-text-color: igx-color($app-palette, 'primary', 700),
-  $item-hover-background: igx-color($app-palette, 'primary', 100),
+  $item-hover-background: #D5D3EF,
   $item-hover-color: igx-color($app-palette, 'primary', 900),
   $item-active-color: igx-color($app-palette, 'primary', 900),
   $item-active-icon-color: igx-color($app-palette, 'primary', 900),
-  $item-active-background: igx-color($app-palette, 'primary', 100),
+  $item-active-background: #D5D3EF,
+  $indicator-color: #7C78AA
 );
 
 @include igx-tabs($app-tabs-theme);
