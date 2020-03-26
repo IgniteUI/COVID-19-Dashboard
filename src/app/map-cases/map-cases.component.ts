@@ -28,14 +28,14 @@ export class MapCasesComponent implements OnInit {
     public titles = ['Infected', 'Recovered', 'Deaths'];
     public brushes = [
         [
-            ['rgba(0,153,255, .5)'],
-            ['rgba(95,191,112, .5)'],
-            ['rgba(255, 138, 144, .5)']
+            ['rgba(0,153,255, .3)'],
+            ['rgba(95,191,112, .4)'],
+            ['rgba(255, 138, 144, .4)']
         ],
         [
-            ['rgba(62,57,114, .5)'],
-            ['rgba(78,184,98, .5)'],
-            ['rgba(255, 17, 94, .5)']
+            ['rgba(62,57,114, .3)'],
+            ['rgba(78,184,98, .3)'],
+            ['rgba(255, 17, 94, .3)']
         ]
       ];
     public tooltipTitle = this.titles[0];
