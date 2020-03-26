@@ -62,19 +62,19 @@ export class MainComponent implements OnDestroy {
       const jsonDataConfirmed = this.dataService.csvToJson(results[0].toString());
       this.confirmedList.data = jsonDataConfirmed.data;
       this.confirmedList.totalNumber = jsonDataConfirmed.totalNumber;
-      this.map.confirmedData = jsonDataConfirmed;
+      this.map.data.totalConfirmedData = jsonDataConfirmed.data;
       this.map.onDataSetSelected( {index: 0} );
 
       this.charts.transformChartRecoveredCases(results[1].toString());
       const jsonDataRecovered = this.dataService.csvToJson(results[1].toString());
       this.recoveredList.data = jsonDataRecovered.data;
       this.recoveredList.totalNumber = jsonDataRecovered.totalNumber;
-      this.map.recoveredData = jsonDataRecovered;
+      //this.map.recoveredData = jsonDataRecovered;
 
       const jsonDataDeaths = this.dataService.csvToJson(results[2].toString());
       this.deathsList.data = jsonDataDeaths.data;
       this.deathsList.totalNumber = jsonDataDeaths.totalNumber;
-      this.map.deathsData = jsonDataDeaths;
+      //this.map.deathsData = jsonDataDeaths;
     });
   }
 
