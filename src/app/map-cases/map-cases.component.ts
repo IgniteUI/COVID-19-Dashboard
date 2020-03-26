@@ -26,7 +26,11 @@ export class MapCasesComponent implements OnInit {
     public series: Array<IgxGeographicProportionalSymbolSeriesComponent> = [this.confirmedSeries, this.recoveredSeries, this.deathSeries];
     public dataSetButtons: any[];
     public titles = ['Infected', 'Recovered', 'Deaths'];
-    public brushes = [];
+    public brushes = [
+        ['rgba(0,153,255, .5)'],
+        ['rgba(95,191,112, .5)'],
+        ['rgba(255, 138, 144, .5)']
+      ];
     public tooltipTitle = this.titles[0];
     public confirmedData: any;
     public recoveredData: any;
@@ -60,26 +64,33 @@ export class MapCasesComponent implements OnInit {
     public changeMap(darkTheme: boolean) {
         const tileSource = new ArcGISOnlineMapImagery();
         (tileSource as any).i = tileSource;
-        const brushScale = new IgxValueBrushScaleComponent();
-        const series = this.map.series.item(0) as IgxGeographicProportionalSymbolSeriesComponent;
         if (darkTheme) {
             tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldDarkGrayMap);
-            brushScale.brushes = [
-              'rgba(0,153,255, .5)',
-              'rgba(95,191,112, .5)',
-              'rgba(255, 138, 144, .5)'
-            ];
-            series.fillScale = brushScale;
         } else {
             tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldLightGrayMap);
-            brushScale.brushes = [
-              'rgba(62,57,114, .5)',
-              'rgba(78,184,98, .5)',
-              'rgba(255, 17, 94, .5)'
-            ];
-            series.fillScale = brushScale;
         }
         (this.map as any).backgroundContent = tileSource;
+    }
+
+    public changeMapSeriesBrushScale(darkTheme: boolean) {
+      const brushScale = new IgxValueBrushScaleComponent();
+      const series = this.map.series.item(0) as IgxGeographicProportionalSymbolSeriesComponent;
+
+      if (darkTheme) {
+        brushScale.brushes = [
+          'rgba(0,153,255, .5)',
+          'rgba(95,191,112, .5)',
+          'rgba(255, 138, 144, .5)'
+        ];
+        series.fillScale = brushScale;
+      } else {
+        brushScale.brushes = [
+          'rgba(62,57,114, .5)',
+          'rgba(78,184,98, .5)',
+          'rgba(255, 17, 94, .5)'
+        ];
+        series.fillScale = brushScale;
+      }
     }
 
     /**
