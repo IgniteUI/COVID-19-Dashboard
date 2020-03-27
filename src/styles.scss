@@ -40,7 +40,7 @@ html, body {
 .app-dark-theme {
   @include igx-theme($palette: $app-dark-palette, $schema: $dark-schema, $legacy-support:true);
   @import "app/themes/components/dark";
-  background: linear-gradient(#24304b, #0f1420);
+  background: linear-gradient(map-get($dark-vars, dark-gradient));
   color: #ddd;
 
   scrollbar-color: igx-color($app-dark-palette, 'grays', 100) #24304b;

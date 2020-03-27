@@ -9,6 +9,7 @@ $dark-secondary: #09f;
 $dark-surface: #151c2c;
 $dark-grays: #fff;
 $dark-danger: #FF8A90;
+$dark-warn: #F05A2B;
 $dark-success: #5FBF70;
 $dark-info: #47B6FF;
 $app-dark-palette: igx-palette(
@@ -18,5 +19,6 @@ $app-dark-palette: igx-palette(
   $surface: $dark-surface,
   $error: $dark-danger,
   $success: $dark-success,
-  $info: $dark-info
+  $info: $dark-info,
+  $warn: $dark-warn
 );

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import {DisplayDensityToken} from 'igniteui-angular';
 
 @Component({
-    providers: [{ provide: DisplayDensityToken, useValue: { displayDensity: "comfortable" } }],
+    providers: [{ provide: DisplayDensityToken, useValue: { displayDensity: 'comfortable' } }],
     selector: 'app-list-cases',
     templateUrl: './list-cases.component.html',
     styleUrls: ['./list-cases.component.scss'],
@@ -14,5 +14,4 @@ export class ListCasesComponent {
     public dataSets = ['Confirmed', 'Recovered', 'Deaths'];
     public data = [];
     public totalNumber: number;
-
 }
