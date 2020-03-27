@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, ViewChild, ChangeDetectorRef, ViewContainerRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { RemoteDataService, ICasesData } from '../services/data.service';
 import { MapCasesComponent } from '../map-cases/map-cases.component';
 import { ListCasesComponent } from '../list-cases/list-cases.component';
@@ -10,15 +10,17 @@ import { forkJoin } from 'rxjs';
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-  host: {class: 'app__main'}
+  host: { class: 'app__main' }
 })
 export class MainComponent implements OnDestroy {
 
   @ViewChild(TimelineChartComponent, { read: TimelineChartComponent }) public charts: TimelineChartComponent;
-  @ViewChild('map', {static: true}) public map: MapCasesComponent;
+  @ViewChild('map', { static: true }) public map: MapCasesComponent;
   @ViewChild('confirmedList', { static: true }) public confirmedList: ListCasesComponent;
   @ViewChild('recoveredList', { static: true }) public recoveredList: ListCasesComponent;
   @ViewChild('deathsList', { static: true }) public deathsList: ListCasesComponent;
+
+  @Output() messageEvent = new EventEmitter<string>();
 
   private dataRequestConfirmed$: any;
   private dataRequestRecovered$: any;
@@ -57,9 +59,10 @@ export class MainComponent implements OnDestroy {
       this.confirmedList.data = jsonDataConfirmed;
       this.recoveredList.data = jsonDataRecovered;
       this.deathsList.data = jsonDataDeaths;
-
       this.map.data = worldData;
       this.map.onDataSetSelected( {index: 0} );
+      
+      this.messageEvent.emit('splash-screen--hidden');
     });
   }
 
@@ -78,6 +81,6 @@ export class MainComponent implements OnDestroy {
   }
 
   public formatDateLabel(item: any): string {
-      return item.date.toLocaleDateString();
+    return item.date.toLocaleDateString();
   }
 }
