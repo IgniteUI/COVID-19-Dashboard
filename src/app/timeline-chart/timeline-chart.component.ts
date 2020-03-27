@@ -215,32 +215,6 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     return item.date.toLocaleDateString();
   }
 
-  public formatTooltipDateLabel(item: any): string {
-    return item.date.toLocaleString();
-  }
-
-  private configureCharts() {
-    const chartActual: IChartConfig = { name: 'Actual', chartComponent: this.chartActual,
-      tooltipTemplate: this.tooltipActualTemplate };
-    const chartLogarithmic: IChartConfig = { name: 'Logarithmic', chartComponent: this.chartLogarithmic,
-      tooltipTemplate: this.tooltipLogarithmicTemplate };
-    const chartDaily: IChartConfig = { name: 'Daily', chartComponent: this.chartDaily,
-      tooltipTemplate: this.tooltipDailyTemplate };
-
-    const charts: IChartConfig[] = [chartActual, chartLogarithmic, chartDaily];
-    let toolTipLayer;
-
-    for (const chart of charts) {
-      toolTipLayer = new IgxCategoryToolTipLayerComponent();
-      toolTipLayer.name = 'categorySeries' + chart.name;
-      toolTipLayer.i.m5  = CategoryTooltipLayerPosition.Auto;
-      toolTipLayer.transitionDuration = 200;
-      // Tooltip template
-      // toolTipLayer.tooltipTemplate = chart.tooltipTemplate;
-      chart.chartComponent.series.add(toolTipLayer);
-    }
-  }
-
   private setCustomTooltips() {
     this.chartActual.actualSeries[0].tooltipTemplate = this.tooltipActualTemplate;
     this.chartActual.actualSeries[1].tooltipTemplate = this.tooltipActualTemplate;

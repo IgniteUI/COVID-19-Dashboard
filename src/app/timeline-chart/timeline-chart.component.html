@@ -82,24 +82,24 @@
     <div class="app__map-tooltip">
         <ul class="app__map-tooltip-list">
             <li class="deaths" *ngIf="series.name == 'seriesTotalDailyOtherLocations'">
-                <div>{{ formatTooltipDateLabel(item) }}</div>
+                <div>{{ formatDateLabel(item) }}</div>
                 <div>
                   Total Daily Other Locations:
-                  <span>{{ item.totalDailyOtherLocations }}</span>
+                  <span>{{ item.totalDailyOtherLocations| number }}</span>
                 </div>
             </li>
             <li class="infected" *ngIf="series.name == 'seriesTotalDailyChina'">
-                <div>{{ formatTooltipDateLabel(item) }}</div>
+                <div>{{ formatDateLabel(item) }}</div>
                 <div>
                   Total Daily China:
-                  <span>{{ item.totalDailyChina }}</span>
+                  <span>{{ item.totalDailyChina | number }}</span>
                 </div>
             </li>
             <li class="recovered" *ngIf="series.name == 'seriesTotalDailyRecoveredCases'">
-                <div class="app__map-tooltip-list-date">{{ formatTooltipDateLabel(item) }}</div>
+                <div class="app__map-tooltip-list-date">{{ formatDateLabel(item) }}</div>
                 <div>
                   Total Daily Recovered Cases:
-                  <span>{{ item.totalDailyRecoveredCases }}</span>
+                  <span>{{ item.totalDailyRecoveredCases | number }}</span>
                 </div>
             </li>
         </ul>
@@ -110,16 +110,16 @@
     <div class="app__map-tooltip">
         <ul class="app__map-tooltip-list">
             <li class="deaths" *ngIf="series.name == 'seriesTotalDailyOtherLocations'">
-                <div>{{ formatTooltipDateLabel(item) }}</div>
-                <div>Total Daily Other Locations: <span> {{ item.totalDailyOtherLocations }} </span></div>
+                <div>{{ formatDateLabel(item) }}</div>
+                <div>Total Daily Other Locations: <span> {{ item.totalDailyOtherLocations | number }} </span></div>
             </li>
             <li class="infected" *ngIf="series.name == 'seriesTotalDailyChina'">
-                <div>{{ formatTooltipDateLabel(item) }}</div>
-                <div>Total Daily China:<span > {{ item.totalDailyChina }} </span></div>
+                <div>{{ formatDateLabel(item) }}</div>
+                <div>Total Daily China:<span > {{ item.totalDailyChina | number }} </span></div>
             </li>
             <li class="recovered" *ngIf="series.name == 'seriesTotalDailyRecoveredCases'">
-                <div>{{ formatTooltipDateLabel(item) }}</div>
-                <div>Total Daily Recovered Cases: <span> {{ item.totalDailyRecoveredCases }} </span></div>
+                <div>{{ formatDateLabel(item) }}</div>
+                <div>Total Daily Recovered Cases: <span> {{ item.totalDailyRecoveredCases | number }} </span></div>
             </li>
         </ul>
     </div>
@@ -129,12 +129,12 @@
     <div class="app__map-tooltip">
         <ul class="app__map-tooltip-list">
             <li class="infected" *ngIf="series.valueMemberPath == 'activeCases'">
-                <div>{{ formatTooltipDateLabel(item) }}</div>
-                <div>New Confirmed Cases:<span class="infected"> {{ item.activeCases }} </span></div>
+                <div>{{ formatDateLabel(item) }}</div>
+                <div>New Confirmed Cases:<span class="infected"> {{ item.activeCases | number }} </span></div>
             </li>
             <li class="recovered" *ngIf="series.valueMemberPath == 'recoveredCases'">
-                <div>{{ formatTooltipDateLabel(item) }}</div>
-                <div>Recovered Cases:<span class="infected"> {{ item.recoveredCases }} </span></div>
+                <div>{{ formatDateLabel(item) }}</div>
+                <div>Recovered Cases:<span class="infected"> {{ item.recoveredCases | number }} </span></div>
             </li>
         </ul>
     </div>
