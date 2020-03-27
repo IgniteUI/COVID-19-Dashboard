@@ -80,6 +80,18 @@
         color: map-get($dark-vars, confirmed-color);
       }
     }
+    .recovered {
+      span {
+        font-weight: bold;
+        color: map-get($dark-vars, recovered-color);
+      }
+    }
+    .deaths {
+      span {
+        font-weight: bold;
+        color: map-get($dark-vars, deaths-color);
+      }
+    }
   }
 }
 

@@ -13,9 +13,19 @@
   user-select: none;
   opacity: 1;
   z-index: 10;
-  transition: opacity 300ms ease-in-out;
+  transition: opacity 900ms ease-out;
+  h1 {
+    color: #fff;
+    font-size: 24px;
+    line-height: normal;
+    text-align: center;
+    font-weight: bold;
+    span {
+      display: block;
+    }
+  }
 
-  .splash-screen__title {
+  .splash-screen__title-color {
     color: igx-color($app-dark-palette, 'warn');
   }
 
@@ -24,8 +34,14 @@
     pointer-events: none;
   }
 
+  .splash-screen__title-small {
+    font-size: 18px;
+    font-weight: normal;
+  }
+
   .app__splash-screen-logo {
     height: 200px;
+    letter-spacing: 1px;
   }
 }
 
