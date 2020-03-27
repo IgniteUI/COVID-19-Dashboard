@@ -3,6 +3,7 @@ import { RemoteDataService } from '../services/data.service';
 import { MapCasesComponent } from '../map-cases/map-cases.component';
 import { ListCasesComponent } from '../list-cases/list-cases.component';
 import { TimelineChartComponent } from '../timeline-chart/timeline-chart.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
   providers: [RemoteDataService],
@@ -19,7 +20,9 @@ export class MainComponent implements OnDestroy {
   @ViewChild('recoveredList', { static: true }) public recoveredList: ListCasesComponent;
   @ViewChild('deathsList', { static: true }) public deathsList: ListCasesComponent;
 
-  private dataRequest$: any;
+  private dataRequestConfirmed$: any;
+  private dataRequestRecovered$: any;
+  private dataRequestDeaths$: any;
   public confirmed: string;
   public recovered: string;
   public deaths: string;
@@ -33,39 +36,46 @@ export class MainComponent implements OnDestroy {
 
   public loadDataSets() {
     // Fetch Confirmed cases
-    this.dataRequest$ = this.dataService.getDataSet(0);
-    this.dataRequest$.subscribe(csvData => {
-        this.charts.transformChartConfirmedCases(csvData);
-        const jsonData = this.dataService.csvToJson(csvData);
-        this.confirmedList.data = jsonData.data;
-        this.confirmedList.totalNumber = jsonData.totalNumber;
-        this.map.confirmedData = jsonData;
-    });
+    this.dataRequestConfirmed$ = this.dataService.getDataSet(0);
 
     // Fetch Recovered cases
-    this.dataRequest$ = this.dataService.getDataSet(1);
-    this.dataRequest$.subscribe(csvData => {
-      this.charts.transformChartRecoveredCases(csvData);
-      const jsonData = this.dataService.csvToJson(csvData);
-      this.recoveredList.data = jsonData.data;
-      this.recoveredList.totalNumber = jsonData.totalNumber;
-      this.map.recoveredData = jsonData;
-    });
+    this.dataRequestRecovered$ = this.dataService.getDataSet(1);
 
     // Fetch Deaths cases
-    this.dataRequest$ = this.dataService.getDataSet(2);
-    this.dataRequest$.subscribe(csvData => {
-      const jsonData = this.dataService.csvToJson(csvData);
-      this.deathsList.data = jsonData.data;
-      this.deathsList.totalNumber = jsonData.totalNumber;
-      this.map.deathsData = jsonData;
+    this.dataRequestDeaths$ = this.dataService.getDataSet(2);
+
+    forkJoin([this.dataRequestConfirmed$, this.dataRequestRecovered$, this.dataRequestDeaths$]).subscribe(results => {
+      this.charts.transformChartConfirmedCases(results[0].toString());
+      const jsonDataConfirmed = this.dataService.csvToJson(results[0].toString());
+      this.confirmedList.data = jsonDataConfirmed.data;
+      this.confirmedList.totalNumber = jsonDataConfirmed.totalNumber;
+      this.map.dataSets.push(jsonDataConfirmed);
+
+      this.charts.transformChartRecoveredCases(results[1].toString());
+      const jsonDataRecovered = this.dataService.csvToJson(results[1].toString());
+      this.recoveredList.data = jsonDataRecovered.data;
+      this.recoveredList.totalNumber = jsonDataRecovered.totalNumber;
+      this.map.dataSets.push(jsonDataRecovered);
+
+      const jsonDataDeaths = this.dataService.csvToJson(results[2].toString());
+      this.deathsList.data = jsonDataDeaths.data;
+      this.deathsList.totalNumber = jsonDataDeaths.totalNumber;
+      this.map.dataSets.push(jsonDataDeaths);
       this.map.onDataSetSelected( {index: 0} );
     });
   }
 
   public ngOnDestroy() {
-    if (this.dataRequest$) {
-      this.dataRequest$.unsubscribe();
+    if (this.dataRequestConfirmed$) {
+      this.dataRequestConfirmed$.unsubscribe();
+    }
+
+    if (this.dataRequestRecovered$) {
+      this.dataRequestRecovered$.unsubscribe();
+    }
+
+    if (this.dataRequestDeaths$) {
+      this.dataRequestDeaths$.unsubscribe();
     }
   }
 

@@ -1,7 +1,7 @@
 $app-button-group-theme: igx-button-group-theme(
-  $item-selected-background: igx-color($app-palette, 'primary', 100),
-  $item-hover-background: igx-color($app-palette, 'primary', 100),
-  $item-selected-hover-background: igx-color($app-palette, 'primary', 100),
+  $item-selected-background: #D5D3EF,
+  $item-hover-background: #D5D3EF,
+  $item-selected-hover-background: #D5D3EF,
   $item-selected-border-color: igx-color($app-palette, 'primary'),
   $item-text-color: igx-color($app-palette, 'primary', 700),
   $item-selected-text-color: igx-color($app-palette, 'primary', 900),
@@ -10,4 +10,4 @@ $app-button-group-theme: igx-button-group-theme(
   $shadow: none,
 );
 
-@include igx-css-vars($app-button-group-theme);
+@include igx-button-group($app-button-group-theme);
