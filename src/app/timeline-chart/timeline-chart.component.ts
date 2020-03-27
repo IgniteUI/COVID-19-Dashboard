@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { IgxDataChartComponent, IgxCategoryXAxisComponent, IgxNumericYAxisComponent,
-  IgxCategoryToolTipLayerComponent } from 'igniteui-angular-charts';
+  IgxCategoryToolTipLayerComponent, 
+  CategoryTooltipLayerPosition} from 'igniteui-angular-charts';
 
 @Component({
   selector: 'app-timeline-chart',
@@ -37,7 +38,7 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // Uncomment this like in order to enable custom tooltips
-    // this.setCustomTooltips();
+    this.setCustomTooltips();
   }
 
   // Used to fill the data for both Confirmed and Recovered data sources
@@ -214,6 +215,28 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     return item.date.toLocaleDateString();
   }
 
+  private configureCharts() {
+    const chartActual: IChartConfig = { name: 'Actual', chartComponent: this.chartActual,
+      tooltipTemplate: this.tooltipActualTemplate };
+    const chartLogarithmic: IChartConfig = { name: 'Logarithmic', chartComponent: this.chartLogarithmic,
+      tooltipTemplate: this.tooltipLogarithmicTemplate };
+    const chartDaily: IChartConfig = { name: 'Daily', chartComponent: this.chartDaily,
+      tooltipTemplate: this.tooltipDailyTemplate };
+
+    const charts: IChartConfig[] = [chartActual, chartLogarithmic, chartDaily];
+    let toolTipLayer;
+
+    for (const chart of charts) {
+      toolTipLayer = new IgxCategoryToolTipLayerComponent();
+      toolTipLayer.name = 'categorySeries' + chart.name;
+      toolTipLayer.i.m5  = CategoryTooltipLayerPosition.Auto;
+      toolTipLayer.transitionDuration = 200;
+      // Tooltip template
+      // toolTipLayer.tooltipTemplate = chart.tooltipTemplate;
+      chart.chartComponent.series.add(toolTipLayer);
+    }
+  }
+
   private setCustomTooltips() {
     this.chartActual.actualSeries[0].tooltipTemplate = this.tooltipActualTemplate;
     this.chartActual.actualSeries[1].tooltipTemplate = this.tooltipActualTemplate;
@@ -227,4 +250,10 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     this.chartDaily.actualSeries[1].tooltipTemplate = this.tooltipDailyTemplate;
     this.chartDaily.actualSeries[2].tooltipTemplate = this.tooltipDailyTemplate;
   }
+}
+
+interface IChartConfig {
+  name: string;
+  chartComponent: IgxDataChartComponent;
+  tooltipTemplate: TemplateRef<any>;
 }

@@ -18,7 +18,7 @@
   .app__map-tooltip {
     top: -2px;
     left: -2px;
-    position: absolute;
+    position: relative;
     border-radius:8px;
     padding: 8px;
     box-shadow: 0 3px 5px -1px igx-color($app-palette, 'grays', 400),
@@ -31,6 +31,15 @@
       font-size: 18px;
       line-height: normal;
       margin: 0
+    }
+
+    &:after {
+      content:'';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: calc(100% + 10px);
+      height:  calc(100% + 10px);
     }
   }
 
