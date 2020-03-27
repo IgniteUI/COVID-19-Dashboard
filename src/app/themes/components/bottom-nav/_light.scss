@@ -1,0 +1,6 @@
+$app-bottom-nav-theme: igx-bottom-nav-theme(
+  $active-item-color: igx-color($app-palette, 'primary', 700),
+  $shadow: none
+);
+
+@include igx-bottom-nav($app-bottom-nav-theme);

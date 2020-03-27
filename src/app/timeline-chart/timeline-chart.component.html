@@ -81,17 +81,26 @@
 <ng-template let-series="series" let-item="item" #tooltipActualChart>
     <div class="app__map-tooltip">
         <ul class="app__map-tooltip-list">
-            <li *ngIf="series.name == 'seriesTotalDailyOtherLocations'">
+            <li class="infected" *ngIf="series.name == 'seriesTotalDailyOtherLocations'">
                 <div>{{ formatTooltipDateLabel(item) }}</div>
-                <div>Total Daily Other Locations:<span class="infected"> {{ item.totalDailyOtherLocations }} </span></div>
+                <div>
+                  Total Daily Other Locations:
+                  <span>{{ item.totalDailyOtherLocations }}</span>
+                </div>
             </li>
-            <li *ngIf="series.name == 'seriesTotalDailyChina'">
+            <li class="deaths" *ngIf="series.name == 'seriesTotalDailyChina'">
                 <div>{{ formatTooltipDateLabel(item) }}</div>
-                <div>Total Daily China:<span class="infected"> {{ item.totalDailyChina }} </span></div>
+                <div>
+                  Total Daily China:
+                  <span>{{ item.totalDailyChina }}</span>
+                </div>
             </li>
-            <li *ngIf="series.name == 'seriesTotalDailyRecoveredCases'">
-                <div>{{ formatTooltipDateLabel(item) }}</div>
-                <div>Total Daily Recovered Cases:<span class="infected"> {{ item.totalDailyRecoveredCases }} </span></div>
+            <li class="recovered" *ngIf="series.name == 'seriesTotalDailyRecoveredCases'">
+                <div class="app__map-tooltip-list-date">{{ formatTooltipDateLabel(item) }}</div>
+                <div>
+                  Total Daily Recovered Cases:
+                  <span>{{ item.totalDailyRecoveredCases }}</span>
+                </div>
             </li>
         </ul>
     </div>
