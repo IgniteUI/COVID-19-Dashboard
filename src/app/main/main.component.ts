@@ -35,8 +35,8 @@ export class MainComponent implements OnDestroy {
       let loadDataFromCache = false;
       const lastCommit = new Date(data[0].commit.author.date).getTime();
       const lastUpdate = parseInt(window.localStorage.getItem('lastUpdate'), 10);
-      this.updateTimeRetrieved.emit( lastCommit );
-      window.localStorage.setItem(`lastUpdate`,  lastCommit as any);
+      this.updateTimeRetrieved.emit(lastCommit);
+      window.localStorage.setItem(`lastUpdate`, lastCommit as any);
       if (lastUpdate && lastUpdate >= lastCommit) { loadDataFromCache = true; }
       this.loadDataSets(loadDataFromCache);
     });
@@ -64,8 +64,9 @@ export class MainComponent implements OnDestroy {
       this.recoveredList.data = jsonDataRecovered;
       this.deathsList.data = jsonDataDeaths;
       this.map.data = worldData;
-      this.map.onDataSetSelected( {index: 0} );
-      
+      this.map.onDataSetSelected({ index: 0 });
+
+      // Hide splash screen after the data is loaded
       this.messageEvent.emit('splash-screen--hidden');
     });
   }
