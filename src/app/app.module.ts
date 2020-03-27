@@ -24,6 +24,7 @@ import { ListCasesComponent } from './list-cases/list-cases.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { TimelineChartComponent } from './timeline-chart/timeline-chart.component';
+import { SplashscreenComponent } from './splashscreen/splashscreen.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { TimelineChartComponent } from './timeline-chart/timeline-chart.componen
     ListCasesComponent,
     HeaderComponent,
     FooterComponent,
-    TimelineChartComponent
+    TimelineChartComponent,
+    SplashscreenComponent
   ],
     imports: [
         BrowserModule,

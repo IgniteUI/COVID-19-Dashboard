@@ -26,7 +26,8 @@ $dark-vars:(
   footer-background: igx-color($app-dark-palette, 'grays', 100),
   link-color: igx-color($app-dark-palette, 'secondary'),
   tooltip-bg: igx-color($app-dark-palette, 'surface'),
-  logo-color: #fff
+  logo-color: #fff,
+  dark-gradient: (igx-color($app-dark-palette, 'primary', 600), igx-color($app-dark-palette, 'surface'))
 );
 
 
