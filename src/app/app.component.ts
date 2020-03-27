@@ -24,6 +24,10 @@ export class AppComponent implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    this.ssVisability = 'splash-screen--hidden';
+    // this.ssVisability = 'splash-screen--hidden';
+  }
+
+  dataReceived($event) {
+    this.ssVisability = $event;
   }
 }
