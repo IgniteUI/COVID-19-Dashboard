@@ -215,6 +215,10 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     return item.date.toLocaleDateString();
   }
 
+  public formatTooltipDateLabel(item: any): string {
+    return item.date.toLocaleString();
+  }
+
   private configureCharts() {
     const chartActual: IChartConfig = { name: 'Actual', chartComponent: this.chartActual,
       tooltipTemplate: this.tooltipActualTemplate };
@@ -248,7 +252,6 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
 
     this.chartDaily.actualSeries[0].tooltipTemplate = this.tooltipDailyTemplate;
     this.chartDaily.actualSeries[1].tooltipTemplate = this.tooltipDailyTemplate;
-    this.chartDaily.actualSeries[2].tooltipTemplate = this.tooltipDailyTemplate;
   }
 }
 
