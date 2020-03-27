@@ -1,19 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { RemoteDataService } from '../services/data.service';
+import { Component } from '@angular/core';
+
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'],
-  providers: [RemoteDataService]
+  styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit {
-  @Input() date: Date;
-  constructor(private dataService: RemoteDataService) { }
-
-  ngOnInit(): void {
-    const result$ = this.dataService.getLatestCommits();
-    result$.subscribe(data => {
-      this.date = new Date(data[0].commit.author.date);
-    });
-  }
+export class FooterComponent {
+  public lastUpdate: Date;
 }

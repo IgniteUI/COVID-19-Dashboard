@@ -1,7 +1,6 @@
 <app-splashscreen [ngClass]="ssVisability"></app-splashscreen>
 <div [class.app-dark-theme]="darkTheme" [class.app-light-theme]="!darkTheme">
   <app-header (themeChanged)="toggleTheme()"></app-header>
-  <!-- <router-outlet></router-outlet> -->
-  <app-main #main (messageEvent)="dataReceived($event)"></app-main>
+  <app-main #main (updateTimeRetrieved)="onUpdateTimeRetrieved($event)" (messageEvent)="onDataReceived($event)"></app-main>
   <app-footer></app-footer>
 </div>

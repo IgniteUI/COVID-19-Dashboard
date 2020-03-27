@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild, ChangeDetectorRef, ViewContainerRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { RemoteDataService } from '../services/data.service';
+import { RemoteDataService, ICasesData } from '../services/data.service';
 import { MapCasesComponent } from '../map-cases/map-cases.component';
 import { ListCasesComponent } from '../list-cases/list-cases.component';
 import { TimelineChartComponent } from '../timeline-chart/timeline-chart.component';
@@ -25,46 +25,48 @@ export class MainComponent implements OnDestroy {
   private dataRequestConfirmed$: any;
   private dataRequestRecovered$: any;
   private dataRequestDeaths$: any;
-  public confirmed: string;
-  public recovered: string;
-  public deaths: string;
-  public confirmedData: any[] = [];
-  public recoveredData: any[] = [];
-  public deathsData: any[] = [];
 
-  constructor(private dataService: RemoteDataService, private cdr: ChangeDetectorRef) {
-    this.loadDataSets();
+
+  @Output() updateTimeRetrieved = new EventEmitter<number>();
+
+  constructor(private dataService: RemoteDataService) {
+    const lastCommitTime$ = this.dataService.getLatestCommits();
+    lastCommitTime$.subscribe(data => {
+      let loadDataFromCache = false;
+      const lastCommit = new Date(data[0].commit.author.date).getTime();
+      const lastUpdate = parseInt(window.localStorage.getItem('lastUpdate'), 10);
+      this.updateTimeRetrieved.emit(lastCommit);
+      window.localStorage.setItem(`lastUpdate`, lastCommit as any);
+      if (lastUpdate && lastUpdate >= lastCommit) { loadDataFromCache = true; }
+      this.loadDataSets(loadDataFromCache);
+    });
   }
 
-  public loadDataSets() {
-    // Fetch Confirmed cases
-    this.dataRequestConfirmed$ = this.dataService.getDataSet(0);
-
-    // Fetch Recovered cases
-    this.dataRequestRecovered$ = this.dataService.getDataSet(1);
-
-    // Fetch Deaths cases
-    this.dataRequestDeaths$ = this.dataService.getDataSet(2);
+  /**
+   * Fetches the corresponding Confirmed, Recovered and Deaths cases data.
+   */
+  public loadDataSets(loadDataFromCache: boolean) {
+    this.dataRequestConfirmed$ = this.dataService.getDataSet(0, loadDataFromCache);
+    this.dataRequestRecovered$ = this.dataService.getDataSet(1, loadDataFromCache);
+    this.dataRequestDeaths$ = this.dataService.getDataSet(2, loadDataFromCache);
 
     forkJoin([this.dataRequestConfirmed$, this.dataRequestRecovered$, this.dataRequestDeaths$]).subscribe(results => {
       this.charts.transformChartConfirmedCases(results[0].toString());
-      const jsonDataConfirmed = this.dataService.csvToJson(results[0].toString());
-      this.confirmedList.data = jsonDataConfirmed.data;
-      this.confirmedList.totalNumber = jsonDataConfirmed.totalNumber;
-      this.map.dataSets.push(jsonDataConfirmed);
-
       this.charts.transformChartRecoveredCases(results[1].toString());
-      const jsonDataRecovered = this.dataService.csvToJson(results[1].toString());
-      this.recoveredList.data = jsonDataRecovered.data;
-      this.recoveredList.totalNumber = jsonDataRecovered.totalNumber;
-      this.map.dataSets.push(jsonDataRecovered);
 
+      const jsonDataConfirmed = this.dataService.csvToJson(results[0].toString());
+      const jsonDataRecovered = this.dataService.csvToJson(results[1].toString());
       const jsonDataDeaths = this.dataService.csvToJson(results[2].toString());
-      this.deathsList.data = jsonDataDeaths.data;
-      this.deathsList.totalNumber = jsonDataDeaths.totalNumber;
-      this.map.dataSets.push(jsonDataDeaths);
+
+      const worldData: ICasesData = { totalConfirmed: jsonDataConfirmed, totalRecovered: jsonDataRecovered, totalDeaths: jsonDataDeaths };
+
+      this.confirmedList.data = jsonDataConfirmed;
+      this.recoveredList.data = jsonDataRecovered;
+      this.deathsList.data = jsonDataDeaths;
+      this.map.data = worldData;
       this.map.onDataSetSelected({ index: 0 });
 
+      // Hide splash screen after the data is loaded
       this.messageEvent.emit('splash-screen--hidden');
     });
   }

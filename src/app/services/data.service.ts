@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 // base URL for the data files
-const BASE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/';
+const BASE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data';
 const TIME_SERIES = 'csse_covid_19_time_series';
+const DAILY_SERIES = 'csse_covid_19_daily_reports';
 const FILE_NAME = 'time_series_covid19_';
 
 export enum DATA_SET {
@@ -12,17 +13,24 @@ export enum DATA_SET {
   DEATHS = 'deaths_global'
 }
 
-export interface IDataPoint {
-  total: number;
-  totalChina: number;
-  totalOthers: number;
+export interface IRegionData {
+  value: number;
   lat: number;
   lon: number;
   region: string;
   country: string;
-  increase: number;
-  day: string;
-  date: Date;
+}
+
+export interface IWorldData {
+  data: IRegionData[];
+  peakValue: number;
+  totalCases: number;
+}
+
+export interface ICasesData {
+  totalConfirmed: IWorldData;
+  totalRecovered: IWorldData;
+  totalDeaths: IWorldData;
 }
 
 @Injectable()
@@ -31,35 +39,85 @@ export class RemoteDataService {
 
   private data: BehaviorSubject<any[]> = new BehaviorSubject([]);
   public data$: Observable<any[]> = this.data.asObservable();
-  private cachedData: any[] = [];
 
   constructor() { }
 
   /**
-   * Retrieves data from specific file, based on the index passed.
+   * Retrieves data from global timely report file, based on the index passed.
+   * 0 goes for Confirmed report, 1 for Recovered, 2 for Deaths
    */
-  public getDataSet(index: number): Observable<any> {
+  public getDataSet(index: number, loadFromCache: boolean): Observable<any> {
     const baseDataPath = 'assets/';
     const dataSet = this.dataSets[index];
+    let data$: Observable<any>;
 
-    const data$ = Observable.create(observer => {
-      // tslint:disable-next-line: max-line-length
-      fetch(`${BASE_URL}/${TIME_SERIES}/${FILE_NAME}${dataSet}.csv`)
-        .then(response => {
-          return response.text();
-        })
-        .then(data => {
-          observer.next(data);
-          observer.complete();
-        })
-        .catch(err => {
-          observer.error('Using offline data; ' + err);
-        });
-    });
+    if (loadFromCache) {
+        data$ = Observable.create(observer => {
+        const data = window.localStorage.getItem(`${FILE_NAME}${dataSet}`);
+        observer.next(data);
+        observer.complete();
+      });
+    } else {
+      data$ = Observable.create(observer => {
+        // tslint:disable-next-line: max-line-length
+        fetch(`${BASE_URL}/${TIME_SERIES}/${FILE_NAME}${dataSet}.csv`)
+          .then(response => {
+            return response.text();
+          })
+          .then(data => {
+            window.localStorage.setItem(`${FILE_NAME}${dataSet}`, data);
+            observer.next(data);
+            observer.complete();
+          })
+          .catch(err => {
+            observer.error('Using offline data; ' + err);
+          });
+      });
+    }
 
     return data$;
   }
 
+  /**
+   * Retrieves the daily report file for last available day.
+   */
+  public getDataSetFromDailyReport(loadFromCache: boolean): Observable<any> {
+    const today = new Date();
+    const yesterday = new Date(today.setDate(today.getDate() - 1));
+    let todayFileName = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: 'numeric' }).format(yesterday);
+    todayFileName = todayFileName.split('/').join('-');
+    let data$: Observable<any>;
+
+    if (loadFromCache) {
+        data$ = Observable.create(observer => {
+        const data = window.localStorage.getItem(`${todayFileName}`);
+        observer.next(data);
+        observer.complete();
+      });
+    } else {
+      data$ = Observable.create(observer => {
+        // tslint:disable-next-line: max-line-length
+        fetch(`${BASE_URL}/${DAILY_SERIES}/${todayFileName}.csv`)
+          .then(response => {
+            return response.text();
+          })
+          .then(data => {
+            window.localStorage.setItem(`${todayFileName}`, data);
+            observer.next(data);
+            observer.complete();
+          })
+          .catch(err => {
+            observer.error('Using offline data; ' + err);
+          });
+      });
+    }
+
+    return data$;
+  }
+
+  /**
+   * Retrieves the date when the data source files were last updated.
+   */
   public getLatestCommits(): Observable<any> {
     const resultData$ = Observable.create(observer => {
       fetch(`https://api.github.com/repos/CSSEGISandData/COVID-19/commits`)
@@ -78,53 +136,23 @@ export class RemoteDataService {
     return resultData$;
   }
 
-  public csvToJson(csvData: string): any {
+  /**
+   * Converts csv file data to JSON, calculate highest value per region and total value for all regions.
+   * Returns an IWorldData оObject.
+   */
+  public csvToJson(csvData: string): IWorldData {
       csvData = csvData.replace(/, /g, ' - ');
       csvData = csvData.replace(/"/g, '');
       const csvLines = csvData.split('\n');
-      // const result = [];
-      // const headers = lines[0].split(',');
-      // let totalChina = 0;
-      // let totalOthers = 0;
-
-
-      // for (let i = 1; i < lines.length; i++) {
-      //   const obj = {} as IDataPoint;
-      //   const currentline = lines[i].split(',');
-
-      //   for (let j = 0; j < headers.length; j++) {
-      //     const header = headers[j].trim();
-      //     let val = currentline[j] as any;
-
-      //     if (j >= 2) {
-      //       val = parseInt(currentline[j], 10);
-      //     }
-      //     if (j === headers.length - 1) {
-      //       if (currentline[1] === 'China') {
-      //         totalChina += val;
-      //       } else {
-      //         totalOthers += val;
-      //       }
-      //     }
-
-      //     obj[header] = val;
-      //     obj['totalChina'] = totalChina;
-      //     obj['totalOthers'] = totalOthers;
-      //   }
-      //   obj.total = obj[headers[headers.length - 1]];
-      //   result.push(obj);
-      // }
-
-      // return result;
-
+      const headers = csvLines[0].split(',');
       const locations = [];
-      let data = [];
-      let maxValue = 1;
-      let totalNumber = 0;
+      let data: IRegionData[] = [];
+      let totalCases = 0;
+      let peakValue = 0;
 
       for (let i = 1; i < csvLines.length; i++) {
           const columns = csvLines[i].split(',');
-          let dataItem = {};
+          let dataItem = {} as IRegionData;
 
           const value = parseInt(columns[columns.length - 1], 10);
 
@@ -133,32 +161,32 @@ export class RemoteDataService {
               const country = columns[1];
               const lat = parseInt(columns[2], 10);
               const lon = parseInt(columns[3], 10);
-              totalNumber += value;
+              totalCases += value;
               dataItem = { region, country, lat, lon, value };
               locations.push(dataItem);
-              if (value > maxValue) {
-                  maxValue = value;
+              if (value > peakValue) {
+                  peakValue = value;
               }
           }
       }
 
-        // aggregate list based on country
-        // const result = listData.reduce((prev, item) => {
-        //     const newItem = prev.find((i) => {
-        //         return i.country === item.country;
-        //     });
-        //     if (newItem) {
-        //         newItem.value += item.value;
-        //     } else {
-        //         prev.push(item);
-        //     }
-        //     return prev;
-        // }, []);
+      // aggregate list based on country
+      // const result = locations.reduce((prev, item) => {
+      //     const newItem = prev.find((i) => {
+      //         return i.country === item.country;
+      //     });
+      //     if (newItem) {
+      //         newItem.value += item.value;
+      //     } else {
+      //         prev.push(item);
+      //     }
+      //     return prev;
+      // }, []);
 
       data = locations.sort((a, b) => {
         return b.value - a.value;
       });
 
-      return { data, maxValue, totalNumber };
+      return { data, peakValue, totalCases };
   }
 }

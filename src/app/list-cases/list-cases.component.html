@@ -1,12 +1,12 @@
 <igx-card class="app__list-holder">
   <igx-card-header class="app__card-header app__card-header--info">
     <h5 igxCardHeaderSubtitle>Total {{ type }}</h5>
-    <h3 igxCardHeaderTitle>{{ totalNumber | number}}</h3>
+    <h3 igxCardHeaderTitle>{{ totalCases | number}}</h3>
   </igx-card-header>
   <igx-divider></igx-divider>
   <igx-card-content class="app__card-content">
       <igx-list [displayDensity]="'cosy'" class="app__list-inner">
-        <igx-list-item #item *ngFor="let item of data">
+        <igx-list-item #item *ngFor="let item of listSortedData">
           <span igxListLineTitle *ngIf="item.region && item.country !== item.region; else">{{ item.region }}, {{ item.country }}</span>
           <span igxListLineTitle #else>{{ item.country }}</span>
           <span igxListAction>{{ item.value | number }}</span>

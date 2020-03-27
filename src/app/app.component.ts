@@ -1,6 +1,7 @@
-import {AfterContentInit, Component, ViewChild} from '@angular/core';
-import {MainComponent} from './main/main.component';
-import {SplashscreenComponent} from './splashscreen/splashscreen.component';
+import { AfterContentInit, Component, ViewChild } from '@angular/core';
+import { MainComponent } from './main/main.component';
+import { FooterComponent } from './footer/footer.component';
+import { SplashscreenComponent } from './splashscreen/splashscreen.component';
 
 
 @Component({
@@ -9,12 +10,14 @@ import {SplashscreenComponent} from './splashscreen/splashscreen.component';
   styleUrls: ['./app.component.scss'],
   host: {class: 'app'}
 })
-export class AppComponent implements AfterContentInit {
+export class AppComponent {
+
+  @ViewChild('main', { static: true }) public main: MainComponent;
+  @ViewChild(FooterComponent, { read: FooterComponent}) public footer: FooterComponent;
+  @ViewChild('splash-screen', {static: true}) public splash: SplashscreenComponent;
+
   public darkTheme = true;
   public ssVisability = '';
-  @ViewChild('main', {static: true}) public main: MainComponent;
-  @ViewChild('splash-screen', {static: true}) public splash: SplashscreenComponent;
-  constructor() {}
 
   public toggleTheme() {
     this.darkTheme = !this.darkTheme;
@@ -23,11 +26,11 @@ export class AppComponent implements AfterContentInit {
     this.main.map.changeMapSeriesBrushScale();
   }
 
-  ngAfterContentInit() {
-    // this.ssVisability = 'splash-screen--hidden';
+  public onUpdateTimeRetrieved(lastCommit: number) {
+    this.footer.lastUpdate = new Date(lastCommit);
   }
 
-  dataReceived($event) {
+  public onDataReceived($event) {
     this.ssVisability = $event;
   }
 }
