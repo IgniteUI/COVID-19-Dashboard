@@ -16,21 +16,36 @@
   }
 
   .app__map-tooltip {
-    top: -2px;
-    left: -2px;
-    position: absolute;
-    border-radius:8px;
-    padding: 8px;
-    box-shadow: 0 3px 5px -1px igx-color($app-palette, 'grays', 400),
-    0 6px 10px 0 igx-color($app-palette, 'grays', 300),
-    0 1px 18px 0 igx-color($app-palette, 'grays', 200);
-
+    position: relative;
     h1 {
+      font-size: 18px;
+    }
+
+    h2 {
+      font-size: 16px;
+    }
+
+    h1,h2 {
       font-weight:bold;
       letter-spacing: 1px;
-      font-size: 18px;
       line-height: normal;
-      margin: 0
+      margin: 0;
+      position: relative;
+      z-index: 1
+    }
+
+    &:after {
+      content:'';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: calc(100% + 20px);
+      height: calc(100% + 20px);
+      border-radius:8px;
+      z-index: 0;
+      box-shadow: 0 3px 5px -1px igx-color($app-palette, 'grays', 400),
+      0 6px 10px 0 igx-color($app-palette, 'grays', 300),
+      0 1px 18px 0 igx-color($app-palette, 'grays', 200);
     }
   }
 
@@ -38,6 +53,8 @@
     padding: 0;
 
     li {
+      position: relative;
+      z-index: 1;
       font-size: 14px;
     }
   }
@@ -65,13 +82,24 @@
 
   .app-light-theme {
     .app__map-tooltip {
-      background: map-get($light-vars, tooltip-bg);
+      &:after {
+        background: map-get($light-vars, tooltip-bg);
+      }
     }
   }
 
   .app-dark-theme {
     .app__map-tooltip {
-      background: map-get($dark-vars, tooltip-bg);
+      &:after {
+        background: map-get($dark-vars, tooltip-bg);
+      }
+      h1,h2 {
+        color: #fff;
+      }
+    }
+
+    .app__map-tooltip-list-date {
+      color: igx-color($app-palette, 'grays', 500);
     }
 
     .infected {

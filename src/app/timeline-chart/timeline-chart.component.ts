@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { IgxDataChartComponent, IgxCategoryXAxisComponent, IgxNumericYAxisComponent,
-  IgxCategoryToolTipLayerComponent } from 'igniteui-angular-charts';
+  IgxCategoryToolTipLayerComponent, 
+  CategoryTooltipLayerPosition} from 'igniteui-angular-charts';
 
 @Component({
   selector: 'app-timeline-chart',
@@ -37,7 +38,7 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // Uncomment this like in order to enable custom tooltips
-    // this.setCustomTooltips();
+    this.setCustomTooltips();
   }
 
   // Used to fill the data for both Confirmed and Recovered data sources
@@ -225,6 +226,11 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
 
     this.chartDaily.actualSeries[0].tooltipTemplate = this.tooltipDailyTemplate;
     this.chartDaily.actualSeries[1].tooltipTemplate = this.tooltipDailyTemplate;
-    this.chartDaily.actualSeries[2].tooltipTemplate = this.tooltipDailyTemplate;
   }
+}
+
+interface IChartConfig {
+  name: string;
+  chartComponent: IgxDataChartComponent;
+  tooltipTemplate: TemplateRef<any>;
 }

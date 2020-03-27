@@ -1,0 +1,7 @@
+$app-bottom-nav-dark: igx-bottom-nav-theme(
+  $background: rgba(0,0,0, .2),
+  $idle-item-color: igx-color($app-dark-palette, 'grays', 600),
+  $active-item-color: #fff,
+  $shadow: none
+);
+@include igx-bottom-nav($app-bottom-nav-dark);

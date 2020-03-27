@@ -4,41 +4,49 @@
         padding: 0 $app-gap $app-gap $app-gap;
         display: flex;
         flex: 1;
-        max-height: calc(50vh - 28px);
+        max-height: 100%;
+        height: 100%;
+        position: relative;
+
+        .gx-bottom-nav__menu,
+        .igx-bottom-nav__menu--bottom {
+          position: relative;
+          border-radius: 8px;
+        }
+        .igx-bottom-nav__menu-item--selected {
+          font-weight: bold;
+        }
       }
-    
+
       .app__chart-wrapper {
         display:flex;
         flex-direction:column;
       }
-    
+
       .app__charts-tabs {
-        flex:1;
+        display: flex !important;
+        flex-direction: column;
+        flex:1 0 0%;
         > div {
-          height: 100%
+          flex: 1;
         }
-    
-        //.igx-tabs__content-fluid,
-        //.igx-tabs__content-fixed {
-        //  height: calc(100% - 48px);
-        //}
-    
+
         .igx-tabs__group {
           height: 100%;
         }
       }
-    
+
       .app__chart-component {
         width: 100%;
         height: 100%;
         flex: 1;
       }
-    
+
       .app__charts-chart {
         width: 100%;
         height: calc(40vh - 42px);
       }
-      
+
     .app__charts-legend {
         padding: ($app-gap / 2) 0
     }
