@@ -30,23 +30,19 @@ export class MainComponent implements OnDestroy {
   constructor(private dataService: RemoteDataService) {
     const lastCommitTime$ = this.dataService.getLatestCommits();
     lastCommitTime$.subscribe(data => {
-      let loadDataFromCache = false;
       const lastCommit = new Date(data[0].commit.author.date).getTime();
-      const lastUpdate = parseInt(window.localStorage.getItem('lastUpdate'), 10);
       this.updateTimeRetrieved.emit( lastCommit );
-      window.localStorage.setItem(`lastUpdate`,  lastCommit as any);
-      if (lastUpdate && lastUpdate >= lastCommit) { loadDataFromCache = true; }
-      this.loadDataSets(loadDataFromCache);
+      this.loadDataSets(lastCommit);
     });
   }
 
   /**
    * Fetches the corresponding Confirmed, Recovered and Deaths cases data.
    */
-  public loadDataSets(loadDataFromCache: boolean) {
-    this.dataRequestConfirmed$ = this.dataService.getDataSet(0, loadDataFromCache);
-    this.dataRequestRecovered$ = this.dataService.getDataSet(1, loadDataFromCache);
-    this.dataRequestDeaths$ = this.dataService.getDataSet(2, loadDataFromCache);
+  public loadDataSets(lastCommit: number) {
+    this.dataRequestConfirmed$ = this.dataService.getDataSet(0, lastCommit);
+    this.dataRequestRecovered$ = this.dataService.getDataSet(1, lastCommit);
+    this.dataRequestDeaths$ = this.dataService.getDataSet(2, lastCommit);
 
     forkJoin([this.dataRequestConfirmed$, this.dataRequestRecovered$, this.dataRequestDeaths$]).subscribe(results => {
       this.charts.transformChartConfirmedCases(results[0].toString());
