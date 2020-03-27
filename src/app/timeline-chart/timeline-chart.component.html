@@ -96,7 +96,7 @@
                 </div>
             </li>
             <li class="recovered" *ngIf="series.name == 'seriesTotalDailyRecoveredCases'">
-                <div class="app__map-tooltip-list-date">{{ formatDateLabel(item) }}</div>
+                <div>{{ formatDateLabel(item) }}</div>
                 <div>
                   Total Daily Recovered Cases:
                   <span>{{ item.totalDailyRecoveredCases | number }}</span>
