@@ -183,14 +183,14 @@ export class MapCasesComponent implements OnInit {
     }
 
     public getTotalRecoveredForCountry(item): number {
-        const dataRec = this.data[this.currentSeries].data.find((rec) => {
+        const dataRec = this.data[this.dataSets[1]].data.find((rec) => {
             return rec.region === item.region && rec.country === item.country;
         });
         return dataRec ? dataRec.value : 0;
     }
 
     public getTotalDeathsForCountry(item) {
-        const dataRec = this.data[this.currentSeries].data.find((rec) => {
+        const dataRec = this.data[this.dataSets[2]].data.find((rec) => {
             return rec.region === item.region && rec.country === item.country;
         });
         return dataRec ? dataRec.value : 0;
