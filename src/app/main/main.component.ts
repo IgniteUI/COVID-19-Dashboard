@@ -58,8 +58,9 @@ export class MainComponent implements OnDestroy {
       this.recoveredList.data = jsonDataRecovered;
       this.deathsList.data = jsonDataDeaths;
       this.map.data = worldData;
-      this.map.onDataSetSelected( {index: 0} );
+      this.map.onDataSetSelected({ index: 0 });
 
+      // Hide splash screen after the data is loaded
       this.messageEvent.emit('splash-screen--hidden');
     });
   }
