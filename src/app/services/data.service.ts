@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 // base URL for the data files
-const BASE_URL = 'htttps://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data';
+const BASE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data';
 const TIME_SERIES = 'csse_covid_19_time_series';
 const DAILY_SERIES = 'csse_covid_19_daily_reports';
 const FILE_NAME = 'time_series_covid19_';
@@ -76,7 +76,7 @@ export class RemoteDataService {
             observer.complete();
           })
           .catch(err => {
-            observer.error('Using offline data; ' + err);
+            // observer.error('Using offline data; ' + err);
             this.loadOfflineData(index, observer);
           });
       });

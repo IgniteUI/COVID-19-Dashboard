@@ -21,13 +21,11 @@ export class MainComponent implements OnDestroy {
   @ViewChild('deathsList', { static: true }) public deathsList: ListCasesComponent;
 
   @Output() messageEvent = new EventEmitter<string>();
+  @Output() updateTimeRetrieved = new EventEmitter<number>();
 
   private dataRequestConfirmed$: any;
   private dataRequestRecovered$: any;
   private dataRequestDeaths$: any;
-
-
-  @Output() updateTimeRetrieved = new EventEmitter<number>();
 
   constructor(private dataService: RemoteDataService) {
     const lastCommitTime$ = this.dataService.getLatestCommits();
@@ -61,7 +59,7 @@ export class MainComponent implements OnDestroy {
       this.deathsList.data = jsonDataDeaths;
       this.map.data = worldData;
       this.map.onDataSetSelected( {index: 0} );
-      
+
       this.messageEvent.emit('splash-screen--hidden');
     });
   }
