@@ -88,10 +88,12 @@ export class MapCasesComponent implements OnInit {
      * Switch to the corresponding series data depending on selected button
      */
     public onDataSetSelected(event: any) {
+        const rect = this.map.windowRect;
         this.index = event.index;
         this.currentSeries = this.dataSets[this.index];
         if (this.data) {
             this.addMapSeries(event.index);
+            this.map.windowRect = rect;
         }
     }
 
@@ -144,12 +146,18 @@ export class MapCasesComponent implements OnInit {
         return series;
     }
 
+
+
     /**
      * Zoom the map to show the corresponding country.
      */
-    public zoomToLoc(event: any) {
+    public onSeriesClicked(event: any) {
         const lat = event.args.item.lat;
         const lon = event.args.item.lon;
+        this.zoomMapToLoc(lat, lon);
+    }
+
+    public zoomMapToLoc(lat: number, lon: number) {
         const geoRect = new Rect(0, lon - 5, lat - 8, 10, 15);
         this.map.zoomToGeographic(geoRect);
     }
