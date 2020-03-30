@@ -14,7 +14,7 @@
         <h2 *ngIf="showRegion(item)">{{item.region}}, {{item.country}}</h2>
         <h1 *ngIf="!showRegion(item)">{{item.country}}</h1>
         <ul class="app__map-tooltip-list">
-          <li class="infected">Infected: <span>{{ item.value | number }}</span></li>
+          <li class="infected">Infected: <span>{{ getTotalInfectedForCountry(item) | number }}</span></li>
           <li class="recovered">Recovered: <span>{{ getTotalRecoveredForCountry(item) | number }}</span></li>
           <li class="deaths">Deaths: <span>{{ getTotalDeathsForCountry(item) | number }}</span></li>
         </ul>

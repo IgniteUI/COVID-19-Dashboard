@@ -58,6 +58,17 @@ export class MapCasesComponent implements OnInit {
 
     public ngOnInit(): void {
         this.changeMap();
+        this.setInitialMapZoom();
+    }
+
+    public setInitialMapZoom() {
+        const geoBounds = {
+            height: 0,
+            left: -0,
+            top: 40,
+            width: 260
+        };
+        this.map.zoomToGeographic(geoBounds);
     }
 
     /**
@@ -115,14 +126,6 @@ export class MapCasesComponent implements OnInit {
 
         this.map.series.clear();
         this.map.series.add(symbolSeries);
-
-        const geoBounds = {
-            height: 0,
-            left: -0,
-            top: 40,
-            width: 260
-        };
-        this.map.zoomToGeographic(geoBounds);
     }
 
     public showRegion(item) {
@@ -179,18 +182,31 @@ export class MapCasesComponent implements OnInit {
         const sizeScale = new IgxSizeScaleComponent();
         const maxValue = this.data[this.currentSeries].peakValue;
         sizeScale.minimumValue = 1;
-        sizeScale.maximumValue = maxValue / 1200;
+        sizeScale.maximumValue = maxValue / 2600;
         if (this.index === 1) {
             sizeScale.maximumValue = maxValue / 1000;
         }
         if (this.index === 2) {
-            sizeScale.maximumValue = maxValue / 120;
+            sizeScale.maximumValue = maxValue / 200;
         }
         sizeScale.isLogarithmic = true;
         return sizeScale;
     }
 
+    public getTotalInfectedForCountry(item) {
+        if (this.index === 0) {
+            return item.value;
+        }
+        const dataRec = this.data[this.dataSets[0]].data.find((rec) => {
+            return rec.region === item.region && rec.country === item.country;
+        });
+        return dataRec ? dataRec.value : 0;
+    }
+
     public getTotalRecoveredForCountry(item): number {
+        if (this.index === 1) {
+            return item.value;
+        }
         const dataRec = this.data[this.dataSets[1]].data.find((rec) => {
             return rec.region === item.region && rec.country === item.country;
         });
@@ -198,6 +214,9 @@ export class MapCasesComponent implements OnInit {
     }
 
     public getTotalDeathsForCountry(item) {
+        if (this.index === 2) {
+            return item.value;
+        }
         const dataRec = this.data[this.dataSets[2]].data.find((rec) => {
             return rec.region === item.region && rec.country === item.country;
         });
