@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild, ChangeDetectorRef, ViewContainerRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { RemoteDataService, ICasesData } from '../services/data.service';
+import { RemoteDataService, ICasesData, IRegionData } from '../services/data.service';
 import { MapCasesComponent } from '../map-cases/map-cases.component';
 import { ListCasesComponent } from '../list-cases/list-cases.component';
 import { TimelineChartComponent } from '../timeline-chart/timeline-chart.component';
@@ -81,5 +81,9 @@ export class MainComponent implements OnDestroy {
 
   public formatDateLabel(item: any): string {
     return item.date.toLocaleDateString();
+  }
+
+  public onRegionSelected(region: IRegionData) {
+    this.map.zoomMapToLoc(region.lat, region.lon);
   }
 }

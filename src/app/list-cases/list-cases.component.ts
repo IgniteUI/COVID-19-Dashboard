@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DisplayDensityToken } from 'igniteui-angular';
 import { IRegionData, IWorldData } from '../services/data.service';
 
@@ -17,6 +17,8 @@ export class ListCasesComponent {
     public listSortedData: IRegionData[];
     private _type: string;
 
+    @Output() regionSelected = new EventEmitter<IRegionData>();
+
     @Input()
     public set type(value: string) {
         this.key = `total${value}`;
@@ -32,5 +34,9 @@ export class ListCasesComponent {
             return b.value - a.value;
         });
         this.totalCases = value.totalCases;
+    }
+
+    public onListItemClicked(item: IRegionData) {
+        this.regionSelected.emit(item);
     }
 }
