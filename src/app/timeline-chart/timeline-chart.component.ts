@@ -102,7 +102,7 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     transformedCases = new Map(cases);
 
     // Calculate daily difference and transform map
-    for (let index = 0; index <= cases.size; index++) {
+    for (let index = 0; index < cases.size; index++) {
 
       // Calculate only daily difference.
       let newCasesCount = 0;
@@ -119,7 +119,7 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
       currentElementKey = actualDailyChangeDate.toDateString();
 
       // For each of the next days, add the value as it was yesterday
-      if (currentElementValue < nextElementValue) {
+      if (nextElementValue && nextElementValue > currentElementValue) {
         newCasesCount = nextElementValue - currentElementValue;
 
         transformedCases.set(currentElementKey, newCasesCount);
