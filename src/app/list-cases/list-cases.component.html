@@ -7,8 +7,12 @@
   <igx-card-content class="app__card-content">
       <igx-list [displayDensity]="'cosy'" class="app__list-inner">
         <igx-list-item #item *ngFor="let item of listSortedData" (click)="onListItemClicked(item)">
-          <span igxListLineTitle *ngIf="item.region && item.country !== item.region; else">{{ item.region }}, {{ item.country }}</span>
-          <span igxListLineTitle #else>{{ item.country }}</span>
+
+          <span igxListLineTitle *ngIf="item.region && item.country !== item.region; else country">{{ item.region }}, {{ item.country }}</span>
+          <ng-template #country>
+              <span igxListLineTitle>{{ item.country }}</span>
+          </ng-template>
+
           <span igxListAction>{{ item.value | number }}</span>
         </igx-list-item>
         <ng-template igxEmptyList>

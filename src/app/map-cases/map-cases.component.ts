@@ -180,15 +180,8 @@ export class MapCasesComponent implements OnInit {
 
     private createSizeScale(): IgxSizeScaleComponent {
         const sizeScale = new IgxSizeScaleComponent();
-        const maxValue = this.data[this.currentSeries].peakValue;
         sizeScale.minimumValue = 1;
-        sizeScale.maximumValue = maxValue / 2600;
-        if (this.index === 1) {
-            sizeScale.maximumValue = maxValue / 1000;
-        }
-        if (this.index === 2) {
-            sizeScale.maximumValue = maxValue / 200;
-        }
+        sizeScale.maximumValue = 60;
         sizeScale.isLogarithmic = true;
         return sizeScale;
     }
