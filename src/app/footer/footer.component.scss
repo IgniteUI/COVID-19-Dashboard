@@ -6,6 +6,10 @@
     align-items: center;
     justify-content: space-between;
     padding: $app-gap;
+
+    @include media("<=tablet") {
+      flex-direction: column;
+    }
   }
 
   .app__footer-item {
@@ -15,8 +19,16 @@
     flex-direction: column;
     justify-content: center;
     text-align: left;
+    @include media("<=tablet") {
+      align-items: center;
+      text-align: center;
+    }
     &--info {
       text-align: right;
+      @include media("<=tablet") {
+        margin-top: rem(8px);
+        text-align: center;
+      }
     }
   }
 

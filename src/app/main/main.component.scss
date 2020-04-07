@@ -7,6 +7,22 @@
     overflow: hidden;
   }
 
+  .igx-typography .app__mobile-header {
+    display: none;
+    font-size: 18px;
+    margin: 0 0 rem(16px) 0;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: normal;
+
+    @include media("<=tablet") {
+      display: block;
+      height: auto;
+      overflow: auto;
+    }
+  }
+
   .app-timeline-chart{
     min-height: 60%;
   }
@@ -20,6 +36,12 @@
   .app__list-stack {
     max-height: 40%;
     height: 40%;
+    @include media("<=desktop") {
+      height: auto;
+    }
+    @include media("<=450px") {
+      flex-direction: column;
+    }
   }
 
   .app__row {
@@ -27,13 +49,31 @@
   }
 
   .app__charts-legend {
-    padding: ($app-gap / 2) 0
+    padding: ($app-gap / 2) 0;
+    > div {
+    }
   }
 
   .ig-chart-legend-items-list,
   .ig-chart-legend-item{
     display:flex !important;
     align-items: center !important;
+  }
+
+  .ig-chart-legend-items-list {
+    @include media("<=450px") {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+
+  .ig-chart-legend-item {
+    @include media("<=450px") {
+      align-items: flex-start !important;
+      margin: 0 0 rem(8px) 0 !important;
+    }
   }
 
   .ig-chart-legend-item td {

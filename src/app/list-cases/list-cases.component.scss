@@ -26,10 +26,17 @@
         font-weight: bold;
       }
       max-width: 300px;
+
+      @include media("<=tablet") {
+        max-width: 100%;
+      }
     }
 
     + .app__list {
       padding-left: 0;
+      @include media("<=450px") {
+        padding-left: $app-gap;
+      }
     }
 
     .app__list-holder {

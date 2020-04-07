@@ -1,2 +1,12 @@
 @import "../themes/vars";
+::ng-deep {
+  .igx-navbar__title {
+    @include media("<=tablet") {
+      display: none;
+    }
+    @include media("<=600") {
+      font-size: 14px !important;
+    }
+  }
+}
 
