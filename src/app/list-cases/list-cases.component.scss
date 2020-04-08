@@ -5,8 +5,20 @@
     padding: $app-gap;
     width: 100%;
 
+    @include media("<=desktop") {
+      height: 600px;
+      padding-bottom: 0;
+    }
+
+    @include media("<=tablet") {
+      height: 300px;
+    }
+
     .igx-list__item-actions {
       font-weight: bold;
+      @include media("<=desktop") {
+        font-size: 14px;
+      }
     }
 
     &--deaths {
@@ -67,6 +79,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+  }
+
+  .igx-list__item-line-title,
+  .igx-list__item-lines {
+    @include media("<=desktop") {
+      font-size: 14px !important;
     }
   }
 

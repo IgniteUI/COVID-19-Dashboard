@@ -30,4 +30,6 @@ $dark-vars:(
   dark-gradient: (igx-color($app-dark-palette, 'primary', 600), igx-color($app-dark-palette, 'surface'))
 );
 
+@import "~include-media/dist/include-media";
+
 
