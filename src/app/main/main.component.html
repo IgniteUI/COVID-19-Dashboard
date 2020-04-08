@@ -1,9 +1,12 @@
 <main class="app__main-inner">
-    <app-list-cases class="app__list--confirmed" #confirmedList type="Confirmed" (regionSelected)="onRegionSelected($event)"></app-list-cases>
+    <div class="app__row app__row--left">
+      <app-list-cases class="app__list--confirmed" #confirmedList type="Confirmed" (regionSelected)="onRegionSelected($event)"></app-list-cases>
+      <section class="app__col app__col--map">
+        <h1 class="app__mobile-header">Coronavirus <strong>COVID-19</strong> Global Cases</h1>
 
-    <section class="app__col app__col--map">
         <app-map-cases #map></app-map-cases>
-    </section>
+      </section>
+    </div>
 
     <div class="app__col app__col--stats">
         <div class="app__row app__list-stack">

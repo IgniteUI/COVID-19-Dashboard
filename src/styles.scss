@@ -15,6 +15,10 @@
 html, body {
   height: 100%;
   overflow: hidden;
+  @include media("<=desktop") {
+    overflow-y: auto;
+    height: auto;
+  }
 }
 
 .app-light-theme {

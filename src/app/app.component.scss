@@ -11,6 +11,10 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    @include media("<=desktop") {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
   }
 
   .app__logo {

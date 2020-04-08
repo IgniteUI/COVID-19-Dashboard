@@ -5,6 +5,27 @@
     flex: 1 0 0%;
     height: calc(100vh - 126px);
     overflow: hidden;
+
+    @include media("<=desktop") {
+      height: auto;
+      overflow: auto;
+    }
+  }
+
+  .igx-typography .app__mobile-header {
+    display: none;
+    font-size: 18px;
+    margin: 0 0 rem(16px) 0;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: normal;
+
+    @include media("<=tablet") {
+      display: block;
+      height: auto;
+      overflow: auto;
+    }
   }
 
   .app-timeline-chart{
@@ -15,19 +36,44 @@
     display: flex;
     width: 100%;
     height: 100%;
+
+    @include media("<=desktop") {
+      flex-wrap: wrap;
+    }
   }
 
   .app__list-stack {
     max-height: 40%;
     height: 40%;
+    @include media("<=desktop") {
+      height: auto;
+    }
+    @include media("<=450px") {
+      flex-direction: column;
+    }
   }
 
   .app__row {
     display: flex;
+
+    &--left {
+      width: 60%;
+      min-width: 40%;
+
+      @include media("<=desktop") {
+        width:100%;
+        min-width: 100%;
+      }
+      @include media("<=tablet") {
+        flex-direction: column-reverse;
+      }
+    }
   }
 
   .app__charts-legend {
-    padding: ($app-gap / 2) 0
+    padding: ($app-gap / 2) 0;
+    > div {
+    }
   }
 
   .ig-chart-legend-items-list,
@@ -36,10 +82,33 @@
     align-items: center !important;
   }
 
+  .ig-chart-legend-items-list {
+    @include media("<=450px") {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+
+  .ig-chart-legend-item {
+    @include media("<=450px") {
+      align-items: flex-start !important;
+      margin: 0 0 rem(8px) 0 !important;
+    }
+  }
+
   .ig-chart-legend-item td {
     margin-right: 4px !important;
     padding: 0 !important;
     display: flex;
+    span {
+      font-size: 10px;
+
+      @include media("<=1160px") {
+        font-size: 8px;
+      }
+    }
   }
 
   .app__col {
@@ -49,6 +118,9 @@
     &--stats {
       height: 100%;
       width:40vw;
+      @include media("<=desktop") {
+        width: 100%
+      }
     }
 
     &--map {
@@ -56,6 +128,17 @@
       height: 100%;
       flex: 1;
       min-width: 40vw;
+
+      @include media("<=desktop") {
+        height: 600px;
+        min-width: auto;
+        padding-right: $app-gap;
+        padding-bottom: 0;
+      }
+
+      @include media("<=tablet") {
+        padding-left: $app-gap;
+      }
     }
    }
 }

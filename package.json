@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
+    "start": "ng serve -o --host 0.0.0.0",
     "build": "ng build --prod",
     "build:web": "node --max_old_space_size=12192 node_modules/@angular/cli/bin/ng build",
     "test": "ng test",
@@ -45,6 +45,7 @@
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
     "igniteui-cli": "~5.0.1",
+    "include-media": "^1.4.9",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.3.0",

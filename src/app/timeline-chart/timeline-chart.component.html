@@ -4,7 +4,7 @@
             <div class="app__chart-wrapper">
                 <igx-legend class="app__charts-legend" #legendActual orientation="Horizontal"></igx-legend>
                 <div class="app__chart-component">
-                    <igx-data-chart class="app__charts-chart" #chartActual [legend]="legendActual"
+                    <igx-data-chart class="app__charts-chart" crosshairVisibility="visible" #chartActual [legend]="legendActual"
                         [dataSource]="chartData" isHorizontalZoomEnabled="true">
                         <igx-category-x-axis label="date" title="Date" #xAxis2 [formatLabel]="formatDateLabel">
                         </igx-category-x-axis>
@@ -31,7 +31,7 @@
             <div class="app__chart-wrapper">
                 <igx-legend class="app__charts-legend" #legendLogarithmic orientation="Horizontal"></igx-legend>
                 <div class="app__chart-component">
-                    <igx-data-chart class="app__charts-chart" #chartLogarithmic [legend]="legendLogarithmic"
+                    <igx-data-chart class="app__charts-chart" crosshairVisibility="visible" #chartLogarithmic [legend]="legendLogarithmic"
                         [dataSource]="chartData" isHorizontalZoomEnabled="true">
                         <igx-category-x-axis label="date" title="Date" #xAxis3 [formatLabel]="formatDateLabel">
                         </igx-category-x-axis>
@@ -58,7 +58,7 @@
             <div class="app__chart-wrapper">
                 <igx-legend class="app__charts-legend" #legend orientation="Horizontal"></igx-legend>
                 <div class="app__chart-component">
-                    <igx-data-chart class="app__charts-chart" #chartDaily [legend]="legend" [dataSource]="chartData"
+                    <igx-data-chart class="app__charts-chart" #chartDaily  crosshairVisibility="visible" [legend]="legend" [dataSource]="chartData"
                         isHorizontalZoomEnabled="true">
                         <igx-numeric-y-axis #yAxis title="New and recovered cases" abbreviateLargeNumbers="true">
                         </igx-numeric-y-axis>

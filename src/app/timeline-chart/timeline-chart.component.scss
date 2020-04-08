@@ -8,6 +8,10 @@
         height: 100%;
         position: relative;
 
+        @include media("<=tablet") {
+          padding-top: $app-gap;
+        }
+
         .gx-bottom-nav__menu,
         .igx-bottom-nav__menu--bottom {
           position: relative;

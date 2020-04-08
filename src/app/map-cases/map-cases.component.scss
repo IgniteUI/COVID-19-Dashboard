@@ -5,6 +5,9 @@
     flex-direction: column;
     height: 100%;
     flex: 1;
+    @include media("<=desktop") {
+      height: auto;
+    }
   }
 
   .app__map-button-group {
@@ -135,6 +138,10 @@
   height: 100%;
   padding: 0 5px;
   flex-direction: column;
+
+  @include media("<=desktop") {
+    padding: 0;
+  }
 }
 
 .ellipsis {
