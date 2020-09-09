@@ -1,4 +1,6 @@
-<svg class="app__splash-screen-logo" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 241.1 97.7" style="enable-background:new 0 0 241.1 97.7;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#27265F;}
@@ -96,9 +98,3 @@
 	</g>
 </g>
 </svg>
-
-<h1 class="splash-screen__title">
-  <span class="splash-screen__title-color">Coronavirus COVID-19 Global Cases</span>
-  <span class="splash-screen__title-small">Loading, please wait...</span>
-</h1>
-

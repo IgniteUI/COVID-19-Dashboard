@@ -39,6 +39,10 @@ html, body {
   ::-webkit-scrollbar-thumb {
     background-color: igx-color($app-palette, 'grays', 200);
   }
+
+  .footerLogo {
+    svg:nth-child(1) { display: none; }
+  }
 }
 
 .app-dark-theme {
@@ -60,4 +64,10 @@ html, body {
   ::-webkit-scrollbar-thumb {
     background-color: #24304b;
   }
+
+  .footerLogo {
+    svg:nth-child(2) { display: none; }
+  }
 }
+
+
