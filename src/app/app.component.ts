@@ -16,7 +16,7 @@ export class AppComponent {
   @ViewChild(FooterComponent, { read: FooterComponent}) public footer: FooterComponent;
   @ViewChild('splash-screen', {static: true}) public splash: SplashscreenComponent;
 
-  public darkTheme = true;
+  public darkTheme = this.getTheme();
   public ssVisability = '';
 
   public toggleTheme() {
@@ -24,6 +24,12 @@ export class AppComponent {
     this.main.map.darkTheme = this.darkTheme;
     this.main.map.changeMap();
     this.main.map.changeMapSeriesBrushScale();
+    window.localStorage.setItem('darkTheme', this.darkTheme.toString());
+  }
+
+  getTheme() {
+    const theme = window.localStorage.getItem('darkTheme');
+    return theme === 'false' ? false : true;
   }
 
   public onUpdateTimeRetrieved(lastCommit: number) {
