@@ -24,11 +24,11 @@ export class AppComponent {
     this.main.map.darkTheme = this.darkTheme;
     this.main.map.changeMap();
     this.main.map.changeMapSeriesBrushScale();
-    window.localStorage.setItem('darkTheme', this.darkTheme.toString());
+    window.localStorage.setItem('cvd19dshbrd-dark-theme', this.darkTheme.toString());
   }
 
   getTheme() {
-    const theme = window.localStorage.getItem('darkTheme');
+    const theme = window.localStorage.getItem('cvd19dshbrd-dark-theme');
     return theme === 'false' ? false : true;
   }
 
