@@ -31,7 +31,6 @@
               "src/styles.scss"
             ],
             "scripts": ["./node_modules/hammerjs/hammer.min.js"],
-            "es5BrowserSupport": true,
             "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
@@ -48,7 +47,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
