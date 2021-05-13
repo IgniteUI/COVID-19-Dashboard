@@ -11,6 +11,7 @@
 /* autoprefixer grid: on */
 
 @include igx-core();
+@include igx-typography();
 
 html, body {
   height: 100%;

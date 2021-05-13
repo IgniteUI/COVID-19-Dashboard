@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MainComponent } from './main/main.component';
 import { FooterComponent } from './footer/footer.component';
 import { SplashscreenComponent } from './splashscreen/splashscreen.component';
@@ -18,7 +18,7 @@ export class AppComponent {
 
   public darkTheme = this.getTheme();
   public ssVisability = '';
-
+ 
   public toggleTheme() {
     this.darkTheme = !this.darkTheme;
     this.main.map.darkTheme = this.darkTheme;
