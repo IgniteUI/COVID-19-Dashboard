@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "../themes/vars";
 ::ng-deep {
     .app__charts {
@@ -52,7 +53,7 @@
       }
 
     .app__charts-legend {
-        padding: ($app-gap / 2) 0
+        padding: math.div($app-gap, 2) 0
     }
 
     .ig-chart-legend-items-list,
