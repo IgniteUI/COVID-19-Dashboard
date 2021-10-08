@@ -27,12 +27,6 @@
       }
     }
 
-    &--recovered {
-      .igx-card-header__title {
-        font-weight: bold;
-      }
-    }
-
     &--confirmed {
       .igx-card-header__title {
         font-weight: bold;
@@ -99,14 +93,6 @@
           color: map-get($light-vars, deaths-color);
         }
       }
-      &--recovered {
-        .app__card-header {
-          background: map-get($light-vars, recovered-bg) !important;
-        }
-        .igx-card-header__subtitle{
-          color: map-get($light-vars, recovered-color);
-        }
-      }
       &--confirmed {
         .app__card-header {
           background: map-get($light-vars, confirmed-bg) !important;
@@ -126,14 +112,6 @@
         }
         .igx-card-header__subtitle{
           color: map-get($dark-vars, deaths-color);
-        }
-      }
-      &--recovered {
-        .app__card-header {
-          background: map-get($dark-vars, recovered-bg) !important;
-        }
-        .igx-card-header__subtitle{
-          color: map-get($dark-vars, recovered-color);
         }
       }
       &--confirmed {

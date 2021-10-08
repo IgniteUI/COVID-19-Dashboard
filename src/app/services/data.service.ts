@@ -9,7 +9,6 @@ const FILE_NAME = 'time_series_covid19_';
 
 export enum DATA_SET {
   CONFIRMED = 'confirmed_global',
-  RECOVERED = 'recovered_global',
   DEATHS = 'deaths_global'
 }
 
@@ -29,13 +28,12 @@ export interface IWorldData {
 
 export interface ICasesData {
   totalConfirmed: IWorldData;
-  totalRecovered: IWorldData;
   totalDeaths: IWorldData;
 }
 
 @Injectable()
 export class RemoteDataService {
-  public dataSets = [DATA_SET.CONFIRMED, DATA_SET.RECOVERED, DATA_SET.DEATHS];
+  public dataSets = [DATA_SET.CONFIRMED, DATA_SET.DEATHS];
 
   private data: BehaviorSubject<any[]> = new BehaviorSubject([]);
   public data$: Observable<any[]> = this.data.asObservable();
@@ -44,7 +42,7 @@ export class RemoteDataService {
 
   /**
    * Retrieves data from global timely report file, based on the index passed.
-   * 0 goes for Confirmed report, 1 for Recovered, 2 for Deaths
+   * 0 goes for Confirmed report, 1 for Deaths
    */
   public getDataSet(index: number, lastCommit?: number): Observable<any> {
     let loadDataFromCache = false;

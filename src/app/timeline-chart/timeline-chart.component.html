@@ -25,10 +25,6 @@ Please check your template whether all bindings/event handlers are correct.-->
                             [yAxis]="yAxis2" valueMemberPath="totalDailyChina" [markerType]="3"
                             showDefaultTooltip="true">
                         </igx-line-series>
-                        <igx-line-series name="seriesTotalDailyRecoveredCases" title="Total Daily Recovered"
-                            [xAxis]="xAxis2" [yAxis]="yAxis2" valueMemberPath="totalDailyRecoveredCases"
-                            [markerType]="3" showDefaultTooltip="true">
-                        </igx-line-series>
                     </igx-data-chart>
                 </div>
             </div>
@@ -57,17 +53,13 @@ Please check your template whether all bindings/event handlers are correct.-->
                             [yAxis]="yAxis3" valueMemberPath="totalDailyChina" [markerType]="3"
                             showDefaultTooltip="true">
                         </igx-line-series>
-                        <igx-line-series name="seriesTotalDailyRecoveredCases" title="Total Daily Recovered"
-                            [xAxis]="xAxis3" [yAxis]="yAxis3" valueMemberPath="totalDailyRecoveredCases"
-                            [markerType]="3" showDefaultTooltip="true">
-                        </igx-line-series>
                     </igx-data-chart>
                 </div>
             </div>
         </igx-bottom-nav-content>
 </igx-bottom-nav-item>
         <igx-bottom-nav-item>
-<igx-bottom-nav-header>
+            <igx-bottom-nav-header>
 <span igxBottomNavHeaderLabel>Daily</span>
 </igx-bottom-nav-header>
 <igx-bottom-nav-content>
@@ -76,16 +68,11 @@ Please check your template whether all bindings/event handlers are correct.-->
                 <div class="app__chart-component">
                     <igx-data-chart class="app__charts-chart" #chartDaily  crosshairVisibility="visible" [legend]="legend" [dataSource]="chartData"
                         isHorizontalZoomEnabled="true">
-                        <igx-numeric-y-axis #yAxis title="New and recovered cases" abbreviateLargeNumbers="true">
-                        </igx-numeric-y-axis>
                         <igx-category-x-axis label="date" title="Date" #xAxis [formatLabel]="formatDateLabel">
                         </igx-category-x-axis>
 
                         <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
                             title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                        </igx-column-series>
-                        <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
-                            title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
                         </igx-column-series>
                     </igx-data-chart>
                 </div>
@@ -112,13 +99,6 @@ Please check your template whether all bindings/event handlers are correct.-->
                   <span>{{ item.totalDailyChina | number }}</span>
                 </div>
             </li>
-            <li class="recovered" *ngIf="series.name == 'seriesTotalDailyRecoveredCases'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>
-                  Total Daily Recovered Cases:
-                  <span>{{ item.totalDailyRecoveredCases | number }}</span>
-                </div>
-            </li>
         </ul>
     </div>
 </ng-template>
@@ -134,10 +114,6 @@ Please check your template whether all bindings/event handlers are correct.-->
                 <div>{{ formatDateLabel(item) }}</div>
                 <div>Total Daily China:<span > {{ item.totalDailyChina | number }} </span></div>
             </li>
-            <li class="recovered" *ngIf="series.name == 'seriesTotalDailyRecoveredCases'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>Total Daily Recovered Cases: <span> {{ item.totalDailyRecoveredCases | number }} </span></div>
-            </li>
         </ul>
     </div>
 </ng-template>
@@ -148,10 +124,6 @@ Please check your template whether all bindings/event handlers are correct.-->
             <li class="infected" *ngIf="series.valueMemberPath == 'activeCases'">
                 <div>{{ formatDateLabel(item) }}</div>
                 <div>New Confirmed Cases:<span class="infected"> {{ item.activeCases | number }} </span></div>
-            </li>
-            <li class="recovered" *ngIf="series.valueMemberPath == 'recoveredCases'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>Recovered Cases:<span class="infected"> {{ item.recoveredCases | number }} </span></div>
             </li>
         </ul>
     </div>

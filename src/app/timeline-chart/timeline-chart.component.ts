@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { IgxDataChartComponent, IgxCategoryXAxisComponent, IgxNumericYAxisComponent,
-  IgxCategoryToolTipLayerComponent, 
-  CategoryTooltipLayerPosition} from 'igniteui-angular-charts';
+  IgxCategoryToolTipLayerComponent } from 'igniteui-angular-charts';
 
 @Component({
   selector: 'app-timeline-chart',
@@ -22,11 +21,9 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   public chartData: any[] = [];
   public dailyDataOtherLocations: any[] = [];
   public dailyDataChina: any[] = [];
-  public dailyRecoveredCases: Map<string, number> = new Map();
   public dailyConfirmedCases: Map<string, number> = new Map();
   public totalDailyOtherLocations: Map<string, number> = new Map();
   public totalDailyChina: Map<string, number> = new Map();
-  public totalDailyRecoveredCases: Map<string, number> = new Map();
 
   public categoryTooltipLayer: IgxCategoryToolTipLayerComponent;
 
@@ -47,7 +44,6 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     let day: string = null;
     const cases: Map<string, number> = new Map();
     let transformedCases: Map<string, number> = new Map();
-    let totalRecoveredCases: Map<string, number> = new Map();
     const casesOtherLocations: Map<string, number> = new Map();
     const casesChina: Map<string, number> = new Map();
     const firstRecordedDate = new Date('01/21/2020').toDateString();
@@ -91,14 +87,6 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
       }
     }
 
-    /*
-      Persist the total recovered cases (on the second call of fillData) before transforming the 'cases' map
-      This number will be different for both Confirmed and Recovered data sources
-      This is why we are going to use it only from the second request
-      Set initial value of the first recorder recovered cases
-    */
-    totalRecoveredCases = new Map(cases);
-    totalRecoveredCases.set(firstRecordedDate, 25);
     transformedCases = new Map(cases);
 
     // Calculate daily difference and transform map
@@ -134,8 +122,8 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     */
     transformedCases.set(firstRecordedDate, 50);
 
-    // [0] Daily difference, [1] Other locations, [2] China, [3] Total recovered cases
-    return [transformedCases, casesOtherLocations, casesChina, totalRecoveredCases];
+    // [0] Daily difference, [1] Other locations and [2] China cases
+    return [transformedCases, casesOtherLocations, casesChina];
   }
 
   public transformChartConfirmedCases(csvData: string) {
@@ -165,50 +153,7 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
       dailyData[i].totalDailyChina = item[1];
       i++;
     }
-
-    // Push/Assign the data to Recovered cases Chart
     this.chartData = dailyData;
-  }
-
-  public transformChartRecoveredCases(csvData: string) {
-    const dailyData: any[] = [];
-    const csvLines = csvData.split('\n');
-    const allCases = this.fillData(csvLines);
-
-    this.dailyRecoveredCases = allCases[0];
-    this.totalDailyRecoveredCases = allCases[3];
-
-    // Transform the data for Active cases Chart
-    for (const item of this.dailyRecoveredCases) {
-      dailyData.push({ date: new Date(item[0]), recoveredCases: item[1] });
-    }
-
-    // Transform the data for Recovered Cases Chart
-    let i = 0;
-    for (const item of this.dailyRecoveredCases) {
-      dailyData[i].recoveredCases = item[1];
-      i++;
-    }
-
-    // Transform the data for Total Recovered Cases
-    i = 0;
-    for (const item of this.totalDailyRecoveredCases) {
-      dailyData[i].totalDailyRecoveredCases = item[1];
-      i++;
-    }
-
-    // Push/Assign the data to Recovered cases Chart
-    this.chartData = dailyData.map((item) => {
-      const isEqualToDate = (element) =>  {
-        return element.date.toDateString() === item.date.toDateString();
-      };
-
-      item.activeCases = this.chartData[this.chartData.findIndex(isEqualToDate)].activeCases;
-      item.totalDailyOtherLocations = this.chartData[this.chartData.findIndex(isEqualToDate)].totalDailyOtherLocations;
-      item.totalDailyChina = this.chartData[this.chartData.findIndex(isEqualToDate)].totalDailyChina;
-
-      return item;
-    });
   }
 
   public formatDateLabel(item: any): string {
@@ -218,19 +163,10 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   private setCustomTooltips() {
     this.chartActual.actualSeries[0].tooltipTemplate = this.tooltipActualTemplate;
     this.chartActual.actualSeries[1].tooltipTemplate = this.tooltipActualTemplate;
-    this.chartActual.actualSeries[2].tooltipTemplate = this.tooltipActualTemplate;
 
     this.chartLogarithmic.actualSeries[0].tooltipTemplate = this.tooltipLogarithmicTemplate;
     this.chartLogarithmic.actualSeries[1].tooltipTemplate = this.tooltipLogarithmicTemplate;
-    this.chartLogarithmic.actualSeries[2].tooltipTemplate = this.tooltipLogarithmicTemplate;
 
     this.chartDaily.actualSeries[0].tooltipTemplate = this.tooltipDailyTemplate;
-    this.chartDaily.actualSeries[1].tooltipTemplate = this.tooltipDailyTemplate;
   }
-}
-
-interface IChartConfig {
-  name: string;
-  chartComponent: IgxDataChartComponent;
-  tooltipTemplate: TemplateRef<any>;
 }
