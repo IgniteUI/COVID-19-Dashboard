@@ -18,7 +18,6 @@ export class AppComponent {
 
   public darkTheme = this.getTheme();
   public ssVisability = '';
- 
   public toggleTheme() {
     this.darkTheme = !this.darkTheme;
     this.main.map.darkTheme = this.darkTheme;

@@ -1,7 +1,7 @@
 import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesComponent, ArcGISOnlineMapImagery } from 'igniteui-angular-maps';
 import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
-import { RemoteDataService, IRegionData, IWorldData, ICasesData } from '../services/data.service';
+import { RemoteDataService, ICasesData } from '../services/data.service';
 import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
 import { EsriStyle, EsriUtility } from './EsriMapsUtility';
 import { Rect } from 'igniteui-angular-core';
@@ -27,15 +27,11 @@ export class MapCasesComponent implements OnInit {
             selected: true
         },
         {
-            name: 'Recovered',
-            selected: false
-        },
-        {
             name: 'Deaths',
             selected: false
         }
     ];
-    public dataSets = ['totalConfirmed', 'totalRecovered', 'totalDeaths'];
+    public dataSets = ['totalConfirmed','totalDeaths'];
     public brushes = [
         // dark theme brushes
         [
@@ -191,16 +187,6 @@ export class MapCasesComponent implements OnInit {
             return item.value;
         }
         const dataRec = this.data[this.dataSets[0]].data.find((rec) => {
-            return rec.region === item.region && rec.country === item.country;
-        });
-        return dataRec ? dataRec.value : 0;
-    }
-
-    public getTotalRecoveredForCountry(item): number {
-        if (this.index === 1) {
-            return item.value;
-        }
-        const dataRec = this.data[this.dataSets[1]].data.find((rec) => {
             return rec.region === item.region && rec.country === item.country;
         });
         return dataRec ? dataRec.value : 0;
