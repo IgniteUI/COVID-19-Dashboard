@@ -196,7 +196,7 @@ export class MapCasesComponent implements OnInit {
         if (this.index === 2) {
             return item.value;
         }
-        const dataRec = this.data[this.dataSets[2]].data.find((rec) => {
+        const dataRec = this.data[this.dataSets[1]].data.find((rec) => {
             return rec.region === item.region && rec.country === item.country;
         });
         return dataRec ? dataRec.value : 0;
