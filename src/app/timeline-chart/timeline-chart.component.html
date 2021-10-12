@@ -1,97 +1,63 @@
 <div class="app__charts">
     <!--NOTE: This component has been updated by Infragistics migration: v12.0.0
 Please check your template whether all bindings/event handlers are correct.-->
-<igx-bottom-nav class="app__charts-tabs">
+    <igx-bottom-nav class="app__charts-tabs">
         <igx-bottom-nav-item>
-<igx-bottom-nav-header>
-<span igxBottomNavHeaderLabel>Actual</span>
-</igx-bottom-nav-header>
-<igx-bottom-nav-content>
-            <div class="app__chart-wrapper">
-                <igx-legend class="app__charts-legend" #legendActual orientation="Horizontal"></igx-legend>
-                <div class="app__chart-component">
-                    <igx-data-chart class="app__charts-chart" crosshairVisibility="visible" #chartActual [legend]="legendActual"
-                        [dataSource]="chartData" isHorizontalZoomEnabled="true">
-                        <igx-category-x-axis label="date" title="Date" #xAxis2 [formatLabel]="formatDateLabel">
-                        </igx-category-x-axis>
-                        <igx-numeric-y-axis name="yAxis2" #yAxis2 title="Cases count" abbreviateLargeNumbers="true">
-                        </igx-numeric-y-axis>
+            <igx-bottom-nav-header>
+                <span igxBottomNavHeaderLabel>Actual</span>
+            </igx-bottom-nav-header>
+            <igx-bottom-nav-content>
+                <div class="app__chart-wrapper">
+                    <igx-legend class="app__charts-legend" #legendActual orientation="Horizontal"></igx-legend>
+                    <div class="app__chart-component">
+                        <igx-data-chart class="app__charts-chart" crosshairVisibility="visible" #chartActual
+                            [legend]="legendActual" [dataSource]="chartData" isHorizontalZoomEnabled="true">
+                            <igx-category-x-axis label="date" title="Date" #xAxis2 [formatLabel]="formatDateLabel">
+                            </igx-category-x-axis>
+                            <igx-numeric-y-axis name="yAxis2" #yAxis2 title="Cases count" abbreviateLargeNumbers="true">
+                            </igx-numeric-y-axis>
 
-                        <igx-line-series name="seriesTotalDailyOtherLocations" title="Total Daily Other Locations"
-                            [xAxis]="xAxis2" [yAxis]="yAxis2" valueMemberPath="totalDailyOtherLocations"
-                            [markerType]="3" showDefaultTooltip="true">
-                        </igx-line-series>
-                        <igx-line-series name="seriesTotalDailyChina" title="Total Daily China" [xAxis]="xAxis2"
-                            [yAxis]="yAxis2" valueMemberPath="totalDailyChina" [markerType]="3"
-                            showDefaultTooltip="true">
-                        </igx-line-series>
-                        <igx-line-series name="seriesTotalDailyRecoveredCases" title="Total Daily Recovered"
-                            [xAxis]="xAxis2" [yAxis]="yAxis2" valueMemberPath="totalDailyRecoveredCases"
-                            [markerType]="3" showDefaultTooltip="true">
-                        </igx-line-series>
-                    </igx-data-chart>
+                            <igx-line-series name="seriesTotalDailyOtherLocations" title="Total Daily Other Locations"
+                                [xAxis]="xAxis2" [yAxis]="yAxis2" valueMemberPath="totalDailyOtherLocations"
+                                [markerType]="3" showDefaultTooltip="true">
+                            </igx-line-series>
+                            <igx-line-series name="seriesTotalDailyChina" title="Total Daily China" [xAxis]="xAxis2"
+                                [yAxis]="yAxis2" valueMemberPath="totalDailyChina" [markerType]="3"
+                                showDefaultTooltip="true">
+                            </igx-line-series>
+                        </igx-data-chart>
+                    </div>
                 </div>
-            </div>
-        </igx-bottom-nav-content>
-</igx-bottom-nav-item>
+            </igx-bottom-nav-content>
+        </igx-bottom-nav-item>
         <igx-bottom-nav-item>
-<igx-bottom-nav-header>
-<span igxBottomNavHeaderLabel>Logarithmic</span>
-</igx-bottom-nav-header>
-<igx-bottom-nav-content>
-            <div class="app__chart-wrapper">
-                <igx-legend class="app__charts-legend" #legendLogarithmic orientation="Horizontal"></igx-legend>
-                <div class="app__chart-component">
-                    <igx-data-chart class="app__charts-chart" crosshairVisibility="visible" #chartLogarithmic [legend]="legendLogarithmic"
-                        [dataSource]="chartData" isHorizontalZoomEnabled="true">
-                        <igx-category-x-axis label="date" title="Date" #xAxis3 [formatLabel]="formatDateLabel">
-                        </igx-category-x-axis>
-                        <igx-numeric-y-axis name="yAxis3" #yAxis3 title="Cases count" isLogarithmic="true"
-                            abbreviateLargeNumbers="true"></igx-numeric-y-axis>
+            <igx-bottom-nav-header>
+                <span igxBottomNavHeaderLabel>Logarithmic</span>
+            </igx-bottom-nav-header>
+            <igx-bottom-nav-content>
+                <div class="app__chart-wrapper">
+                    <igx-legend class="app__charts-legend" #legendLogarithmic orientation="Horizontal"></igx-legend>
+                    <div class="app__chart-component">
+                        <igx-data-chart class="app__charts-chart" crosshairVisibility="visible" #chartLogarithmic
+                            [legend]="legendLogarithmic" [dataSource]="chartData" isHorizontalZoomEnabled="true">
+                            <igx-category-x-axis label="date" title="Date" #xAxis3 [formatLabel]="formatDateLabel">
+                            </igx-category-x-axis>
+                            <igx-numeric-y-axis name="yAxis3" #yAxis3 title="Cases count" isLogarithmic="true"
+                                abbreviateLargeNumbers="true"></igx-numeric-y-axis>
 
-                        <igx-line-series name="seriesTotalDailyOtherLocations" title="Total Daily Other Locations"
-                            [xAxis]="xAxis3" [yAxis]="yAxis3" valueMemberPath="totalDailyOtherLocations"
-                            [markerType]="3" showDefaultTooltip="true">
-                        </igx-line-series>
-                        <igx-line-series name="seriesTotalDailyChina" title="Total Daily China" [xAxis]="xAxis3"
-                            [yAxis]="yAxis3" valueMemberPath="totalDailyChina" [markerType]="3"
-                            showDefaultTooltip="true">
-                        </igx-line-series>
-                        <igx-line-series name="seriesTotalDailyRecoveredCases" title="Total Daily Recovered"
-                            [xAxis]="xAxis3" [yAxis]="yAxis3" valueMemberPath="totalDailyRecoveredCases"
-                            [markerType]="3" showDefaultTooltip="true">
-                        </igx-line-series>
-                    </igx-data-chart>
+                            <igx-line-series name="seriesTotalDailyOtherLocations" title="Total Daily Other Locations"
+                                [xAxis]="xAxis3" [yAxis]="yAxis3" valueMemberPath="totalDailyOtherLocations"
+                                [markerType]="3" showDefaultTooltip="true">
+                            </igx-line-series>
+                            <igx-line-series name="seriesTotalDailyChina" title="Total Daily China" [xAxis]="xAxis3"
+                                [yAxis]="yAxis3" valueMemberPath="totalDailyChina" [markerType]="3"
+                                showDefaultTooltip="true">
+                            </igx-line-series>
+                        </igx-data-chart>
+                    </div>
                 </div>
-            </div>
-        </igx-bottom-nav-content>
-</igx-bottom-nav-item>
-        <igx-bottom-nav-item>
-<igx-bottom-nav-header>
-<span igxBottomNavHeaderLabel>Daily</span>
-</igx-bottom-nav-header>
-<igx-bottom-nav-content>
-            <div class="app__chart-wrapper">
-                <igx-legend class="app__charts-legend" #legend orientation="Horizontal"></igx-legend>
-                <div class="app__chart-component">
-                    <igx-data-chart class="app__charts-chart" #chartDaily  crosshairVisibility="visible" [legend]="legend" [dataSource]="chartData"
-                        isHorizontalZoomEnabled="true">
-                        <igx-numeric-y-axis #yAxis title="New and recovered cases" abbreviateLargeNumbers="true">
-                        </igx-numeric-y-axis>
-                        <igx-category-x-axis label="date" title="Date" #xAxis [formatLabel]="formatDateLabel">
-                        </igx-category-x-axis>
-
-                        <igx-column-series valueMemberPath="activeCases" labelMemberPath="date"
-                            title="New Confirmed Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                        </igx-column-series>
-                        <igx-column-series valueMemberPath="recoveredCases" labelMemberPath="date"
-                            title="Recovered Cases" [xAxis]="xAxis" [yAxis]="yAxis" showDefaultTooltip="true">
-                        </igx-column-series>
-                    </igx-data-chart>
-                </div>
-            </div>
-        </igx-bottom-nav-content>
-</igx-bottom-nav-item>
+            </igx-bottom-nav-content>
+        </igx-bottom-nav-item>
     </igx-bottom-nav>
 </div>
 
@@ -101,22 +67,15 @@ Please check your template whether all bindings/event handlers are correct.-->
             <li class="deaths" *ngIf="series.name == 'seriesTotalDailyOtherLocations'">
                 <div>{{ formatDateLabel(item) }}</div>
                 <div>
-                  Total Daily Other Locations:
-                  <span>{{ item.totalDailyOtherLocations| number }}</span>
+                    Total Daily Other Locations:
+                    <span>{{ item.totalDailyOtherLocations| number }}</span>
                 </div>
             </li>
             <li class="infected" *ngIf="series.name == 'seriesTotalDailyChina'">
                 <div>{{ formatDateLabel(item) }}</div>
                 <div>
-                  Total Daily China:
-                  <span>{{ item.totalDailyChina | number }}</span>
-                </div>
-            </li>
-            <li class="recovered" *ngIf="series.name == 'seriesTotalDailyRecoveredCases'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>
-                  Total Daily Recovered Cases:
-                  <span>{{ item.totalDailyRecoveredCases | number }}</span>
+                    Total Daily China:
+                    <span>{{ item.totalDailyChina | number }}</span>
                 </div>
             </li>
         </ul>
@@ -132,11 +91,7 @@ Please check your template whether all bindings/event handlers are correct.-->
             </li>
             <li class="infected" *ngIf="series.name == 'seriesTotalDailyChina'">
                 <div>{{ formatDateLabel(item) }}</div>
-                <div>Total Daily China:<span > {{ item.totalDailyChina | number }} </span></div>
-            </li>
-            <li class="recovered" *ngIf="series.name == 'seriesTotalDailyRecoveredCases'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>Total Daily Recovered Cases: <span> {{ item.totalDailyRecoveredCases | number }} </span></div>
+                <div>Total Daily China:<span> {{ item.totalDailyChina | number }} </span></div>
             </li>
         </ul>
     </div>
@@ -148,10 +103,6 @@ Please check your template whether all bindings/event handlers are correct.-->
             <li class="infected" *ngIf="series.valueMemberPath == 'activeCases'">
                 <div>{{ formatDateLabel(item) }}</div>
                 <div>New Confirmed Cases:<span class="infected"> {{ item.activeCases | number }} </span></div>
-            </li>
-            <li class="recovered" *ngIf="series.valueMemberPath == 'recoveredCases'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>Recovered Cases:<span class="infected"> {{ item.recoveredCases | number }} </span></div>
             </li>
         </ul>
     </div>

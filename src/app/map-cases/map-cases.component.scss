@@ -69,13 +69,6 @@
     }
   }
 
-  .recovered {
-    span {
-      font-weight: bold;
-      color: igx-color($app-palette, 'success')
-    }
-  }
-
   .deaths {
     span {
       font-weight: bold;
@@ -109,12 +102,6 @@
       span {
         font-weight: bold;
         color: map-get($dark-vars, confirmed-color);
-      }
-    }
-    .recovered {
-      span {
-        font-weight: bold;
-        color: map-get($dark-vars, recovered-color);
       }
     }
     .deaths {

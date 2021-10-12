@@ -4,12 +4,10 @@ import { Observable, BehaviorSubject } from 'rxjs';
 // base URL for the data files
 const BASE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data';
 const TIME_SERIES = 'csse_covid_19_time_series';
-const DAILY_SERIES = 'csse_covid_19_daily_reports';
 const FILE_NAME = 'time_series_covid19_';
 
 export enum DATA_SET {
   CONFIRMED = 'confirmed_global',
-  RECOVERED = 'recovered_global',
   DEATHS = 'deaths_global'
 }
 
@@ -29,13 +27,12 @@ export interface IWorldData {
 
 export interface ICasesData {
   totalConfirmed: IWorldData;
-  totalRecovered: IWorldData;
   totalDeaths: IWorldData;
 }
 
 @Injectable()
 export class RemoteDataService {
-  public dataSets = [DATA_SET.CONFIRMED, DATA_SET.RECOVERED, DATA_SET.DEATHS];
+  public dataSets = [DATA_SET.CONFIRMED, DATA_SET.DEATHS];
 
   private data: BehaviorSubject<any[]> = new BehaviorSubject([]);
   public data$: Observable<any[]> = this.data.asObservable();
@@ -44,7 +41,7 @@ export class RemoteDataService {
 
   /**
    * Retrieves data from global timely report file, based on the index passed.
-   * 0 goes for Confirmed report, 1 for Recovered, 2 for Deaths
+   * 0 goes for Confirmed report, 1 for Deaths
    */
   public getDataSet(index: number, lastCommit?: number): Observable<any> {
     let loadDataFromCache = false;
@@ -78,43 +75,6 @@ export class RemoteDataService {
           .catch(err => {
             // observer.error('Using offline data; ' + err);
             this.loadOfflineData(index, observer);
-          });
-      });
-    }
-
-    return data$;
-  }
-
-  /**
-   * Retrieves the daily report file for last available day.
-   */
-  public getDataSetFromDailyReport(loadFromCache: boolean): Observable<any> {
-    const today = new Date();
-    const yesterday = new Date(today.setDate(today.getDate() - 1));
-    let todayFileName = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: 'numeric' }).format(yesterday);
-    todayFileName = todayFileName.split('/').join('-');
-    let data$: Observable<any>;
-
-    if (loadFromCache) {
-        data$ = Observable.create(observer => {
-        const data = window.localStorage.getItem(`${todayFileName}`);
-        observer.next(data);
-        observer.complete();
-      });
-    } else {
-      data$ = Observable.create(observer => {
-        // tslint:disable-next-line: max-line-length
-        fetch(`${BASE_URL}/${DAILY_SERIES}/${todayFileName}.csv`)
-          .then(response => {
-            return response.text();
-          })
-          .then(data => {
-            window.localStorage.setItem(`${todayFileName}`, data);
-            observer.next(data);
-            observer.complete();
-          })
-          .catch(err => {
-            observer.error('Using offline data; ' + err);
           });
       });
     }
@@ -165,7 +125,6 @@ export class RemoteDataService {
       csvData = csvData.replace(/, /g, ' - ');
       csvData = csvData.replace(/"/g, '');
       const csvLines = csvData.split('\n');
-      const headers = csvLines[0].split(',');
       const locations = [];
       let data: IRegionData[] = [];
       let totalCases = 0;

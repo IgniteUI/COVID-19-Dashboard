@@ -11,7 +11,7 @@ import { IRegionData, IWorldData } from '../services/data.service';
 })
 export class ListCasesComponent {
 
-    public dataSets = ['Confirmed', 'Recovered', 'Deaths', 'Active'];
+    public dataSets = ['Confirmed', 'Deaths', 'Active'];
     public key: string;
     public totalCases: number;
     public listSortedData: IRegionData[];
