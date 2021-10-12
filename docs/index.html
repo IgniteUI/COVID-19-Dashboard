@@ -1,4 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<!doctype html>
+<html lang="en">
+
+<head>
   <meta charset="utf-8">
   <title>COVID-19 Dashboard by Ignite UI For Angular</title>
   <base href="https://igniteui.github.io/COVID-19-Dashboard/">
@@ -6,8 +9,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="assets/ignite-ui-logo-2019/ignite-ui-logo-2019-icon-light-background.svg">
 
-  <style type="text/css">@font-face{font-family:'Material Icons';font-style:normal;font-weight:400;src:url(https://fonts.gstatic.com/s/materialicons/v109/flUhRq6tzZclQEJ-Vdg-IuiaDsNa.woff) format('woff');}.material-icons{font-family:'Material Icons';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;font-feature-settings:'liga';}@font-face{font-family:'Material Icons';font-style:normal;font-weight:400;src:url(https://fonts.gstatic.com/s/materialicons/v109/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2');}.material-icons{font-family:'Material Icons';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-feature-settings:'liga';-webkit-font-smoothing:antialiased;}</style>
-  <style type="text/css">@font-face{font-family:'Titillium Web';font-style:normal;font-weight:300;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPDcZTIAOhVxoMyOr9n_E7ffGjEGItzZQ.woff) format('woff');}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:400;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPecZTIAOhVxoMyOr9n_E7fdMPmCw.woff) format('woff');}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:600;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPDcZTIAOhVxoMyOr9n_E7ffBzCGItzZQ.woff) format('woff');}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:700;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPDcZTIAOhVxoMyOr9n_E7ffHjDGItzZQ.woff) format('woff');}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:300;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPDcZTIAOhVxoMyOr9n_E7ffGjEGIVzY5abuWIGxA.woff2) format('woff2');unicode-range:U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:300;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPDcZTIAOhVxoMyOr9n_E7ffGjEGItzY5abuWI.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:400;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPecZTIAOhVxoMyOr9n_E7fdM3mDaZRbryhsA.woff2) format('woff2');unicode-range:U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:400;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPecZTIAOhVxoMyOr9n_E7fdMPmDaZRbrw.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:600;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPDcZTIAOhVxoMyOr9n_E7ffBzCGIVzY5abuWIGxA.woff2) format('woff2');unicode-range:U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:600;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPDcZTIAOhVxoMyOr9n_E7ffBzCGItzY5abuWI.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:700;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPDcZTIAOhVxoMyOr9n_E7ffHjDGIVzY5abuWIGxA.woff2) format('woff2');unicode-range:U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;}@font-face{font-family:'Titillium Web';font-style:normal;font-weight:700;src:url(https://fonts.gstatic.com/s/titilliumweb/v10/NaPDcZTIAOhVxoMyOr9n_E7ffHjDGItzY5abuWI.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}</style>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700" rel="stylesheet">
   <!-- Google Tag Manager -->
   <script>(function (w, d, s, l, i) {
       w[l] = w[l] || []; w[l].push({
@@ -22,7 +25,7 @@
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ 'event': 'trackSPAPageview', 'pagePath': location.pathname, 'pageTitle': 'COVID-19 Dashboard' });
   </script>
-<style>body,html{margin:0;padding:0;}html{box-sizing:border-box;}*,:after,:before{box-sizing:inherit;}[class^=igx-],[class^=igx-] *,[class^=igx-] :after,[class^=igx-] :before{box-sizing:border-box;}@media print{app-root,body,html{min-height:100vh;min-width:100vw;margin:0;display:block;}*{background:transparent!important;background-color:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important;-webkit-print-color-adjust:exact;}}.igx-typography{font-family:Titillium Web,sans-serif;font-size:16px;line-height:27px;font-size-adjust:100%;}body,html{height:100%;overflow:hidden;}@media (max-width: 1024px){body,html{overflow-y:auto;height:auto;}}</style><link rel="stylesheet" href="styles.0cff81a23ebeb73e091b.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles.0cff81a23ebeb73e091b.css"></noscript></head>
+<link rel="stylesheet" href="styles.css"></head>
 
 <body class="igx-typography">
   <!-- Google Tag Manager (noscript) -->
@@ -31,6 +34,6 @@
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <app-root></app-root>
-<script src="runtime.237fc3a82e0cacb89f57.js" defer></script><script src="polyfills-es5.c50a5f7ad48704f4dab7.js" nomodule defer></script><script src="polyfills.86191ae3b7798141acc4.js" defer></script><script src="scripts.7db5a8a1df1d2146c813.js" defer></script><script src="main.2e4f4b4c7a68561e6886.js" defer></script>
+<script src="runtime.js" defer></script><script src="polyfills-es5.js" nomodule defer></script><script src="polyfills.js" defer></script><script src="scripts.js" defer></script><script src="vendor.js" defer></script><script src="main.js" defer></script></body>
 
-</body></html>
+</html>

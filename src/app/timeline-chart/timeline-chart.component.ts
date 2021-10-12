@@ -11,12 +11,10 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   @ViewChild('chart', { static: true }) public chart: IgxDataChartComponent;
   @ViewChild('chartActual', { static: true }) public chartActual: IgxDataChartComponent;
   @ViewChild('chartLogarithmic', { static: true }) public chartLogarithmic: IgxDataChartComponent;
-  @ViewChild('chartDaily', { static: true }) public chartDaily: IgxDataChartComponent;
   @ViewChild('xAxis', { static: true }) public xAxis: IgxCategoryXAxisComponent;
   @ViewChild('yAxis', { static: true }) public yAxis: IgxNumericYAxisComponent;
   @ViewChild('tooltipActualChart', {static: true}) public tooltipActualTemplate: TemplateRef<any>;
   @ViewChild('tooltipLogarithmicChart', {static: true}) public tooltipLogarithmicTemplate: TemplateRef<any>;
-  @ViewChild('tooltipDailyChart', {static: true}) public tooltipDailyTemplate: TemplateRef<any>;
 
   public chartData: any[] = [];
   public dailyDataOtherLocations: any[] = [];
@@ -130,10 +128,10 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     const dailyData: any[] = [];
     const csvLines = csvData.split('\n');
     const allCases = this.fillData(csvLines);
-
     this.dailyConfirmedCases = allCases[0];
     this.totalDailyOtherLocations = allCases[1];
     this.totalDailyChina = allCases[2];
+    console.log(this.dailyConfirmedCases)
 
     // Transform the data for Active cases Chart
     for (const item of this.dailyConfirmedCases) {
@@ -166,7 +164,5 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
 
     this.chartLogarithmic.actualSeries[0].tooltipTemplate = this.tooltipLogarithmicTemplate;
     this.chartLogarithmic.actualSeries[1].tooltipTemplate = this.tooltipLogarithmicTemplate;
-
-    this.chartDaily.actualSeries[0].tooltipTemplate = this.tooltipDailyTemplate;
   }
 }
