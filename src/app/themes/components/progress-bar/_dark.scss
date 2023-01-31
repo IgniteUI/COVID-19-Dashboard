@@ -1,5 +1,5 @@
-$app-progress-dark: igx-progress-circular-theme(
-  $progress-circle-color: igx-color($app-dark-palette, 'secondary'),
+$app-progress-dark: progress-circular-theme(
+  $progress-circle-color: color($app-dark-palette, 'secondary'),
 );
 
-@include igx-progress-circular($app-progress-dark);
+@include progress-circular($app-progress-dark);

@@ -1,7 +1,7 @@
 // Light palette
 $primary: #3E3972 !default;
 $secondary: #3E3972 !default;
-$app-palette: igx-palette($primary, $secondary);
+$app-palette: palette($primary, $secondary);
 
 // Dark palette
 $dark-primary: #26334f;
@@ -12,7 +12,7 @@ $dark-danger: #FF8A90;
 $dark-warn: #F05A2B;
 $dark-success: #5FBF70;
 $dark-info: #47B6FF;
-$app-dark-palette: igx-palette(
+$app-dark-palette: palette(
   $primary: $dark-primary,
   $secondary: $dark-secondary,
   $grays: $dark-grays,

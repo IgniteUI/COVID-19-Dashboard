@@ -46,9 +46,9 @@
       height: calc(100% + 20px);
       border-radius:8px;
       z-index: 0;
-      box-shadow: 0 3px 5px -1px igx-color($app-palette, 'grays', 400),
-      0 6px 10px 0 igx-color($app-palette, 'grays', 300),
-      0 1px 18px 0 igx-color($app-palette, 'grays', 200);
+      box-shadow: 0 3px 5px -1px color($app-palette, 'grays', 400),
+      0 6px 10px 0 color($app-palette, 'grays', 300),
+      0 1px 18px 0 color($app-palette, 'grays', 200);
     }
   }
 
@@ -72,7 +72,7 @@
   .deaths {
     span {
       font-weight: bold;
-      color: igx-color($app-palette, 'error')
+      color: color($app-palette, 'error')
     }
   }
 
@@ -95,7 +95,7 @@
     }
 
     .app__map-tooltip-list-date {
-      color: igx-color($app-palette, 'grays', 500);
+      color: color($app-palette, 'grays', 500);
     }
 
     .infected {

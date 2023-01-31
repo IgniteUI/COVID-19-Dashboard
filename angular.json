@@ -36,7 +36,12 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            }
           },
           "configurations": {
             "es5": {
@@ -105,7 +110,12 @@
             "assets": [
               "src/assets/ignite-ui-logo-2019/ignite-ui-logo-2019-icon-light-background.svg",
               "src/assets"
-            ]
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            }
           }
         },
         "e2e": {
