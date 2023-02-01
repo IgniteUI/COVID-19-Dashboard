@@ -74,6 +74,10 @@ html, body {
   .footerLogo {
     svg:nth-child(2) { display: none; }
   }
+
+  .ig-tooltip-container-background {
+    color: color($app-dark-palette, 'gray') !important;
+  }
 }
 
 
