@@ -1,4 +1,5 @@
-@import "../../../node_modules/igniteui-angular/lib/core/styles/base/index";
+@import "../../../node_modules/igniteui-angular/lib/core/styles/base/_index.scss";
+
 @import "palettes";
 $card-header-height: 80px;
 $app-gap: 16px;
@@ -8,7 +9,7 @@ $light-vars:(
   confirmed-bg: rgba(color($app-palette, 'secondary'), .03),
   deaths-color: color($app-palette, 'error'),
   deaths-bg: rgba(color($app-palette, 'error'), .03),
-  footer-background: color($app-palette, 'grays', 100),
+  footer-background: color($app-palette, 'gray', 100),
   link-color: color($app-palette, 'secondary'),
   tooltip-bg: color($app-palette, 'surface'),
   logo-color: #000
@@ -19,13 +20,13 @@ $dark-vars:(
   confirmed-bg: rgba(color($app-dark-palette, 'secondary'), .03),
   deaths-color: color($app-dark-palette, 'error'),
   deaths-bg: rgba(color($app-dark-palette, 'error'), .03),
-  footer-background: color($app-dark-palette, 'grays', 100),
+  footer-background: color($app-dark-palette, 'gray', 100),
   link-color: color($app-dark-palette, 'secondary'),
   tooltip-bg: color($app-dark-palette, 'surface'),
   logo-color: #fff,
   dark-gradient: (color($app-dark-palette, 'primary', 600), color($app-dark-palette, 'surface'))
 );
 
-@import "~include-media/dist/include-media";
+@import "include-media/dist/include-media";
 
 

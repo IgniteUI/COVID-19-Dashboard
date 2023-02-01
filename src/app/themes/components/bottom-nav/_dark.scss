@@ -1,6 +1,6 @@
 $app-bottom-nav-dark: bottom-nav-theme(
   $background: rgba(0,0,0, .2),
-  $idle-item-color: color($app-dark-palette, 'grays', 600),
+  $idle-item-color: color($app-dark-palette, 'gray', 600),
   $active-item-color: #fff,
   $shadow: none
 );

@@ -1,7 +1,9 @@
+@import 'igniteui-angular/lib/core/styles/themes/index';
+
 // Light palette
 $primary: #3E3972 !default;
 $secondary: #3E3972 !default;
-$app-palette: palette($primary, $secondary);
+$surface: #fff !default;
 
 // Dark palette
 $dark-primary: #26334f;
@@ -12,13 +14,25 @@ $dark-danger: #FF8A90;
 $dark-warn: #F05A2B;
 $dark-success: #5FBF70;
 $dark-info: #47B6FF;
+
+$app-palette: palette(
+  $primary: #3E3972, 
+  $secondary: #3E3972,
+  $surface: #fff,
+  $gray: #fff,
+  $error: #F05A2B,
+  $success: #5FBF70,
+  $info: #47B6FF,
+  $warn: #F05A2B
+);
+
 $app-dark-palette: palette(
-  $primary: $dark-primary,
-  $secondary: $dark-secondary,
-  $grays: $dark-grays,
-  $surface: $dark-surface,
-  $error: $dark-danger,
-  $success: $dark-success,
-  $info: $dark-info,
-  $warn: $dark-warn
+  $primary: #26334f,
+  $secondary: #09f,
+  $gray: #fff,
+  $surface: #151c2c,
+  $error: #F05A2B,
+  $success: #5FBF70,
+  $info: #47B6FF,
+  $warn: #F05A2B
 );
