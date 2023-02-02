@@ -1,17 +1,22 @@
+/* Line added via automated migrations. */
+@use "igniteui-angular/theming" as *;
 /* You can add global styles to this file, and also import other style files */
 // Standard CSS normalize, comment out if not required or using a different module
-@import "~minireset.css/minireset";
+@import "minireset.css/minireset";
 
 /* See: https://www.infragistics.com/products/ignite-ui-angular/angular/components/themes.html */
-@import "~igniteui-angular/lib/core/styles/themes/index";
 
 @import "app/themes/palettes";
 @import "app/themes/vars";
 
 /* autoprefixer grid: on */
 
-@include igx-core();
-@include igx-typography();
+@include core();
+@include typography();
+
+:root {
+  --ig-typography: 'Titillium Web', sans-serif; 
+}
 
 html, body {
   height: 100%;
@@ -24,21 +29,21 @@ html, body {
 
 .app-light-theme {
   background: linear-gradient(#ddd, #f1f1f1);
-  @include igx-theme($palette: $app-palette, $legacy-support:true);
+  @include theme($palette: $app-palette);
   @import "app/themes/components/light";
 
-  scrollbar-color: igx-color($app-palette, 'grays', 100) igx-color($app-palette, 'grays', 200);
+  scrollbar-color: color($app-palette, 'gray', 100) color($app-palette, 'gray', 200);
 
   ::-webkit-scrollbar {
     width: 8px
   }
 
   ::-webkit-scrollbar-track {
-    background-color: igx-color($app-palette, 'grays', 100);
+    background-color: color($app-palette, 'gray', 100);
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: igx-color($app-palette, 'grays', 200);
+    background-color: color($app-palette, 'gray', 200);
   }
 
   .footerLogo {
@@ -47,19 +52,19 @@ html, body {
 }
 
 .app-dark-theme {
-  @include igx-theme($palette: $app-dark-palette, $schema: $dark-schema, $legacy-support:true);
+  @include theme($palette: $app-dark-palette, $schema: $dark-schema);
   @import "app/themes/components/dark";
   background: linear-gradient(map-get($dark-vars, dark-gradient));
   color: #ddd;
 
-  scrollbar-color: igx-color($app-dark-palette, 'grays', 100) #24304b;
+  scrollbar-color: color($app-dark-palette, 'gray', 100) #24304b;
 
   ::-webkit-scrollbar {
     width: 8px
   }
 
   ::-webkit-scrollbar-track {
-    background-color: igx-color($app-dark-palette, 'grays', 100);
+    background-color: color($app-dark-palette, 'gray', 100);
   }
 
   ::-webkit-scrollbar-thumb {
@@ -68,6 +73,10 @@ html, body {
 
   .footerLogo {
     svg:nth-child(2) { display: none; }
+  }
+
+  .ig-tooltip-container-background {
+    color: color($app-dark-palette, 'gray') !important;
   }
 }
 

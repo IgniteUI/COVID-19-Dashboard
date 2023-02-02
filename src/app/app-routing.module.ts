@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'list-cases', component: ListCasesComponent, data: { text: 'list-cases' } }
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes, {})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

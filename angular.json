@@ -36,7 +36,12 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            }
           },
           "configurations": {
             "es5": {
@@ -105,20 +110,12 @@
             "assets": [
               "src/assets/ignite-ui-logo-2019/ignite-ui-logo-2019-icon-light-background.svg",
               "src/assets"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            }
           }
         },
         "e2e": {
@@ -136,5 +133,7 @@
       }
     }
   },
-  "defaultProject": "covid-19-dashboard"
+  "cli": {
+    "analytics": "68a6bcb7-15af-4066-ad74-8a41a5baca7a"
+  }
 }

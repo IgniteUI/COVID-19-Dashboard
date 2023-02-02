@@ -74,9 +74,9 @@ export class MapCasesComponent implements OnInit {
         const tileSource = new ArcGISOnlineMapImagery();
         (tileSource as any).i = tileSource;
         if (this.darkTheme) {
-            tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldDarkGrayMap);
+            tileSource.mapServerUri = EsriStyle.WorldDarkGrayMap;
         } else {
-            tileSource.mapServerUri = EsriUtility.getUri(EsriStyle.WorldLightGrayMap);
+            tileSource.mapServerUri = EsriStyle.WorldLightGrayMap;
         }
         (this.map as any).backgroundContent = tileSource;
     }

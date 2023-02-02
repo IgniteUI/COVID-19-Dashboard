@@ -29,7 +29,7 @@
   }
 
   .splash-screen__title-color {
-    color: igx-color($app-dark-palette, 'warn');
+    color: color($app-dark-palette, 'warn');
   }
 
   &.splash-screen--hidden {
