@@ -12,6 +12,19 @@ Run `ig start` to build the application, start a web server and open the applica
 
 Run `ig build` to build the application into an output directory.
 
+## Create web bundle (update the hosted website)
+Use the command `npm run build` or you can manually build the project with:
+
+1. Run `ng build`
+2. Go to `dist folder` and copy paste the content in the `docs` folder. Change the base href url to be `<base href="https://igniteui.github.io/COVID-19-Dashboard/">`
+
+> Note: If you receive 'ERROR Error: Uncaught (in promise): TypeError: Cannot read property 'from' of undefined. TypeError: Cannot read property 'from' of undefined'), use `npm run build:web:noProd`
+
+## dist and docs folders
+
+`docs` folder is used for the [GitHub Pages](https://igniteui.github.io/COVID-19-Dashboard/) site. Related to [`Publishing your GitHub Pages site from a /docs folder on your `master` branch`](https://igniteui.github.io/COVID-19-Dashboard/)
+Use `ng build --prod --aot` to build the project, `copy -> paste` into `docs` folder the generated content in `dist` folder, and replace the `base href`.
+
 ## Step by step mode
 
 If you want to get a guided experience through the available options, you can initialize the step by step mode that will help you to create and setup your new application, as well as update project previously created with the Ignite UI CLI. To start the guide, simply run the `ig` command.
