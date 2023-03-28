@@ -131,7 +131,6 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     this.dailyConfirmedCases = allCases[0];
     this.totalDailyOtherLocations = allCases[1];
     this.totalDailyChina = allCases[2];
-    console.log(this.dailyConfirmedCases)
 
     // Transform the data for Active cases Chart
     for (const item of this.dailyConfirmedCases) {
