@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
-import { IgxDataChartComponent, IgxCategoryXAxisComponent, IgxNumericYAxisComponent,
-  IgxCategoryToolTipLayerComponent } from 'igniteui-angular-charts';
+import {
+  IgxDataChartComponent, IgxCategoryXAxisComponent, IgxNumericYAxisComponent,
+  IgxCategoryToolTipLayerComponent
+} from 'igniteui-angular-charts';
 
 @Component({
   selector: 'app-timeline-chart',
@@ -13,15 +15,17 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   @ViewChild('chartLogarithmic', { static: true }) public chartLogarithmic: IgxDataChartComponent;
   @ViewChild('xAxis', { static: true }) public xAxis: IgxCategoryXAxisComponent;
   @ViewChild('yAxis', { static: true }) public yAxis: IgxNumericYAxisComponent;
-  @ViewChild('tooltipActualChart', {static: true}) public tooltipActualTemplate: TemplateRef<any>;
-  @ViewChild('tooltipLogarithmicChart', {static: true}) public tooltipLogarithmicTemplate: TemplateRef<any>;
+  @ViewChild('tooltipActualChart', { static: true }) public tooltipActualTemplate: TemplateRef<any>;
+  @ViewChild('tooltipLogarithmicChart', { static: true }) public tooltipLogarithmicTemplate: TemplateRef<any>;
 
   public chartData: any[] = [];
   public dailyDataOtherLocations: any[] = [];
   public dailyDataChina: any[] = [];
   public dailyConfirmedCases: Map<string, number> = new Map();
   public totalDailyOtherLocations: Map<string, number> = new Map();
-  public totalDailyChina: Map<string, number> = new Map();
+  public totalDailyUS: Map<string, number> = new Map();
+  public totalDailyFrance: Map<string, number> = new Map();
+  public totalDailyIndia: Map<string, number> = new Map();
 
   public categoryTooltipLayer: IgxCategoryToolTipLayerComponent;
 
@@ -43,19 +47,25 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     const cases: Map<string, number> = new Map();
     let transformedCases: Map<string, number> = new Map();
     const casesOtherLocations: Map<string, number> = new Map();
-    const casesChina: Map<string, number> = new Map();
+    const casesUS: Map<string, number> = new Map();
+    const casesFrance: Map<string, number> = new Map();
+    const casesIndia: Map<string, number> = new Map();
     const firstRecordedDate = new Date('01/21/2020').toDateString();
 
     /*
       This is for the current cases count on 21st
       There are 332 total cases for 21st, which means that for 22nd we will have 555 - 332 = 223
 
-      Total cases                 = 332
-      Total cases China           = 326
-      Total cases other locations = 6
+      Total cases                  = 332
+      Total cases US               = 326
+      Total cases India            = 320
+      Total cases France           = 180
+      Total cases other locations  = 6
     */
     cases.set(firstRecordedDate, 332);
-    casesChina.set(firstRecordedDate, 326);
+    casesUS.set(firstRecordedDate, 326);
+    casesFrance.set(firstRecordedDate, 180);
+    casesIndia.set(firstRecordedDate, 320);
     casesOtherLocations.set(firstRecordedDate, 6);
 
     // tslint:disable-next-line: prefer-for-of
@@ -67,17 +77,28 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
           day = new Date(columns[columnIdx]).toDateString();
 
           cases.set(day, 0);
-          casesChina.set(day, 0);
+          casesUS.set(day, 0);
+          casesIndia.set(day, 0);
+          casesFrance.set(day, 0);
           casesOtherLocations.set(day, 0);
         } else {
           const mapKey = new Date(csvData[0].split(',')[columnIdx]).toDateString();
           const compound = cases.get(mapKey) + parseInt(columns[columnIdx], 10);
           cases.set(mapKey, compound);
 
-          if (columns[1] === 'China') {
-            const compoundChina = casesChina.get(mapKey) + parseInt(columns[columnIdx], 10);
-            casesChina.set(mapKey, compoundChina);
-          } else {
+          if (columns[1] === 'US') {
+            const compoundUS = casesUS.get(mapKey) + parseInt(columns[columnIdx], 10);
+            casesUS.set(mapKey, compoundUS);
+          }
+          else if (columns[1] === 'India') {
+            const compoundIndia = casesIndia.get(mapKey) + parseInt(columns[columnIdx], 10);
+            casesIndia.set(mapKey, compoundIndia);
+          } 
+          else if (columns[1] === 'France') {
+            const compoundFrance = casesFrance.get(mapKey) + parseInt(columns[columnIdx], 10);
+            casesFrance.set(mapKey, compoundFrance);
+          }
+          else {
             const compoundOther = casesOtherLocations.get(mapKey) + parseInt(columns[columnIdx], 10);
             casesOtherLocations.set(mapKey, compoundOther);
           }
@@ -120,8 +141,9 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     */
     transformedCases.set(firstRecordedDate, 50);
 
-    // [0] Daily difference, [1] Other locations and [2] China cases
-    return [transformedCases, casesOtherLocations, casesChina];
+
+    // [0] Daily difference, [1] Other locations, [2] US cases, [3] India cases, [4] France cases
+    return [transformedCases, casesOtherLocations, casesUS, casesIndia, casesFrance];
   }
 
   public transformChartConfirmedCases(csvData: string) {
@@ -130,7 +152,9 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
     const allCases = this.fillData(csvLines);
     this.dailyConfirmedCases = allCases[0];
     this.totalDailyOtherLocations = allCases[1];
-    this.totalDailyChina = allCases[2];
+    this.totalDailyUS = allCases[2];
+    this.totalDailyIndia = allCases[3];
+    this.totalDailyFrance = allCases[4];
 
     // Transform the data for Active cases Chart
     for (const item of this.dailyConfirmedCases) {
@@ -146,8 +170,20 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
 
     // Transform the data for Total Daily Cases only for China
     i = 0;
-    for (const item of this.totalDailyChina) {
-      dailyData[i].totalDailyChina = item[1];
+    for (const item of this.totalDailyUS) {
+      dailyData[i].totalDailyUS = item[1];
+      i++;
+    }
+
+    i = 0;
+    for (const item of this.totalDailyIndia) {
+      dailyData[i].totalDailyIndia = item[1];
+      i++;
+    }
+
+    i = 0;
+    for (const item of this.totalDailyFrance) {
+      dailyData[i].totalDailyFrance = item[1];
       i++;
     }
     this.chartData = dailyData;
@@ -158,10 +194,9 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   }
 
   private setCustomTooltips() {
-    this.chartActual.actualSeries[0].tooltipTemplate = this.tooltipActualTemplate;
-    this.chartActual.actualSeries[1].tooltipTemplate = this.tooltipActualTemplate;
-
-    this.chartLogarithmic.actualSeries[0].tooltipTemplate = this.tooltipLogarithmicTemplate;
-    this.chartLogarithmic.actualSeries[1].tooltipTemplate = this.tooltipLogarithmicTemplate;
+    for(let index = 0; index <= 3; index++) {
+      this.chartActual.actualSeries[index].tooltipTemplate = this.tooltipActualTemplate;
+      this.chartLogarithmic.actualSeries[index].tooltipTemplate = this.tooltipLogarithmicTemplate;
+    }
   }
 }
