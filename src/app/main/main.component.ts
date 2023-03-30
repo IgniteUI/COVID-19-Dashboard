@@ -39,12 +39,12 @@ export class MainComponent implements OnDestroy {
    */
   public loadDataSets(lastCommit: number) {
     this.dataRequestConfirmed$ = this.dataService.getDataSet(0, lastCommit);
-    this.dataRequestDeaths$ = this.dataService.getDataSet(2, lastCommit);
+    this.dataRequestDeaths$ = this.dataService.getDataSet(1, lastCommit);
 
     forkJoin([this.dataRequestConfirmed$, this.dataRequestDeaths$]).subscribe(results => {
       this.charts.transformChartConfirmedCases(results[0].toString());
       const jsonDataConfirmed = this.dataService.csvToJson(results[0].toString());
-      const jsonDataDeaths = this.dataService.csvToJson(results[0].toString());
+      const jsonDataDeaths = this.dataService.csvToJson(results[1].toString());
 
       const worldData: ICasesData = { totalConfirmed: jsonDataConfirmed, totalDeaths: jsonDataDeaths };
 
