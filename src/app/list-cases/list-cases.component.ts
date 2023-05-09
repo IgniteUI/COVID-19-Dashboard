@@ -1,13 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { DisplayDensityToken } from 'igniteui-angular';
+import { DisplayDensityToken, IgxCardModule, IgxDividerModule, IgxListModule, IgxProgressBarModule } from 'igniteui-angular';
 import { IRegionData, IWorldData } from '../services/data.service';
+import { NgFor, NgIf, DecimalPipe } from '@angular/common';
 
 @Component({
     providers: [{ provide: DisplayDensityToken, useValue: { displayDensity: 'comfortable' } }],
     selector: 'app-list-cases',
     templateUrl: './list-cases.component.html',
     styleUrls: ['./list-cases.component.scss'],
-    host: {class: 'app__list'}
+    host: { class: 'app__list' },
+    standalone: true,
+    imports: [IgxCardModule, IgxDividerModule, IgxListModule, NgFor, NgIf, IgxProgressBarModule, DecimalPipe]
 })
 export class ListCasesComponent {
 

@@ -2,13 +2,17 @@ import { Component, ViewChild } from '@angular/core';
 import { MainComponent } from './main/main.component';
 import { FooterComponent } from './footer/footer.component';
 import { SplashscreenComponent } from './splashscreen/splashscreen.component';
+import { HeaderComponent } from './header/header.component';
+import { NgClass } from '@angular/common';
 
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  host: {class: 'app'}
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    host: { class: 'app' },
+    standalone: true,
+    imports: [SplashscreenComponent, NgClass, HeaderComponent, MainComponent, FooterComponent]
 })
 export class AppComponent {
 
