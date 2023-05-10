@@ -1,17 +1,21 @@
 import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
-import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesComponent, ArcGISOnlineMapImagery } from 'igniteui-angular-maps';
+import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesComponent, ArcGISOnlineMapImagery, IgxGeographicMapCoreModule } from 'igniteui-angular-maps';
 import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
 import { RemoteDataService, ICasesData } from '../services/data.service';
 import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
 import { EsriStyle, EsriUtility } from './EsriMapsUtility';
 import { Rect } from 'igniteui-angular-core';
+import { NgFor, NgIf, DecimalPipe } from '@angular/common';
+import { IgxButtonGroupModule, IgxButtonModule } from 'igniteui-angular';
 
 @Component({
     providers: [RemoteDataService],
     selector: 'app-map-cases',
     templateUrl: './map-cases.component.html',
     styleUrls: ['./map-cases.component.scss'],
-    host: {class: 'app__map-wrapper'}
+    host: { class: 'app__map-wrapper' },
+    standalone: true,
+    imports: [IgxButtonGroupModule, NgFor, IgxButtonModule, IgxGeographicMapCoreModule, NgIf, DecimalPipe]
 })
 export class MapCasesComponent implements OnInit {
 

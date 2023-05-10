@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
-import {
-  IgxDataChartComponent, IgxCategoryXAxisComponent, IgxNumericYAxisComponent,
-  IgxCategoryToolTipLayerComponent
-} from 'igniteui-angular-charts';
+import { IgxDataChartComponent, IgxCategoryXAxisComponent, IgxNumericYAxisComponent, IgxCategoryToolTipLayerComponent, IgxLegendModule, IgxDataChartCoreModule, IgxCategoryXAxisModule, IgxNumericYAxisModule, IgxLineSeriesModule } from 'igniteui-angular-charts';
+import { NgIf, DecimalPipe } from '@angular/common';
+import { IgxBottomNavModule } from 'igniteui-angular';
 
 @Component({
-  selector: 'app-timeline-chart',
-  templateUrl: './timeline-chart.component.html',
-  styleUrls: ['./timeline-chart.component.scss']
+    selector: 'app-timeline-chart',
+    templateUrl: './timeline-chart.component.html',
+    styleUrls: ['./timeline-chart.component.scss'],
+    standalone: true,
+    imports: [IgxBottomNavModule, IgxLegendModule, IgxDataChartCoreModule, IgxCategoryXAxisModule, IgxNumericYAxisModule, IgxLineSeriesModule, NgIf, DecimalPipe]
 })
 export class TimelineChartComponent implements OnInit, AfterViewInit {
   @ViewChild('chart', { static: true }) public chart: IgxDataChartComponent;

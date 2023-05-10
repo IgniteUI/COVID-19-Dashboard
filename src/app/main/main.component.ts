@@ -6,11 +6,13 @@ import { TimelineChartComponent } from '../timeline-chart/timeline-chart.compone
 import { forkJoin } from 'rxjs';
 
 @Component({
-  providers: [RemoteDataService],
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
-  host: { class: 'app__main' }
+    providers: [RemoteDataService],
+    selector: 'app-main',
+    templateUrl: './main.component.html',
+    styleUrls: ['./main.component.scss'],
+    host: { class: 'app__main' },
+    standalone: true,
+    imports: [ListCasesComponent, MapCasesComponent, TimelineChartComponent]
 })
 export class MainComponent implements OnDestroy {
 
