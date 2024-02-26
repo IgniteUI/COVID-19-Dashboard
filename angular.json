@@ -79,21 +79,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "covid-19-dashboard:build"
+            "buildTarget": "covid-19-dashboard:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "covid-19-dashboard:build:production"
+              "buildTarget": "covid-19-dashboard:build:production"
             },
             "es5": {
-                "browserTarget": "covid-19-dashboard:build:es5"
+              "buildTarget": "covid-19-dashboard:build:es5"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "covid-19-dashboard:build"
+            "buildTarget": "covid-19-dashboard:build"
           }
         },
         "test": {

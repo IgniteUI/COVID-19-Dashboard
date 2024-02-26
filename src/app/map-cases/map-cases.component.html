@@ -1,5 +1,5 @@
 <div class="app__map-inner">
-  <igx-buttongroup class="app__map-button-group" [multiSelection]="false" (selected)="onDataSetSelected($event)">
+  <igx-buttongroup class="app__map-button-group"  (selected)="onDataSetSelected($event)">
     <button igxButton *ngFor="let button of dataSetButtons" [selected]="button.selected">
       <span class="ellipsis">
         {{ button.name }}
