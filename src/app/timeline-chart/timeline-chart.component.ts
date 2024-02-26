@@ -94,7 +94,7 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
           else if (columns[1] === 'India') {
             const compoundIndia = casesIndia.get(mapKey) + parseInt(columns[columnIdx], 10);
             casesIndia.set(mapKey, compoundIndia);
-          } 
+          }
           else if (columns[1] === 'France') {
             const compoundFrance = casesFrance.get(mapKey) + parseInt(columns[columnIdx], 10);
             casesFrance.set(mapKey, compoundFrance);
@@ -197,6 +197,7 @@ export class TimelineChartComponent implements OnInit, AfterViewInit {
   private setCustomTooltips() {
     for(let index = 0; index <= 3; index++) {
       this.chartActual.actualSeries[index].tooltipTemplate = this.tooltipActualTemplate;
+      if (index === 3) break;
       this.chartLogarithmic.actualSeries[index].tooltipTemplate = this.tooltipLogarithmicTemplate;
     }
   }
