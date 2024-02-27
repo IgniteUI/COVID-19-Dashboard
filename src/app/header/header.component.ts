@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import { IgxNavbarModule, IgxButtonModule, IgxTooltipModule, IgxIconModule } from 'igniteui-angular';
+import { IgxNavbarModule, IgxButtonModule, IgxTooltipModule, IgxIconModule} from 'igniteui-angular';
 
 @Component({
     selector: 'app-header',
