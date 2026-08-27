@@ -1,5 +1,6 @@
 @use "sass:math";
-@import "../themes/vars";
+@use '../themes/vars' as *;
+
 ::ng-deep {
     .app__charts {
         padding: 0 $app-gap $app-gap $app-gap;

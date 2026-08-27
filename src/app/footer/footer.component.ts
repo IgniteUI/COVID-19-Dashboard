@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 @Component({
     selector: 'app-footer',
     templateUrl: './footer.component.html',
-    styleUrls: ['./footer.component.scss'],
-    standalone: true
+    styleUrl: './footer.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [DatePipe, NgOptimizedImage]
 })
 export class FooterComponent {
-  public lastUpdate: Date;
+  readonly lastUpdate = input<Date | null>(null);
+  protected readonly lastUpdateIso = computed(() => this.lastUpdate()?.toISOString() ?? null);
 }

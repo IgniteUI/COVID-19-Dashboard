@@ -1,30 +1,37 @@
 <div class="app__map-inner">
-  <igx-buttongroup class="app__map-button-group"  (selected)="onDataSetSelected($event)">
-    <button igxButton *ngFor="let button of dataSetButtons" [selected]="button.selected">
-      <span class="ellipsis">
-        {{ button.name }}
-      </span>
-    </button>
+  <igx-buttongroup
+    class="app__map-button-group"
+    aria-label="Map data set"
+    (selected)="onDataSetSelected($event)">
+    @for (button of dataSetButtons; track button.name) {
+      <button type="button" igxButton [selected]="button.selected">
+        <span class="ellipsis">{{ button.name }}</span>
+      </button>
+    }
   </igx-buttongroup>
-  <igx-geographic-map class="app__map" #map zoomable="true" (seriesMouseLeftButtonUp)="onSeriesClicked($event)"></igx-geographic-map>
+
+  <igx-geographic-map
+    #map
+    class="app__map"
+    aria-label="Global COVID-19 case map"
+    [zoomable]="true"
+    (seriesMouseLeftButtonUp)="onSeriesClicked($event)" />
 </div>
 
-<ng-template let-series="series" let-item="item" #template>
-    <div class="app__map-tooltip">
-        <h2 *ngIf="showRegion(item)">{{item.region}}, {{item.country}}</h2>
-        <h1 *ngIf="!showRegion(item)">{{item.country}}</h1>
-        <ul class="app__map-tooltip-list">
-          <li class="infected">Infected: <span>{{ getTotalInfectedForCountry(item) | number }}</span></li>
-          <li class="deaths">Deaths: <span>{{ getTotalDeathsForCountry(item) | number }}</span></li>
-        </ul>
-    </div>
-</ng-template>
-
-<!-- Loader Gif -->
-<ng-template #loader>
-    <div class="loader">
-        <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-        <image xlink:href="../../assets/loading.svg" height="65" width="65"/>
-        </svg>
-    </div>
+<ng-template #template let-item="item">
+  <div class="app__map-tooltip">
+    @if (showRegion(item)) {
+      <h2>{{ item.region }}, {{ item.country }}</h2>
+    } @else {
+      <h2>{{ item.country }}</h2>
+    }
+    <ul class="app__map-tooltip-list">
+      <li class="infected">
+        Infected: <span>{{ getTotalInfectedForCountry(item) | number }}</span>
+      </li>
+      <li class="deaths">
+        Deaths: <span>{{ getTotalDeathsForCountry(item) | number }}</span>
+      </li>
+    </ul>
+  </div>
 </ng-template>

@@ -1,4 +1,5 @@
-@import "../themes/vars";
+@use 'sass:map';
+@use '../themes/vars' as *;
 ::ng-deep {
   .app__map-wrapper {
     display: flex;
@@ -65,7 +66,7 @@
   .infected {
     span {
       font-weight: bold;
-      color: map-get($light-vars, confirmed-color);
+      color: map.get($light-vars, confirmed-color);
     }
   }
 
@@ -76,18 +77,18 @@
     }
   }
 
-  .app-light-theme {
+  body:has(.app-light-theme) {
     .app__map-tooltip {
       &:after {
-        background: map-get($light-vars, tooltip-bg);
+        background: map.get($light-vars, tooltip-bg);
       }
     }
   }
 
-  .app-dark-theme {
+  body:has(.app-dark-theme) {
     .app__map-tooltip {
       &:after {
-        background: map-get($dark-vars, tooltip-bg);
+        background: map.get($dark-vars, tooltip-bg);
       }
       h1,h2 {
         color: #fff;
@@ -101,13 +102,13 @@
     .infected {
       span {
         font-weight: bold;
-        color: map-get($dark-vars, confirmed-color);
+        color: map.get($dark-vars, confirmed-color);
       }
     }
     .deaths {
       span {
         font-weight: bold;
-        color: map-get($dark-vars, deaths-color);
+        color: map.get($dark-vars, deaths-color);
       }
     }
   }

@@ -1,7 +1,15 @@
-$app-bottom-nav-dark: bottom-nav-theme(
-  $background: rgba(0,0,0, .2),
-  $idle-item-color: color($app-dark-palette, 'gray', 600),
-  $active-item-color: #fff,
-  $shadow: none
-);
-@include bottom-nav($app-bottom-nav-dark);
+@use 'igniteui-angular/theming' as igx;
+@use '../../palettes';
+
+@mixin theme() {
+  $bottom-nav-theme: igx.bottom-nav-theme(
+    $schema: igx.$dark-material-schema,
+    $background: rgba(0, 0, 0, 0.2),
+    $label-color: igx.color(palettes.$app-dark-palette, 'gray', 600),
+    $label-selected-color: igx.color(palettes.$app-dark-palette, 'gray', 900),
+    $icon-selected-color: igx.color(palettes.$app-dark-palette, 'gray', 900),
+    $shadow: none
+  );
+
+  @include igx.tokens($bottom-nav-theme, $mode: 'scoped');
+}

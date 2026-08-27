@@ -1,144 +1,175 @@
 <div class="app__charts">
-    <!--NOTE: This component has been updated by Infragistics migration: v12.0.0
-Please check your template whether all bindings/event handlers are correct.-->
-    <igx-bottom-nav class="app__charts-tabs">
-        <igx-bottom-nav-item>
-            <igx-bottom-nav-header>
-                <span igxBottomNavHeaderLabel>Actual</span>
-            </igx-bottom-nav-header>
-            <igx-bottom-nav-content>
-                <div class="app__chart-wrapper">
-                    <igx-legend class="app__charts-legend" #legendActual orientation="Horizontal"></igx-legend>
-                    <div class="app__chart-component">
-                        <igx-data-chart class="app__charts-chart" crosshairVisibility="visible" #chartActual
-                            [legend]="legendActual" [dataSource]="chartData" isHorizontalZoomEnabled="true">
-                            <igx-category-x-axis label="date" title="Date" #xAxis2 [formatLabel]="formatDateLabel">
-                            </igx-category-x-axis>
-                            <igx-numeric-y-axis name="yAxis2" #yAxis2 title="Cases count" abbreviateLargeNumbers="true">
-                            </igx-numeric-y-axis>
+  <igx-bottom-nav class="app__charts-tabs">
+    <igx-bottom-nav-item>
+      <igx-bottom-nav-header>
+        <span igxBottomNavHeaderLabel>Actual</span>
+      </igx-bottom-nav-header>
+      <igx-bottom-nav-content>
+        <div class="app__chart-wrapper">
+          <igx-legend
+            #legendActual
+            class="app__charts-legend"
+            orientation="Horizontal"
+            [textColor]="chartTextColor()" />
+          <div class="app__chart-component">
+            <igx-data-chart
+              #chartActual
+              class="app__charts-chart"
+              crosshairVisibility="visible"
+              [legend]="legendActual"
+              [dataSource]="chartData()"
+              [isHorizontalZoomEnabled]="true">
+              <igx-category-x-axis
+                #xAxisActual
+                label="date"
+                title="Date"
+                [labelTextColor]="chartTextColor()"
+                [titleTextColor]="chartTextColor()"
+                [formatLabel]="formatDateLabel" />
+              <igx-numeric-y-axis
+                #yAxisActual
+                name="yAxisActual"
+                title="Cases count"
+                [labelTextColor]="chartTextColor()"
+                [titleTextColor]="chartTextColor()"
+                [abbreviateLargeNumbers]="true" />
 
-                            <igx-line-series name="seriesTotalDailyOtherLocations" title="Total Daily Other Locations"
-                                [xAxis]="xAxis2" [yAxis]="yAxis2" valueMemberPath="totalDailyOtherLocations"
-                                [markerType]="3" showDefaultTooltip="true">
-                            </igx-line-series>
-                            <igx-line-series name="seriestotalDailyUS" title="Total Daily US" [xAxis]="xAxis2"
-                                [yAxis]="yAxis2" valueMemberPath="totalDailyUS" [markerType]="3"
-                                showDefaultTooltip="true">
-                            </igx-line-series>
-                            <igx-line-series name="seriesTotalDailyIndia" title="Total Daily India" [xAxis]="xAxis2"
-                                [yAxis]="yAxis2" valueMemberPath="totalDailyIndia" [markerType]="3"
-                                showDefaultTooltip="true">
-                            </igx-line-series>
-                            <igx-line-series name="seriestotalDailyFrance" title="Total Daily France" [xAxis]="xAxis2"
-                                [yAxis]="yAxis2" valueMemberPath="totalDailyFrance" [markerType]="3"
-                                showDefaultTooltip="true">
-                            </igx-line-series>
-                        </igx-data-chart>
-                    </div>
-                </div>
-            </igx-bottom-nav-content>
-        </igx-bottom-nav-item>
-        <igx-bottom-nav-item>
-            <igx-bottom-nav-header>
-                <span igxBottomNavHeaderLabel>Logarithmic</span>
-            </igx-bottom-nav-header>
-            <igx-bottom-nav-content>
-                <div class="app__chart-wrapper">
-                    <igx-legend class="app__charts-legend" #legendLogarithmic orientation="Horizontal"></igx-legend>
-                    <div class="app__chart-component">
-                        <igx-data-chart class="app__charts-chart" crosshairVisibility="visible" #chartLogarithmic
-                            [legend]="legendLogarithmic" [dataSource]="chartData" isHorizontalZoomEnabled="true">
-                            <igx-category-x-axis label="date" title="Date" #xAxis3 [formatLabel]="formatDateLabel">
-                            </igx-category-x-axis>
-                            <igx-numeric-y-axis name="yAxis3" #yAxis3 title="Cases count" isLogarithmic="true"
-                                abbreviateLargeNumbers="true"></igx-numeric-y-axis>
-                            <igx-line-series name="seriestotalDailyUS" title="Total Daily US" [xAxis]="xAxis3"
-                                [yAxis]="yAxis2" valueMemberPath="totalDailyUS" [markerType]="3"
-                                showDefaultTooltip="true">
-                            </igx-line-series>
-                            <igx-line-series name="seriestotalDailyIndia" title="Total Daily India" [xAxis]="xAxis3"
-                                [yAxis]="yAxis3" valueMemberPath="totalDailyIndia" [markerType]="3"
-                                showDefaultTooltip="true">
-                            </igx-line-series>
-                            <igx-line-series name="seriestotalDailyFrance" title="Total Daily France" [xAxis]="xAxis3"
-                                [yAxis]="yAxis3" valueMemberPath="totalDailyFrance" [markerType]="3"
-                                showDefaultTooltip="true">
-                            </igx-line-series>
-                        </igx-data-chart>
-                    </div>
-                </div>
-            </igx-bottom-nav-content>
-        </igx-bottom-nav-item>
-    </igx-bottom-nav>
+              <igx-line-series
+                name="seriesTotalDailyOtherLocations"
+                title="Total Daily Other Locations"
+                valueMemberPath="totalDailyOtherLocations"
+                [xAxis]="xAxisActual"
+                [yAxis]="yAxisActual"
+                [markerType]="markerType"
+                [showDefaultTooltip]="true" />
+              <igx-line-series
+                name="seriesTotalDailyUS"
+                title="Total Daily US"
+                valueMemberPath="totalDailyUS"
+                [xAxis]="xAxisActual"
+                [yAxis]="yAxisActual"
+                [markerType]="markerType"
+                [showDefaultTooltip]="true" />
+              <igx-line-series
+                name="seriesTotalDailyIndia"
+                title="Total Daily India"
+                valueMemberPath="totalDailyIndia"
+                [xAxis]="xAxisActual"
+                [yAxis]="yAxisActual"
+                [markerType]="markerType"
+                [showDefaultTooltip]="true" />
+              <igx-line-series
+                name="seriesTotalDailyFrance"
+                title="Total Daily France"
+                valueMemberPath="totalDailyFrance"
+                [xAxis]="xAxisActual"
+                [yAxis]="yAxisActual"
+                [markerType]="markerType"
+                [showDefaultTooltip]="true" />
+            </igx-data-chart>
+          </div>
+        </div>
+      </igx-bottom-nav-content>
+    </igx-bottom-nav-item>
+
+    <igx-bottom-nav-item>
+      <igx-bottom-nav-header>
+        <span igxBottomNavHeaderLabel>Logarithmic</span>
+      </igx-bottom-nav-header>
+      <igx-bottom-nav-content>
+        <div class="app__chart-wrapper">
+          <igx-legend
+            #legendLogarithmic
+            class="app__charts-legend"
+            orientation="Horizontal"
+            [textColor]="chartTextColor()" />
+          <div class="app__chart-component">
+            <igx-data-chart
+              #chartLogarithmic
+              class="app__charts-chart"
+              crosshairVisibility="visible"
+              [legend]="legendLogarithmic"
+              [dataSource]="chartData()"
+              [isHorizontalZoomEnabled]="true">
+              <igx-category-x-axis
+                #xAxisLogarithmic
+                label="date"
+                title="Date"
+                [labelTextColor]="chartTextColor()"
+                [titleTextColor]="chartTextColor()"
+                [formatLabel]="formatDateLabel" />
+              <igx-numeric-y-axis
+                #yAxisLogarithmic
+                name="yAxisLogarithmic"
+                title="Cases count"
+                [labelTextColor]="chartTextColor()"
+                [titleTextColor]="chartTextColor()"
+                [isLogarithmic]="true"
+                [abbreviateLargeNumbers]="true" />
+              <igx-line-series
+                name="seriesTotalDailyUS"
+                title="Total Daily US"
+                valueMemberPath="totalDailyUS"
+                [xAxis]="xAxisLogarithmic"
+                [yAxis]="yAxisLogarithmic"
+                [markerType]="markerType"
+                [showDefaultTooltip]="true" />
+              <igx-line-series
+                name="seriesTotalDailyIndia"
+                title="Total Daily India"
+                valueMemberPath="totalDailyIndia"
+                [xAxis]="xAxisLogarithmic"
+                [yAxis]="yAxisLogarithmic"
+                [markerType]="markerType"
+                [showDefaultTooltip]="true" />
+              <igx-line-series
+                name="seriesTotalDailyFrance"
+                title="Total Daily France"
+                valueMemberPath="totalDailyFrance"
+                [xAxis]="xAxisLogarithmic"
+                [yAxis]="yAxisLogarithmic"
+                [markerType]="markerType"
+                [showDefaultTooltip]="true" />
+            </igx-data-chart>
+          </div>
+        </div>
+      </igx-bottom-nav-content>
+    </igx-bottom-nav-item>
+  </igx-bottom-nav>
 </div>
 
-<ng-template let-series="series" let-item="item" #tooltipActualChart>
-    <div class="app__map-tooltip">
-        <ul class="app__map-tooltip-list">
-            <li class="deaths" *ngIf="series.name == 'seriesTotalDailyOtherLocations'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>
-                    Total Daily Other Locations:
-                    <span>{{ item.totalDailyOtherLocations| number }}</span>
-                </div>
-            </li>
-          
-            <li class="infected" *ngIf="series.name == 'seriestotalDailyUS'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>
-                    Total Daily US:
-                    <span>{{ item.totalDailyUS | number }}</span>
-                </div>
-            </li>
-            <li class="infected" *ngIf="series.name == 'seriesTotalDailyIndia'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>
-                    Total Daily India:
-                    <span>{{ item.totalDailyUS | number }}</span>
-                </div>
-            </li>
-            
-            <li class="infected" *ngIf="series.name == 'seriestotalDailyFrance'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>
-                    Total Daily France:
-                    <span>{{ item.totalDailyFrance | number }}</span>
-                </div>
-            </li>
-        </ul>
-    </div>
-</ng-template>
-
-<ng-template let-series="series" let-item="item" #tooltipLogarithmicChart>
-    <div class="app__map-tooltip">
-        <ul class="app__map-tooltip-list">
-            <li class="deaths" *ngIf="series.name == 'seriesTotalDailyOtherLocations'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>Total Daily Other Locations: <span> {{ item.totalDailyOtherLocations | number }} </span></div>
-            </li>
-            <li class="infected" *ngIf="series.name == 'seriestotalDailyUS'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>Total Daily US:<span> {{ item.totalDailyUS | number }} </span></div>
-            </li>
-            <li class="infected" *ngIf="series.name == 'seriestotalDailyIndia'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>Total Daily India:<span> {{ item.totalDailyIndia | number }} </span></div>
-            </li>
-            <li class="infected" *ngIf="series.name == 'seriestotalDailyFrance'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>Total Daily France:<span> {{ item.totalDailyFrance | number }} </span></div>
-            </li>
-        </ul>
-    </div>
-</ng-template>
-
-<ng-template let-series="series" let-item="item" #tooltipDailyChart>
-    <div class="app__map-tooltip">
-        <ul class="app__map-tooltip-list">
-            <li class="infected" *ngIf="series.valueMemberPath == 'activeCases'">
-                <div>{{ formatDateLabel(item) }}</div>
-                <div>New Confirmed Cases:<span class="infected"> {{ item.activeCases | number }} </span></div>
-            </li>
-        </ul>
-    </div>
+<ng-template #tooltipTemplate let-series="series" let-item="item">
+  <div class="app__map-tooltip">
+    <ul class="app__map-tooltip-list">
+      @switch (series.name) {
+        @case ('seriesTotalDailyOtherLocations') {
+          <li class="deaths">
+            <div>{{ formatDateLabel(item) }}</div>
+            <div>
+              Total Daily Other Locations:
+              <span>{{ item.totalDailyOtherLocations | number }}</span>
+            </div>
+          </li>
+        }
+        @case ('seriesTotalDailyUS') {
+          <li class="infected">
+            <div>{{ formatDateLabel(item) }}</div>
+            <div>Total Daily US: <span>{{ item.totalDailyUS | number }}</span></div>
+          </li>
+        }
+        @case ('seriesTotalDailyIndia') {
+          <li class="infected">
+            <div>{{ formatDateLabel(item) }}</div>
+            <div>Total Daily India: <span>{{ item.totalDailyIndia | number }}</span></div>
+          </li>
+        }
+        @case ('seriesTotalDailyFrance') {
+          <li class="infected">
+            <div>{{ formatDateLabel(item) }}</div>
+            <div>Total Daily France: <span>{{ item.totalDailyFrance | number }}</span></div>
+          </li>
+        }
+      }
+    </ul>
+  </div>
 </ng-template>

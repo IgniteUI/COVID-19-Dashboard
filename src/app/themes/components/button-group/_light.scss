@@ -1,13 +1,19 @@
-$app-button-group-theme: button-group-theme(
-  $item-selected-background: #D5D3EF,
-  $item-hover-background: #D5D3EF,
-  $item-selected-hover-background: #D5D3EF,
-  $item-selected-border-color: color($app-palette, 'primary'),
-  $item-text-color: color($app-palette, 'primary', 700),
-  $item-selected-text-color: color($app-palette, 'primary', 900),
-  $item-hover-text-color: color($app-palette, 'primary', 900),
-  $item-border-color: color($app-palette, 'primary'),
-  $shadow: none,
-);
+@use 'igniteui-angular/theming' as igx;
+@use '../../palettes';
 
-@include button-group($app-button-group-theme);
+@mixin theme() {
+  $button-group-theme: igx.button-group-theme(
+    $schema: igx.$light-material-schema,
+    $item-selected-background: igx.color(palettes.$app-palette, 'primary', 100),
+    $item-hover-background: igx.color(palettes.$app-palette, 'primary', 100),
+    $item-selected-hover-background: igx.color(palettes.$app-palette, 'primary', 100),
+    $item-selected-border-color: igx.color(palettes.$app-palette, 'primary'),
+    $item-text-color: igx.color(palettes.$app-palette, 'primary', 700),
+    $item-selected-text-color: igx.color(palettes.$app-palette, 'primary', 900),
+    $item-hover-text-color: igx.color(palettes.$app-palette, 'primary', 900),
+    $item-border-color: igx.color(palettes.$app-palette, 'primary'),
+    $shadow: none
+  );
+
+  @include igx.tokens($button-group-theme, $mode: 'scoped');
+}

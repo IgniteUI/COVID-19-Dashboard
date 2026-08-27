@@ -1,23 +1,30 @@
 <igx-card class="app__list-holder" elevated>
   <igx-card-header class="app__card-header app__card-header--info">
-    <h5 igxCardHeaderSubtitle>Total {{ type }}</h5>
-    <h3 igxCardHeaderTitle>{{ totalCases | number}}</h3>
+    <h5 igxCardHeaderSubtitle>Total {{ type() }}</h5>
+    <h3 igxCardHeaderTitle>{{ totalCases() | number }}</h3>
   </igx-card-header>
-  <igx-divider></igx-divider>
+  <igx-divider />
   <igx-card-content class="app__card-content">
-      <igx-list [displayDensity]="'cosy'" class="app__list-inner">
-        <igx-list-item #item *ngFor="let item of listSortedData" (click)="onListItemClicked(item)">
-
-          <span igxListLineTitle *ngIf="item.region && item.country !== item.region; else country">{{ item.region }}, {{ item.country }}</span>
-          <ng-template #country>
+      <igx-list class="app__list-inner" [style.--ig-size]="'var(--ig-size-medium)'">
+        @for (item of listSortedData(); track item) {
+          <igx-list-item
+            role="button"
+            tabindex="0"
+            [attr.aria-label]="regionLabel(item)"
+            (click)="selectRegion(item)"
+            (keydown)="onRegionKeydown($event, item)">
+            @if (item.region && item.country !== item.region) {
+              <span igxListLineTitle>{{ item.region }}, {{ item.country }}</span>
+            } @else {
               <span igxListLineTitle>{{ item.country }}</span>
-          </ng-template>
+            }
 
-          <span igxListAction>{{ item.value | number }}</span>
-        </igx-list-item>
+            <span igxListAction>{{ item.value | number }}</span>
+          </igx-list-item>
+        }
         <ng-template igxEmptyList>
           <div class="app__loader">
-            <igx-circular-bar [indeterminate]="true"></igx-circular-bar>
+            <igx-circular-bar [indeterminate]="true" />
           </div>
       </ng-template>
       </igx-list>

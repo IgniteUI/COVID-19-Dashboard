@@ -1,5 +1,11 @@
-$app-progress-dark: progress-circular-theme(
-  $progress-circle-color: color($app-dark-palette, 'secondary'),
-);
+@use 'igniteui-angular/theming' as igx;
+@use '../../palettes';
 
-@include progress-circular($app-progress-dark);
+@mixin theme() {
+  $progress-theme: igx.progress-circular-theme(
+    $schema: igx.$dark-material-schema,
+    $fill-color-default: igx.color(palettes.$app-dark-palette, 'secondary')
+  );
+
+  @include igx.tokens($progress-theme, $mode: 'scoped');
+}

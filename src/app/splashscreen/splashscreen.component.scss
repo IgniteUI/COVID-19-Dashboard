@@ -1,4 +1,5 @@
-@import "../themes/vars";
+@use 'sass:map';
+@use '../themes/vars' as *;
 :host {
   position: fixed;
   top: 0;
@@ -9,7 +10,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(-45deg, map-get($dark-vars, dark-gradient));
+  background: linear-gradient(-45deg, map.get($dark-vars, dark-gradient));
   user-select: none;
   opacity: 1;
   z-index: 10;
@@ -47,6 +48,7 @@
 
   .app__splash-screen-logo {
     height: 200px;
+    width: auto;
     letter-spacing: 1px;
     @include media("<=tablet") {
       height: 100px;

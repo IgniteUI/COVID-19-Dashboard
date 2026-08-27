@@ -1,83 +1,121 @@
-/* Line added via automated migrations. */
-@use "igniteui-angular/theming" as *;
-/* You can add global styles to this file, and also import other style files */
-// Standard CSS normalize, comment out if not required or using a different module
-@import "minireset.css/minireset";
+@use 'sass:map';
+@use 'igniteui-angular/theming' as igx;
+@use 'include-media/dist/include-media' as *;
+@use 'app/themes/palettes' as palettes;
+@use 'app/themes/vars' as vars;
+@use 'app/themes/components/light' as light-components;
+@use 'app/themes/components/dark' as dark-components;
 
-/* See: https://www.infragistics.com/products/ignite-ui-angular/angular/components/themes.html */
-
-@import "app/themes/palettes";
-@import "app/themes/vars";
-
-/* autoprefixer grid: on */
-
-@include core();
-@include typography();
+@import 'minireset.css/minireset.css' layer(ig.reset);
 
 :root {
-  --ig-typography: 'Titillium Web', sans-serif; 
+  --ig-size: var(--ig-size-large);
+  --ig-typography: 'Titillium Web', sans-serif;
 }
 
-html, body {
+@include igx.core();
+@include igx.typography();
+
+html,
+body {
   height: 100%;
   overflow: hidden;
-  @include media("<=desktop") {
-    overflow-y: auto;
+
+  @include media('<=desktop') {
     height: auto;
+    overflow-y: auto;
   }
 }
 
 .app-light-theme {
-  background: linear-gradient(#ddd, #f1f1f1);
-  @include theme($palette: $app-palette);
-  @import "app/themes/components/light";
+  @include igx.theme(
+    $palette: palettes.$app-palette,
+    $schema: igx.$light-material-schema
+  );
+  @include light-components.theme();
 
-  scrollbar-color: color($app-palette, 'gray', 100) color($app-palette, 'gray', 200);
+  background: linear-gradient(
+    igx.color(palettes.$app-palette, 'gray', 200),
+    igx.color(palettes.$app-palette, 'gray', 100)
+  );
+  scrollbar-color:
+    igx.color(palettes.$app-palette, 'gray', 100)
+    igx.color(palettes.$app-palette, 'gray', 200);
 
   ::-webkit-scrollbar {
-    width: 8px
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background-color: color($app-palette, 'gray', 100);
+    background-color: igx.color(palettes.$app-palette, 'gray', 100);
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: color($app-palette, 'gray', 200);
+    background-color: igx.color(palettes.$app-palette, 'gray', 200);
   }
 
-  .footerLogo {
-    svg:nth-child(1) { display: none; }
+  .footerLogo__dark {
+    display: none;
   }
 }
 
 .app-dark-theme {
-  @include theme($palette: $app-dark-palette, $schema: $dark-schema);
-  @import "app/themes/components/dark";
-  background: linear-gradient(map-get($dark-vars, dark-gradient));
-  color: #ddd;
+  @include igx.theme(
+    $palette: palettes.$app-dark-palette,
+    $schema: igx.$dark-material-schema
+  );
+  @include dark-components.theme();
 
-  scrollbar-color: color($app-dark-palette, 'gray', 100) #24304b;
+  color: igx.color(palettes.$app-dark-palette, 'gray', 900);
+  background: linear-gradient(map.get(vars.$dark-vars, dark-gradient));
+  scrollbar-color:
+    igx.color(palettes.$app-dark-palette, 'gray', 100)
+    igx.color(palettes.$app-dark-palette, 'primary', 700);
 
   ::-webkit-scrollbar {
-    width: 8px
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background-color: color($app-dark-palette, 'gray', 100);
+    background-color: igx.color(palettes.$app-dark-palette, 'gray', 100);
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: #24304b;
+    background-color: igx.color(palettes.$app-dark-palette, 'primary', 700);
   }
 
-  .footerLogo {
-    svg:nth-child(2) { display: none; }
+  .footerLogo__light {
+    display: none;
   }
 
-  .ig-tooltip-container-background {
-    color: color($app-dark-palette, 'gray') !important;
-  }
 }
 
+// The chart renders its tooltip into a container appended straight to <body>,
+// so it sits outside the themed wrapper above and has to be reached from a
+// common ancestor rather than nested under `.app-dark-theme`.
+body:has(.app-dark-theme) .ig-tooltip-container-background {
+  color: igx.color(palettes.$app-dark-palette, 'gray') !important;
+}
 
+// Since 21.1.0 the overlay service renders tooltips in the top layer through the
+// HTML Popover API, so that container also carries a `popover` attribute. The
+// browser's built-in `[popover]` rules then paint an opaque `canvas`
+// background, add 0.25em of padding and set `overflow: auto` - squaring off the
+// tooltip card, clipping its shadow and giving it scrollbars.
+igx-tooltip-container[popover] {
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+// Since 21.1.0 the overlay service renders tooltips in the top layer through the
+// HTML Popover API, so the chart/map tooltip container now carries a `popover`
+// attribute. That makes the browser's built-in `[popover]` rules apply, and they
+// paint an opaque `canvas` background, add 0.25em of padding and set
+// `overflow: auto` - which squares off the tooltip card, clips its shadow and
+// gives it scrollbars. Reset the three the app cares about.
+igx-tooltip-container[popover] {
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+}

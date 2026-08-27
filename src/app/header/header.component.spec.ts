@@ -1,26 +1,35 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-    imports: [HeaderComponent],
-    teardown: { destroyAfterEach: false }
-})
-    .compileComponents();
-  }));
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [HeaderComponent],
+      providers: [provideZonelessChangeDetection()]
+    }).compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates the header', () => {
+    expect(fixture.componentInstance).toBeTruthy();
+  });
+
+  it('emits a theme change from the accessible button', async () => {
+    const themeChanged = vi.fn();
+    fixture.componentInstance.themeChanged.subscribe(themeChanged);
+
+    const button = fixture.nativeElement.querySelector(
+      'button[aria-label="Toggle color theme"]'
+    ) as HTMLButtonElement | null;
+    button?.click();
+    await fixture.whenStable();
+
+    expect(themeChanged).toHaveBeenCalledOnce();
   });
 });

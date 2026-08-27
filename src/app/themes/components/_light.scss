@@ -1,2 +1,7 @@
-@import "bottom-nav/light";
-@import "button-group/light";
+@use 'bottom-nav/light' as bottom-nav;
+@use 'button-group/light' as button-group;
+
+@mixin theme() {
+  @include bottom-nav.theme();
+  @include button-group.theme();
+}

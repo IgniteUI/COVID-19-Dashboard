@@ -1,208 +1,207 @@
-import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
-import { IgxTileGeneratorMapImagery, IgxGeographicProportionalSymbolSeriesComponent, ArcGISOnlineMapImagery, IgxGeographicMapCoreModule } from 'igniteui-angular-maps';
-import { IgxGeographicMapComponent } from 'igniteui-angular-maps';
-import { RemoteDataService, ICasesData } from '../services/data.service';
-import { IgxSizeScaleComponent, IgxValueBrushScaleComponent, MarkerType } from 'igniteui-angular-charts';
-import { EsriStyle, EsriUtility } from './EsriMapsUtility';
+import { DecimalPipe } from '@angular/common';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  computed,
+  effect,
+  input,
+  signal,
+  viewChild
+} from '@angular/core';
+import { IGX_BUTTON_GROUP_DIRECTIVES, IButtonGroupEventArgs } from 'igniteui-angular/button-group';
+import {
+  IgxDataChartMouseButtonEventArgs,
+  IgxSizeScaleComponent,
+  IgxValueBrushScaleComponent,
+  MarkerType
+} from 'igniteui-angular-charts';
 import { Rect } from 'igniteui-angular-core';
-import { NgFor, NgIf, DecimalPipe } from '@angular/common';
-import { IgxButtonGroupModule, IgxButtonModule } from 'igniteui-angular';
+import {
+  IgxArcGISOnlineMapImagery,
+  IgxGeographicMapComponent,
+  IgxGeographicMapCoreModule,
+  IgxGeographicProportionalSymbolSeriesComponent
+} from 'igniteui-angular-maps';
+
+import { ICasesData, IRegionData, IWorldData } from '../services/data.service';
+import { ESRI_MAP_STYLES } from './esri-map-styles';
+
+const DATA_SET_KEYS = ['totalConfirmed', 'totalDeaths'] as const;
+const DATA_SET_BUTTONS = [
+  { name: 'Total', selected: true },
+  { name: 'Deaths', selected: false }
+] as const;
+const MAP_BRUSHES = [
+  [
+    ['rgba(0, 153, 255, 0.3)'],
+    ['rgba(255, 138, 144, 0.4)']
+  ],
+  [
+    ['rgba(62, 57, 114, 0.3)'],
+    ['rgba(255, 17, 94, 0.3)']
+  ]
+] as const;
+
+type DataSetIndex = 0 | 1;
 
 @Component({
-    providers: [RemoteDataService],
-    selector: 'app-map-cases',
-    templateUrl: './map-cases.component.html',
-    styleUrls: ['./map-cases.component.scss'],
-    host: { class: 'app__map-wrapper' },
-    standalone: true,
-    imports: [IgxButtonGroupModule, NgFor, IgxButtonModule, IgxGeographicMapCoreModule, NgIf, DecimalPipe]
+  selector: 'app-map-cases',
+  templateUrl: './map-cases.component.html',
+  styleUrl: './map-cases.component.scss',
+  host: { class: 'app__map-wrapper' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IGX_BUTTON_GROUP_DIRECTIVES, IgxGeographicMapCoreModule, DecimalPipe]
 })
-export class MapCasesComponent implements OnInit {
+export class MapCasesComponent implements AfterViewInit {
+  readonly data = input<ICasesData | null>(null);
+  readonly darkTheme = input(true);
 
-    @ViewChild('map', {static: true}) public map: IgxGeographicMapComponent;
-    @ViewChild('template', {static: true}) public tooltip: TemplateRef<object>;
+  protected readonly dataSetButtons = DATA_SET_BUTTONS;
+  protected readonly selectedIndex = signal<DataSetIndex>(0);
 
-    public tileImagery: IgxTileGeneratorMapImagery;
-    public darkTheme = true;
-    public series: IgxGeographicProportionalSymbolSeriesComponent[] = this.createSeries();
-    public dataSetButtons = [
-        {
-            name: 'Total',
-            selected: true
-        },
-        {
-            name: 'Deaths',
-            selected: false
-        }
-    ];
-    public dataSets = ['totalConfirmed','totalDeaths'];
-    public brushes = [
-        // dark theme brushes
-        [
-            ['rgba(0,153,255, .3)'],
-            ['rgba(95,191,112, .4)'],
-            ['rgba(255, 138, 144, .4)']
-        ],
-        // light theme brushes
-        [
-            ['rgba(62,57,114, .3)'],
-            ['rgba(78,184,98, .3)'],
-            ['rgba(255, 17, 94, .3)']
-        ]
-      ];
-    public data: ICasesData;
-    public index = 0;
-    public currentSeries = this.dataSets[this.index];
+  private readonly mapReady = signal(false);
+  private readonly map = viewChild<IgxGeographicMapComponent>('map');
+  private readonly tooltip = viewChild<TemplateRef<unknown>>('template');
+  private series: IgxGeographicProportionalSymbolSeriesComponent[] | null = null;
+  private readonly selectedData = computed<IWorldData | null>(() => {
+    const data = this.data();
+    return data?.[DATA_SET_KEYS[this.selectedIndex()]] ?? null;
+  });
 
-    constructor() { }
+  constructor() {
+    effect(() => {
+      const map = this.map();
+      const selectedData = this.selectedData();
+      const tooltip = this.tooltip();
+      const selectedIndex = this.selectedIndex();
 
-    public ngOnInit(): void {
-        this.changeMap();
-        this.setInitialMapZoom();
+      if (!map || !this.mapReady()) {
+        return;
+      }
+
+      this.applyMapTheme(map, this.darkTheme());
+
+      if (!selectedData || !tooltip) {
+        map.series.clear();
+        return;
+      }
+
+      const windowRect = map.windowRect;
+      this.addMapSeries(map, tooltip, selectedData, selectedIndex);
+      map.windowRect = windowRect;
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.map()?.zoomToGeographic({
+      height: 0,
+      left: 0,
+      top: 40,
+      width: 260
+    });
+    this.mapReady.set(true);
+  }
+
+  protected onDataSetSelected(event: IButtonGroupEventArgs): void {
+    if (event.index === 0 || event.index === 1) {
+      this.selectedIndex.set(event.index);
+    }
+  }
+
+  protected onSeriesClicked(event: { args: IgxDataChartMouseButtonEventArgs }): void {
+    const item = event.args.item as IRegionData | null;
+
+    if (item) {
+      this.zoomMapToLoc(item.lat, item.lon);
+    }
+  }
+
+  protected showRegion(item: IRegionData): boolean {
+    return item.region.length > 0 && item.region !== item.country;
+  }
+
+  protected getTotalInfectedForCountry(item: IRegionData): number {
+    if (this.selectedIndex() === 0) {
+      return item.value;
     }
 
-    public setInitialMapZoom() {
-        const geoBounds = {
-            height: 0,
-            left: -0,
-            top: 40,
-            width: 260
-        };
-        this.map.zoomToGeographic(geoBounds);
+    return this.findRegionValue(this.data()?.totalConfirmed, item);
+  }
+
+  protected getTotalDeathsForCountry(item: IRegionData): number {
+    if (this.selectedIndex() === 1) {
+      return item.value;
     }
 
-    /**
-     * Assign corresponding EsriMapStyle for Light/Dark app theme
-     */
-    public changeMap() {
-        const tileSource = new ArcGISOnlineMapImagery();
-        (tileSource as any).i = tileSource;
-        if (this.darkTheme) {
-            tileSource.mapServerUri = EsriStyle.WorldDarkGrayMap;
-        } else {
-            tileSource.mapServerUri = EsriStyle.WorldLightGrayMap;
-        }
-        (this.map as any).backgroundContent = tileSource;
-    }
+    return this.findRegionValue(this.data()?.totalDeaths, item);
+  }
 
-    /**
-     * Assign corresponding brushScale for the map based on Light/Dark theme and current map series
-     */
-    public changeMapSeriesBrushScale() {
-        const brushScale = this.createBrushScale();
-        const series = this.map.series.item(0) as IgxGeographicProportionalSymbolSeriesComponent;
-        series.fillScale = brushScale;
-        series.markerOutline = brushScale.brushes[0];
-    }
+  public zoomMapToLoc(lat: number, lon: number): void {
+    this.map()?.zoomToGeographic(new Rect(0, lon - 5, lat - 8, 10, 15));
+  }
 
-    /**
-     * Switch to the corresponding series data depending on selected button
-     */
-    public onDataSetSelected(event: any) {
-        const rect = this.map.windowRect;
-        this.index = event.index;
-        this.currentSeries = this.dataSets[this.index];
-        if (this.data) {
-            this.addMapSeries(event.index);
-            this.map.windowRect = rect;
-        }
-    }
+  private applyMapTheme(map: IgxGeographicMapComponent, darkTheme: boolean): void {
+    const tileSource = new IgxArcGISOnlineMapImagery();
+    tileSource.mapServerUri = darkTheme
+      ? ESRI_MAP_STYLES.worldDarkGray
+      : ESRI_MAP_STYLES.worldLightGray;
+    map.backgroundContent = tileSource;
+  }
 
-    /**
-     * Fill the map series corresponding to the passed index with tile imagery and add to map.
-     */
-    public addMapSeries(index: number) {
-        const locations = this.data[this.currentSeries].data;
+  private addMapSeries(
+    map: IgxGeographicMapComponent,
+    tooltip: TemplateRef<unknown>,
+    selectedData: IWorldData,
+    index: DataSetIndex
+  ): void {
+    const series = this.series ??= this.createSeries();
+    const symbolSeries = series[index];
+    const brushScale = this.createBrushScale(selectedData.peakValue, index);
 
-        // Geopraphic proportional symbol series
-        const symbolSeries = this.series[index];
-        const sizeScale = this.createSizeScale();
-        const brushScale = this.createBrushScale();
-        symbolSeries.dataSource = locations;
-        symbolSeries.radiusScale = sizeScale;
-        symbolSeries.fillScale = brushScale;
-        symbolSeries.markerOutline = brushScale.brushes[0];
-        symbolSeries.tooltipTemplate = this.tooltip;
+    symbolSeries.dataSource = selectedData.data;
+    symbolSeries.radiusScale = this.createSizeScale();
+    symbolSeries.fillScale = brushScale;
+    symbolSeries.markerOutline = brushScale.brushes[0] ?? null;
+    symbolSeries.tooltipTemplate = tooltip;
 
-        this.map.series.clear();
-        this.map.series.add(symbolSeries);
-    }
+    map.series.clear();
+    map.series.add(symbolSeries);
+  }
 
-    public showRegion(item) {
-        return item.region.length !== 0 && item.region !== item.country;
-    }
+  private createSeries(): IgxGeographicProportionalSymbolSeriesComponent[] {
+    return DATA_SET_KEYS.map(() => {
+      const symbolSeries = new IgxGeographicProportionalSymbolSeriesComponent();
+      symbolSeries.markerType = MarkerType.Circle;
+      symbolSeries.fillMemberPath = 'value';
+      symbolSeries.radiusMemberPath = 'value';
+      symbolSeries.latitudeMemberPath = 'lat';
+      symbolSeries.longitudeMemberPath = 'lon';
+      return symbolSeries;
+    });
+  }
 
-    /**
-     * Create three symbol series that will be used to represnt each data set (Confirmed, Recivered, Deaths).
-     */
-    public createSeries(): IgxGeographicProportionalSymbolSeriesComponent[] {
-        const series: IgxGeographicProportionalSymbolSeriesComponent[] = [];
-        for (let i = 0; i < 3; i++) {
-            const symbolSeries = new IgxGeographicProportionalSymbolSeriesComponent();
-            symbolSeries.markerType = MarkerType.Circle;
-            symbolSeries.fillMemberPath = 'value';
-            symbolSeries.radiusMemberPath = 'value';
-            symbolSeries.latitudeMemberPath = 'lat';
-            symbolSeries.longitudeMemberPath = 'lon';
-            series.push(symbolSeries);
-        }
-        return series;
-    }
+  private createBrushScale(peakValue: number, index: DataSetIndex): IgxValueBrushScaleComponent {
+    const brushScale = new IgxValueBrushScaleComponent();
+    const themeIndex = this.darkTheme() ? 0 : 1;
+    brushScale.brushes = [...MAP_BRUSHES[themeIndex][index]];
+    brushScale.minimumValue = 1;
+    brushScale.maximumValue = peakValue;
+    return brushScale;
+  }
 
+  private createSizeScale(): IgxSizeScaleComponent {
+    const sizeScale = new IgxSizeScaleComponent();
+    sizeScale.minimumValue = 1;
+    sizeScale.maximumValue = 60;
+    sizeScale.isLogarithmic = true;
+    return sizeScale;
+  }
 
-
-    /**
-     * Zoom the map to show the corresponding country.
-     */
-    public onSeriesClicked(event: any) {
-        const lat = event.args.item.lat;
-        const lon = event.args.item.lon;
-        this.zoomMapToLoc(lat, lon);
-    }
-
-    public zoomMapToLoc(lat: number, lon: number) {
-        const geoRect = new Rect(0, lon - 5, lat - 8, 10, 15);
-        this.map.zoomToGeographic(geoRect);
-    }
-
-    private createBrushScale(): IgxValueBrushScaleComponent {
-        const brushScale = new IgxValueBrushScaleComponent();
-        const maxValue = this.data[this.currentSeries].peakValue;
-        if (this.darkTheme) {
-            brushScale.brushes = this.brushes[0][this.index];
-        } else {
-            brushScale.brushes = this.brushes[1][this.index];
-        }
-        brushScale.minimumValue = 1;
-        brushScale.maximumValue = maxValue;
-        return brushScale;
-    }
-
-    private createSizeScale(): IgxSizeScaleComponent {
-        const sizeScale = new IgxSizeScaleComponent();
-        sizeScale.minimumValue = 1;
-        sizeScale.maximumValue = 60;
-        sizeScale.isLogarithmic = true;
-        return sizeScale;
-    }
-
-    public getTotalInfectedForCountry(item) {
-        if (this.index === 0) {
-            return item.value;
-        }
-        const dataRec = this.data[this.dataSets[0]].data.find((rec) => {
-            return rec.region === item.region && rec.country === item.country;
-        });
-        return dataRec ? dataRec.value : 0;
-    }
-
-    public getTotalDeathsForCountry(item) {
-        if (this.index === 2) {
-            return item.value;
-        }
-        const dataRec = this.data[this.dataSets[1]].data.find((rec) => {
-            return rec.region === item.region && rec.country === item.country;
-        });
-        return dataRec ? dataRec.value : 0;
-    }
+  private findRegionValue(data: IWorldData | undefined, item: IRegionData): number {
+    return data?.data.find(
+      region => region.region === item.region && region.country === item.country
+    )?.value ?? 0;
+  }
 }
