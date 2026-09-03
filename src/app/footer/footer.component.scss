@@ -1,4 +1,5 @@
-@import "../themes/vars";
+@use 'sass:map';
+@use '../themes/vars' as *;
 
 ::ng-deep {
   .app__footer {
@@ -26,7 +27,7 @@
     &--info {
       text-align: right;
       @include media("<=tablet") {
-        margin-top: rem(8px);
+        margin-top: 0.5rem;
         text-align: center;
       }
     }
@@ -34,12 +35,12 @@
 
   .app-light-theme {
     .app__footer {
-      background: map-get($light-vars, footer-background);
+      background: map.get($light-vars, footer-background);
     }
     .app__footer-item {
       &--info {
         a {
-          color: map-get($light-vars, link-color);
+          color: map.get($light-vars, link-color);
         }
       }
     }
@@ -47,19 +48,20 @@
 
   .app-dark-theme {
     .app__footer {
-      background: map-get($dark-vars, footer-background);
+      background: map.get($dark-vars, footer-background);
     }
     .app__footer-item {
       &--info {
         a {
-          color: map-get($dark-vars, link-color);
+          color: map.get($dark-vars, link-color);
         }
       }
     }
   }
 
-  .footerLogo svg {
+  .footerLogo img {
     height: 40px;
+    width: auto;
   }
 
 }

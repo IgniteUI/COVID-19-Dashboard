@@ -1,6 +1,12 @@
-$app-bottom-nav-theme: bottom-nav-theme(
-  $active-item-color: color($app-palette, 'primary', 700),
-  $shadow: none
-);
+@use 'igniteui-angular/theming' as igx;
+@use '../../palettes';
 
-@include bottom-nav($app-bottom-nav-theme);
+@mixin theme() {
+  $bottom-nav-theme: igx.bottom-nav-theme(
+    $schema: igx.$light-material-schema,
+    $icon-selected-color: igx.color(palettes.$app-palette, 'primary', 700),
+    $shadow: none
+  );
+
+  @include igx.tokens($bottom-nav-theme, $mode: 'scoped');
+}

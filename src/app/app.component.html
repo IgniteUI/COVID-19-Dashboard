@@ -1,6 +1,9 @@
-<app-splashscreen [ngClass]="ssVisability"></app-splashscreen>
-<div [class.app-dark-theme]="darkTheme" [class.app-light-theme]="!darkTheme">
-  <app-header (themeChanged)="toggleTheme()"></app-header>
-  <app-main #main (updateTimeRetrieved)="onUpdateTimeRetrieved($event)" (messageEvent)="onDataReceived($event)"></app-main>
-  <app-footer></app-footer>
+<app-splashscreen [class]="splashClass()" />
+<div [class.app-dark-theme]="darkTheme()" [class.app-light-theme]="!darkTheme()">
+  <app-header (themeChanged)="toggleTheme()" />
+  <app-main
+    [darkTheme]="darkTheme()"
+    (updateTimeRetrieved)="onUpdateTimeRetrieved($event)"
+    (messageEvent)="onDataReceived($event)" />
+  <app-footer [lastUpdate]="lastUpdate()" />
 </div>

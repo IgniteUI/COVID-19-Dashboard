@@ -1,32 +1,36 @@
-@import "../../../node_modules/igniteui-angular/lib/core/styles/base/_index.scss";
+@forward 'palettes';
+@forward 'include-media/dist/include-media' show media;
 
-@import "palettes";
+@use 'igniteui-angular/theming' as igx;
+@use 'palettes';
+
 $card-header-height: 80px;
 $app-gap: 16px;
 
-$light-vars:(
-  confirmed-color: color($app-palette, 'secondary'),
-  confirmed-bg: rgba(color($app-palette, 'secondary'), .03),
-  deaths-color: color($app-palette, 'error'),
-  deaths-bg: rgba(color($app-palette, 'error'), .03),
-  footer-background: color($app-palette, 'gray', 100),
-  link-color: color($app-palette, 'secondary'),
-  tooltip-bg: color($app-palette, 'surface'),
-  logo-color: #000
+$light-vars: (
+  confirmed-color: igx.color(palettes.$app-palette, 'secondary'),
+  confirmed-bg: rgba(igx.color(palettes.$app-palette, 'secondary'), 0.03),
+  deaths-color: igx.color(palettes.$app-palette, 'error'),
+  deaths-bg: rgba(igx.color(palettes.$app-palette, 'error'), 0.03),
+  footer-background: igx.color(palettes.$app-palette, 'gray', 100),
+  link-color: igx.color(palettes.$app-palette, 'secondary'),
+  tooltip-bg: igx.color(palettes.$app-palette, 'surface')
 );
 
-$dark-vars:(
-  confirmed-color: color($app-dark-palette, 'info'),
-  confirmed-bg: rgba(color($app-dark-palette, 'secondary'), .03),
-  deaths-color: color($app-dark-palette, 'error'),
-  deaths-bg: rgba(color($app-dark-palette, 'error'), .03),
-  footer-background: color($app-dark-palette, 'gray', 100),
-  link-color: color($app-dark-palette, 'secondary'),
-  tooltip-bg: color($app-dark-palette, 'surface'),
-  logo-color: #fff,
-  dark-gradient: (color($app-dark-palette, 'primary', 600), color($app-dark-palette, 'surface'))
+$dark-vars: (
+  confirmed-color: igx.color(palettes.$app-dark-palette, 'info'),
+  confirmed-bg: rgba(igx.color(palettes.$app-dark-palette, 'secondary'), 0.03),
+  deaths-color: igx.color(palettes.$app-dark-palette, 'error'),
+  deaths-bg: rgba(igx.color(palettes.$app-dark-palette, 'error'), 0.03),
+  footer-background: igx.color(palettes.$app-dark-palette, 'gray', 100),
+  link-color: igx.color(palettes.$app-dark-palette, 'secondary'),
+  tooltip-bg: igx.color(palettes.$app-dark-palette, 'surface'),
+  dark-gradient: (
+    igx.color(palettes.$app-dark-palette, 'primary', 600),
+    igx.color(palettes.$app-dark-palette, 'surface')
+  )
 );
 
-@import "include-media/dist/include-media";
-
-
+@function color($palette, $name, $variant: 500) {
+  @return igx.color($palette, $name, $variant);
+}

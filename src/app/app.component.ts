@@ -1,45 +1,41 @@
-import { Component, ViewChild } from '@angular/core';
-import { MainComponent } from './main/main.component';
-import { FooterComponent } from './footer/footer.component';
-import { SplashscreenComponent } from './splashscreen/splashscreen.component';
-import { HeaderComponent } from './header/header.component';
-import { NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
+import { MainComponent } from './main/main.component';
+import { SplashscreenComponent } from './splashscreen/splashscreen.component';
+
+const THEME_STORAGE_KEY = 'cvd19dshbrd-dark-theme';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
+    styleUrl: './app.component.scss',
     host: { class: 'app' },
-    standalone: true,
-    imports: [SplashscreenComponent, NgClass, HeaderComponent, MainComponent, FooterComponent]
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [SplashscreenComponent, HeaderComponent, MainComponent, FooterComponent]
 })
 export class AppComponent {
 
-  @ViewChild('main', { static: true }) public main: MainComponent;
-  @ViewChild(FooterComponent, { read: FooterComponent}) public footer: FooterComponent;
-  @ViewChild('splash-screen', {static: true}) public splash: SplashscreenComponent;
+  protected readonly darkTheme = signal(readStoredTheme());
+  protected readonly splashClass = signal('');
+  protected readonly lastUpdate = signal<Date | null>(null);
 
-  public darkTheme = this.getTheme();
-  public ssVisability = '';
-  public toggleTheme() {
-    this.darkTheme = !this.darkTheme;
-    this.main.map.darkTheme = this.darkTheme;
-    this.main.map.changeMap();
-    this.main.map.changeMapSeriesBrushScale();
-    window.localStorage.setItem('cvd19dshbrd-dark-theme', this.darkTheme.toString());
+  protected toggleTheme(): void {
+    const darkTheme = !this.darkTheme();
+    this.darkTheme.set(darkTheme);
+    window.localStorage.setItem(THEME_STORAGE_KEY, String(darkTheme));
   }
 
-  getTheme() {
-    const theme = window.localStorage.getItem('cvd19dshbrd-dark-theme');
-    return theme === 'false' ? false : true;
+  protected onUpdateTimeRetrieved(lastCommit: number): void {
+    this.lastUpdate.set(new Date(lastCommit));
   }
 
-  public onUpdateTimeRetrieved(lastCommit: number) {
-    this.footer.lastUpdate = new Date(lastCommit);
+  protected onDataReceived(cssClass: string): void {
+    this.splashClass.set(cssClass);
   }
+}
 
-  public onDataReceived($event) {
-    this.ssVisability = $event;
-  }
+function readStoredTheme(): boolean {
+  return window.localStorage.getItem(THEME_STORAGE_KEY) !== 'false';
 }

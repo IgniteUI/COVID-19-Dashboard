@@ -1,4 +1,4 @@
-@import "themes/vars";
+@use 'themes/vars' as *;
 
 ::ng-deep {
   .app {

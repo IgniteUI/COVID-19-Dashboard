@@ -1,204 +1,210 @@
-import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef, ChangeDetectorRef } from '@angular/core';
-import { IgxDataChartComponent, IgxCategoryXAxisComponent, IgxNumericYAxisComponent, IgxCategoryToolTipLayerComponent, IgxLegendModule, IgxDataChartCoreModule, IgxCategoryXAxisModule, IgxNumericYAxisModule, IgxLineSeriesModule } from 'igniteui-angular-charts';
-import { NgIf, DecimalPipe } from '@angular/common';
-import { IgxBottomNavModule } from 'igniteui-angular';
+import { DecimalPipe } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  afterNextRender,
+  computed,
+  input,
+  viewChild
+} from '@angular/core';
+import { IGX_BOTTOM_NAV_DIRECTIVES } from 'igniteui-angular/bottom-nav';
+import {
+  IgxCategoryXAxisModule,
+  IgxDataChartComponent,
+  IgxDataChartCoreModule,
+  IgxLegendModule,
+  IgxLineSeriesModule,
+  IgxNumericYAxisModule,
+  MarkerType
+} from 'igniteui-angular-charts';
+
+interface DailyCaseMaps {
+  confirmed: Map<string, number>;
+  otherLocations: Map<string, number>;
+  unitedStates: Map<string, number>;
+  india: Map<string, number>;
+  france: Map<string, number>;
+}
+
+interface ChartDataPoint {
+  date: Date;
+  activeCases: number;
+  totalDailyOtherLocations: number;
+  totalDailyUS: number;
+  totalDailyIndia: number;
+  totalDailyFrance: number;
+}
+
+const DARK_CHART_TEXT_COLOR = '#f5f5f5';
+const LIGHT_CHART_TEXT_COLOR = '#252525';
 
 @Component({
-    selector: 'app-timeline-chart',
-    templateUrl: './timeline-chart.component.html',
-    styleUrls: ['./timeline-chart.component.scss'],
-    standalone: true,
-    imports: [IgxBottomNavModule, IgxLegendModule, IgxDataChartCoreModule, IgxCategoryXAxisModule, IgxNumericYAxisModule, IgxLineSeriesModule, NgIf, DecimalPipe]
+  selector: 'app-timeline-chart',
+  templateUrl: './timeline-chart.component.html',
+  styleUrl: './timeline-chart.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    IGX_BOTTOM_NAV_DIRECTIVES,
+    IgxLegendModule,
+    IgxDataChartCoreModule,
+    IgxCategoryXAxisModule,
+    IgxNumericYAxisModule,
+    IgxLineSeriesModule,
+    DecimalPipe
+  ]
 })
-export class TimelineChartComponent implements OnInit, AfterViewInit {
-  @ViewChild('chart', { static: true }) public chart: IgxDataChartComponent;
-  @ViewChild('chartActual', { static: true }) public chartActual: IgxDataChartComponent;
-  @ViewChild('chartLogarithmic', { static: true }) public chartLogarithmic: IgxDataChartComponent;
-  @ViewChild('xAxis', { static: true }) public xAxis: IgxCategoryXAxisComponent;
-  @ViewChild('yAxis', { static: true }) public yAxis: IgxNumericYAxisComponent;
-  @ViewChild('tooltipActualChart', { static: true }) public tooltipActualTemplate: TemplateRef<any>;
-  @ViewChild('tooltipLogarithmicChart', { static: true }) public tooltipLogarithmicTemplate: TemplateRef<any>;
+export class TimelineChartComponent {
+  readonly csvData = input('');
+  readonly darkTheme = input(true);
 
-  public chartData: any[] = [];
-  public dailyDataOtherLocations: any[] = [];
-  public dailyDataChina: any[] = [];
-  public dailyConfirmedCases: Map<string, number> = new Map();
-  public totalDailyOtherLocations: Map<string, number> = new Map();
-  public totalDailyUS: Map<string, number> = new Map();
-  public totalDailyFrance: Map<string, number> = new Map();
-  public totalDailyIndia: Map<string, number> = new Map();
+  protected readonly markerType = MarkerType.Circle;
+  protected readonly chartData = computed(() => this.transformChartConfirmedCases(this.csvData()));
+  protected readonly chartTextColor = computed(() =>
+    this.darkTheme() ? DARK_CHART_TEXT_COLOR : LIGHT_CHART_TEXT_COLOR
+  );
 
-  public categoryTooltipLayer: IgxCategoryToolTipLayerComponent;
+  private readonly chartActual = viewChild<IgxDataChartComponent>('chartActual');
+  private readonly chartLogarithmic = viewChild<IgxDataChartComponent>('chartLogarithmic');
+  private readonly tooltipTemplate = viewChild<TemplateRef<unknown>>('tooltipTemplate');
 
-  constructor(private cdr: ChangeDetectorRef) {
-    this.categoryTooltipLayer = new IgxCategoryToolTipLayerComponent();
+  constructor() {
+    afterNextRender(() => this.setCustomTooltips());
   }
 
-  ngOnInit(): void { }
-
-  ngAfterViewInit(): void {
-    // Uncomment this like in order to enable custom tooltips
-    this.setCustomTooltips();
+  protected formatDateLabel(item: ChartDataPoint): string {
+    return item.date.toLocaleDateString();
   }
 
-  // Used to fill the data for both Confirmed and Recovered data sources
-  public fillData(csvData) {
-    let columns = [];
-    let day: string = null;
-    const cases: Map<string, number> = new Map();
-    let transformedCases: Map<string, number> = new Map();
-    const casesOtherLocations: Map<string, number> = new Map();
-    const casesUS: Map<string, number> = new Map();
-    const casesFrance: Map<string, number> = new Map();
-    const casesIndia: Map<string, number> = new Map();
+  private transformChartConfirmedCases(csvData: string): ChartDataPoint[] {
+    if (!csvData.trim()) {
+      return [];
+    }
+
+    const caseMaps = this.fillData(csvData.split('\n'));
+    const otherLocationValues = [...caseMaps.otherLocations.values()];
+    const unitedStatesValues = [...caseMaps.unitedStates.values()];
+    const indiaValues = [...caseMaps.india.values()];
+    const franceValues = [...caseMaps.france.values()];
+
+    return [...caseMaps.confirmed].map(([date, activeCases], index) => ({
+      date: new Date(date),
+      activeCases,
+      totalDailyOtherLocations: otherLocationValues[index] ?? 0,
+      totalDailyUS: unitedStatesValues[index] ?? 0,
+      totalDailyIndia: indiaValues[index] ?? 0,
+      totalDailyFrance: franceValues[index] ?? 0
+    }));
+  }
+
+  private fillData(csvLines: readonly string[]): DailyCaseMaps {
+    const confirmed = new Map<string, number>();
+    const otherLocations = new Map<string, number>();
+    const unitedStates = new Map<string, number>();
+    const france = new Map<string, number>();
+    const india = new Map<string, number>();
     const firstRecordedDate = new Date('01/21/2020').toDateString();
+    const headerColumns = csvLines[0]?.split(',') ?? [];
 
-    /*
-      This is for the current cases count on 21st
-      There are 332 total cases for 21st, which means that for 22nd we will have 555 - 332 = 223
+    confirmed.set(firstRecordedDate, 332);
+    unitedStates.set(firstRecordedDate, 326);
+    france.set(firstRecordedDate, 180);
+    india.set(firstRecordedDate, 320);
+    otherLocations.set(firstRecordedDate, 6);
 
-      Total cases                  = 332
-      Total cases US               = 326
-      Total cases India            = 320
-      Total cases France           = 180
-      Total cases other locations  = 6
-    */
-    cases.set(firstRecordedDate, 332);
-    casesUS.set(firstRecordedDate, 326);
-    casesFrance.set(firstRecordedDate, 180);
-    casesIndia.set(firstRecordedDate, 320);
-    casesOtherLocations.set(firstRecordedDate, 6);
+    for (const [rowIndex, csvLine] of csvLines.entries()) {
+      const columns = csvLine.replace(', ', ' ').split(',');
 
-    // tslint:disable-next-line: prefer-for-of
-    for (let rowIdx = 0; rowIdx < csvData.length; rowIdx++) {
-      columns = csvData[rowIdx].replace(', ', ' ').split(',');
+      for (let columnIndex = 4; columnIndex < columns.length; columnIndex++) {
+        const headerValue = headerColumns[columnIndex];
+        const columnValue = columns[columnIndex];
 
-      for (let columnIdx = 4; columnIdx <= columns.length - 1; columnIdx++) {
-        if (rowIdx === 0) {
-          day = new Date(columns[columnIdx]).toDateString();
+        if (!headerValue || columnValue === undefined) {
+          continue;
+        }
 
-          cases.set(day, 0);
-          casesUS.set(day, 0);
-          casesIndia.set(day, 0);
-          casesFrance.set(day, 0);
-          casesOtherLocations.set(day, 0);
-        } else {
-          const mapKey = new Date(csvData[0].split(',')[columnIdx]).toDateString();
-          const compound = cases.get(mapKey) + parseInt(columns[columnIdx], 10);
-          cases.set(mapKey, compound);
+        const day = new Date(headerValue).toDateString();
 
-          if (columns[1] === 'US') {
-            const compoundUS = casesUS.get(mapKey) + parseInt(columns[columnIdx], 10);
-            casesUS.set(mapKey, compoundUS);
-          }
-          else if (columns[1] === 'India') {
-            const compoundIndia = casesIndia.get(mapKey) + parseInt(columns[columnIdx], 10);
-            casesIndia.set(mapKey, compoundIndia);
-          }
-          else if (columns[1] === 'France') {
-            const compoundFrance = casesFrance.get(mapKey) + parseInt(columns[columnIdx], 10);
-            casesFrance.set(mapKey, compoundFrance);
-          }
-          else {
-            const compoundOther = casesOtherLocations.get(mapKey) + parseInt(columns[columnIdx], 10);
-            casesOtherLocations.set(mapKey, compoundOther);
-          }
+        if (rowIndex === 0) {
+          confirmed.set(day, 0);
+          unitedStates.set(day, 0);
+          india.set(day, 0);
+          france.set(day, 0);
+          otherLocations.set(day, 0);
+          continue;
+        }
+
+        const value = Number.parseInt(columnValue, 10);
+        if (Number.isNaN(value)) {
+          continue;
+        }
+
+        this.addToMap(confirmed, day, value);
+
+        switch (columns[1]) {
+          case 'US':
+            this.addToMap(unitedStates, day, value);
+            break;
+          case 'India':
+            this.addToMap(india, day, value);
+            break;
+          case 'France':
+            this.addToMap(france, day, value);
+            break;
+          default:
+            this.addToMap(otherLocations, day, value);
         }
       }
     }
 
-    transformedCases = new Map(cases);
+    const dailyConfirmed = this.toDailyChanges(confirmed);
+    dailyConfirmed.set(firstRecordedDate, 50);
 
-    // Calculate daily difference and transform map
-    for (let index = 0; index < cases.size; index++) {
+    return { confirmed: dailyConfirmed, otherLocations, unitedStates, india, france };
+  }
 
-      // Calculate only daily difference.
-      let newCasesCount = 0;
-      let currentElementKey = Array.from(cases.keys())[index];
-      const currentElementValue = cases.get(currentElementKey);
+  private toDailyChanges(cumulativeCases: ReadonlyMap<string, number>): Map<string, number> {
+    const entries = [...cumulativeCases];
+    const dailyChanges = new Map<string, number>();
 
-      const nextElementKey = Array.from(cases.keys())[index + 1];
-      const nextElementValue = cases.get(nextElementKey);
+    for (let index = 0; index < entries.length - 1; index++) {
+      const current = entries[index];
+      const next = entries[index + 1];
 
-
-      // Set the actual date to be the date for which we calculate the daily change
-      const actualDailyChangeDate = new Date(currentElementKey);
-      actualDailyChangeDate.setDate(actualDailyChangeDate.getDate() + 1);
-      currentElementKey = actualDailyChangeDate.toDateString();
-
-      // For each of the next days, add the value as it was yesterday
-      if (nextElementValue && nextElementValue > currentElementValue) {
-        newCasesCount = nextElementValue - currentElementValue;
-
-        transformedCases.set(currentElementKey, newCasesCount);
-      } else {
-        transformedCases.set(currentElementKey, nextElementValue);
+      if (!current || !next) {
+        continue;
       }
+
+      const [currentDate, currentValue] = current;
+      const [, nextValue] = next;
+      const dailyChangeDate = new Date(currentDate);
+      dailyChangeDate.setDate(dailyChangeDate.getDate() + 1);
+      dailyChanges.set(
+        dailyChangeDate.toDateString(),
+        nextValue > currentValue ? nextValue - currentValue : nextValue
+      );
     }
 
-    /*
-      Fill the first day 21st of January and use it as a starting point
-      The daily difference for 21st of January is 50
-    */
-    transformedCases.set(firstRecordedDate, 50);
-
-
-    // [0] Daily difference, [1] Other locations, [2] US cases, [3] India cases, [4] France cases
-    return [transformedCases, casesOtherLocations, casesUS, casesIndia, casesFrance];
+    return dailyChanges;
   }
 
-  public transformChartConfirmedCases(csvData: string) {
-    const dailyData: any[] = [];
-    const csvLines = csvData.split('\n');
-    const allCases = this.fillData(csvLines);
-    this.dailyConfirmedCases = allCases[0];
-    this.totalDailyOtherLocations = allCases[1];
-    this.totalDailyUS = allCases[2];
-    this.totalDailyIndia = allCases[3];
-    this.totalDailyFrance = allCases[4];
-
-    // Transform the data for Active cases Chart
-    for (const item of this.dailyConfirmedCases) {
-      dailyData.push({ date: new Date(item[0]), activeCases: item[1] });
-    }
-
-    // Transform the data for Total Daily Cases from all other locations except China
-    let i = 0;
-    for (const item of this.totalDailyOtherLocations) {
-      dailyData[i].totalDailyOtherLocations = item[1];
-      i++;
-    }
-
-    // Transform the data for Total Daily Cases only for China
-    i = 0;
-    for (const item of this.totalDailyUS) {
-      dailyData[i].totalDailyUS = item[1];
-      i++;
-    }
-
-    i = 0;
-    for (const item of this.totalDailyIndia) {
-      dailyData[i].totalDailyIndia = item[1];
-      i++;
-    }
-
-    i = 0;
-    for (const item of this.totalDailyFrance) {
-      dailyData[i].totalDailyFrance = item[1];
-      i++;
-    }
-    this.chartData = dailyData;
+  private addToMap(map: Map<string, number>, key: string, value: number): void {
+    map.set(key, (map.get(key) ?? 0) + value);
   }
 
-  public formatDateLabel(item: any): string {
-    return item.date.toLocaleDateString();
-  }
+  private setCustomTooltips(): void {
+    const tooltipTemplate = this.tooltipTemplate();
 
-  private setCustomTooltips() {
-    for(let index = 0; index <= 3; index++) {
-      this.chartActual.actualSeries[index].tooltipTemplate = this.tooltipActualTemplate;
-      if (index === 3) break;
-      this.chartLogarithmic.actualSeries[index].tooltipTemplate = this.tooltipLogarithmicTemplate;
+    if (!tooltipTemplate) {
+      return;
+    }
+
+    for (const series of this.chartActual()?.actualSeries ?? []) {
+      series.tooltipTemplate = tooltipTemplate;
+    }
+
+    for (const series of this.chartLogarithmic()?.actualSeries ?? []) {
+      series.tooltipTemplate = tooltipTemplate;
     }
   }
 }

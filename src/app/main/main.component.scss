@@ -1,5 +1,5 @@
 @use "sass:math";
-@import "../themes/vars";
+@use '../themes/vars' as *;
 ::ng-deep {
   .app__main {
     display: flex;
@@ -16,7 +16,7 @@
   .ig-typography .app__mobile-header {
     display: none;
     font-size: 18px;
-    margin: 0 0 rem(16px) 0;
+    margin: 0 0 1rem 0;
     text-align: center;
     font-weight: 500;
     letter-spacing: 1px;
@@ -95,7 +95,7 @@
   .ig-chart-legend-item {
     @include media("<=450px") {
       align-items: flex-start !important;
-      margin: 0 0 rem(8px) 0 !important;
+      margin: 0 0 0.5rem 0 !important;
     }
   }
 

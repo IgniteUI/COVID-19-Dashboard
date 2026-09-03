@@ -1,4 +1,4 @@
-@import "../themes/vars";
+@use '../themes/vars' as *;
 ::ng-deep {
   .igx-navbar__title {
     @include media("<=tablet") {
@@ -10,7 +10,14 @@
   }
 }
 
-svg {
+.app__brand-logo {
   height: 24px;
+  width: auto;
 }
 
+.app__theme-icon-button {
+  --foreground: #FEFEFE;
+  --hover-foreground:  #FEFEFE;
+  --focus-foreground: #FEFEFE;
+  --active-foreground: #FEFEFE;
+}

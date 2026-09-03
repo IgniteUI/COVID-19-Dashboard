@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, from } from 'rxjs';
 
 // base URL for the data files
 const BASE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data';
+const COMMITS_URL = 'https://api.github.com/repos/CSSEGISandData/COVID-19/commits';
 const TIME_SERIES = 'csse_covid_19_time_series';
 const FILE_NAME = 'time_series_covid19_';
+const LAST_UPDATE_KEY = 'lastUpdate';
 
 export enum DATA_SET {
   CONFIRMED = 'confirmed_global',
@@ -30,143 +32,104 @@ export interface ICasesData {
   totalDeaths: IWorldData;
 }
 
-@Injectable()
+interface IGitHubCommit {
+  commit: { author: { date: string } };
+}
+
+@Injectable({ providedIn: 'root' })
 export class RemoteDataService {
-  public dataSets = [DATA_SET.CONFIRMED, DATA_SET.DEATHS];
-
-  private data: BehaviorSubject<any[]> = new BehaviorSubject([]);
-  public data$: Observable<any[]> = this.data.asObservable();
-
-  constructor() { }
+  public readonly dataSets = [DATA_SET.CONFIRMED, DATA_SET.DEATHS];
 
   /**
-   * Retrieves data from global timely report file, based on the index passed.
-   * 0 goes for Confirmed report, 1 for Deaths
+   * Retrieves data from the global timely report file, based on the index passed.
+   * 0 goes for the Confirmed report, 1 for Deaths.
    */
-  public getDataSet(index: number, lastCommit?: number): Observable<any> {
-    let loadDataFromCache = false;
-    const lastUpdate = parseInt(window.localStorage.getItem('lastUpdate'), 10);
-    if (lastUpdate && lastCommit && lastUpdate >= lastCommit) {
-      loadDataFromCache = true;
-    }
-
-    const dataSet = this.dataSets[index];
-    let data$: Observable<any>;
-
-    if (loadDataFromCache) {
-        data$ = Observable.create(observer => {
-        const data = window.localStorage.getItem(`${FILE_NAME}${dataSet}`);
-        observer.next(data);
-        observer.complete();
-      });
-    } else {
-      data$ = Observable.create(observer => {
-        fetch(`${BASE_URL}/${TIME_SERIES}/${FILE_NAME}${dataSet}.csv`)
-          .then(response => {
-            return response.text();
-          })
-          .then(data => {
-            window.localStorage.setItem(`${FILE_NAME}${dataSet}`, data);
-            const currentTime = new Date().getTime();
-            window.localStorage.setItem(`lastUpdate`,  currentTime as any);
-            observer.next(data);
-            observer.complete();
-          })
-          .catch(err => {
-            // observer.error('Using offline data; ' + err);
-            this.loadOfflineData(index, observer);
-          });
-      });
-    }
-
-    return data$;
+  public getDataSet(index: number, lastCommit?: number): Observable<string> {
+    return from(this.fetchDataSet(index, lastCommit));
   }
 
   /**
-   * Retrieves the date when the data source files were last updated.
+   * Retrieves the time the data source files were last updated, in milliseconds.
    */
-  public getLatestCommits(): Observable<any> {
-    const resultData$ = Observable.create(observer => {
-      fetch(`https://api.github.com/repos/CSSEGISandData/COVID-19/commits`)
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          observer.next(data);
-          observer.complete();
-        })
-        .catch(err => {
-          observer.error(err);
-        });
-    });
-
-    return resultData$;
-  }
-
-  public loadOfflineData(index: number, observer) {
-    const baseDataPath = 'assets';
-    const dataSet = this.dataSets[index];
-
-    fetch(`${baseDataPath}/${TIME_SERIES}/${FILE_NAME}${dataSet}.csv`)
-      .then(response => {
-        return response.text();
-      })
-      .then(data => {
-        observer.next(data);
-        observer.complete();
-      });
+  public getLatestCommits(): Observable<number> {
+    return from(this.fetchLatestCommit());
   }
 
   /**
-   * Converts csv file data to JSON, calculate highest value per region and total value for all regions.
-   * Returns an IWorldData оObject.
+   * Converts csv file data to JSON, calculates the highest value per region and
+   * the total value for all regions. Returns an `IWorldData` object.
    */
   public csvToJson(csvData: string): IWorldData {
-      csvData = csvData.replace(/, /g, ' - ');
-      csvData = csvData.replace(/"/g, '');
-      const csvLines = csvData.split('\n');
-      const locations = [];
-      let data: IRegionData[] = [];
-      let totalCases = 0;
-      let peakValue = 0;
+    const csvLines = csvData
+      .replace(/, /g, ' - ')
+      .replace(/"/g, '')
+      .split('\n');
 
-      for (let i = 1; i < csvLines.length; i++) {
-          const columns = csvLines[i].split(',');
-          let dataItem = {} as IRegionData;
+    const locations: IRegionData[] = [];
+    let totalCases = 0;
+    let peakValue = 0;
 
-          const value = parseInt(columns[columns.length - 1], 10);
+    for (let i = 1; i < csvLines.length; i++) {
+      const columns = csvLines[i].split(',');
+      const value = parseInt(columns[columns.length - 1], 10);
 
-          if (value > 0) {
-              const region = columns[0];
-              const country = columns[1];
-              const lat = parseInt(columns[2], 10);
-              const lon = parseInt(columns[3], 10);
-              totalCases += value;
-              dataItem = { region, country, lat, lon, value };
-              locations.push(dataItem);
-              if (value > peakValue) {
-                  peakValue = value;
-              }
-          }
+      if (value > 0) {
+        const region = columns[0];
+        const country = columns[1];
+        // NOTE: kept as `parseInt` to match the previously deployed behaviour -
+        // it truncates the decimals of the JHU coordinates.
+        const lat = parseInt(columns[2], 10);
+        const lon = parseInt(columns[3], 10);
+
+        totalCases += value;
+        locations.push({ region, country, lat, lon, value });
+
+        if (value > peakValue) {
+          peakValue = value;
+        }
       }
+    }
 
-      // aggregate list based on country
-      // const result = locations.reduce((prev, item) => {
-      //     const newItem = prev.find((i) => {
-      //         return i.country === item.country;
-      //     });
-      //     if (newItem) {
-      //         newItem.value += item.value;
-      //     } else {
-      //         prev.push(item);
-      //     }
-      //     return prev;
-      // }, []);
+    const data = locations.sort((a, b) => b.value - a.value);
 
-      data = locations.sort((a, b) => {
-        return b.value - a.value;
-      });
+    return { data, peakValue, totalCases };
+  }
 
-      return { data, peakValue, totalCases };
+  private async fetchLatestCommit(): Promise<number> {
+    const response = await fetch(COMMITS_URL);
+    const commits = await response.json() as IGitHubCommit[];
+
+    return new Date(commits[0].commit.author.date).getTime();
+  }
+
+  private async fetchDataSet(index: number, lastCommit?: number): Promise<string> {
+    const dataSet = this.dataSets[index];
+    const cacheKey = `${FILE_NAME}${dataSet}`;
+    const lastUpdate = parseInt(window.localStorage.getItem(LAST_UPDATE_KEY) ?? '', 10);
+
+    if (lastUpdate && lastCommit && lastUpdate >= lastCommit) {
+      const cached = window.localStorage.getItem(cacheKey);
+      if (cached) {
+        return cached;
+      }
+    }
+
+    try {
+      const response = await fetch(`${BASE_URL}/${TIME_SERIES}/${cacheKey}.csv`);
+      const data = await response.text();
+
+      window.localStorage.setItem(cacheKey, data);
+      window.localStorage.setItem(LAST_UPDATE_KEY, String(new Date().getTime()));
+
+      return data;
+    } catch {
+      return this.loadOfflineData(index);
+    }
+  }
+
+  private async loadOfflineData(index: number): Promise<string> {
+    const response = await fetch(`assets/${TIME_SERIES}/${FILE_NAME}${this.dataSets[index]}.csv`);
+
+    return response.text();
   }
 }

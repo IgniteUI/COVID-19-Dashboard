@@ -1,3 +1,9 @@
-@import "bottom-nav/dark";
-@import "button-group/dark";
-@import "progress-bar/dark";
+@use 'bottom-nav/dark' as bottom-nav;
+@use 'button-group/dark' as button-group;
+@use 'progress-bar/dark' as progress-bar;
+
+@mixin theme() {
+  @include bottom-nav.theme();
+  @include button-group.theme();
+  @include progress-bar.theme();
+}

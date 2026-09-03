@@ -1,38 +1,23 @@
-@import 'igniteui-angular/lib/core/styles/themes/index';
+@use 'igniteui-angular/theming' as igx;
 
-// Light palette
-$primary: #3E3972 !default;
-$secondary: #3E3972 !default;
-$surface: #fff !default;
-
-// Dark palette
-$dark-primary: #26334f;
-$dark-secondary: #09f;
-$dark-surface: #151c2c;
-$dark-grays: #fff;
-$dark-danger: #FF8A90;
-$dark-warn: #F05A2B;
-$dark-success: #5FBF70;
-$dark-info: #47B6FF;
-
-$app-palette: palette(
-  $primary: #3E3972, 
-  $secondary: #3E3972,
+$app-palette: igx.palette(
+  $primary: #3e3972,
+  $secondary: #3e3972,
   $surface: #fff,
   $gray: #fff,
-  $error: #F05A2B,
-  $success: #5FBF70,
-  $info: #47B6FF,
-  $warn: #F05A2B
+  $error: #f05a2b,
+  $success: #5fbf70,
+  $info: #47b6ff,
+  $warn: #f05a2b
 );
 
-$app-dark-palette: palette(
+$app-dark-palette: igx.palette(
   $primary: #26334f,
   $secondary: #09f,
   $gray: #fff,
   $surface: #151c2c,
-  $error: #F05A2B,
-  $success: #5FBF70,
-  $info: #47B6FF,
-  $warn: #F05A2B
+  $error: #f05a2b,
+  $success: #5fbf70,
+  $info: #47b6ff,
+  $warn: #f05a2b
 );
